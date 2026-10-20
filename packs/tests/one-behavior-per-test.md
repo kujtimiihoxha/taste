@@ -28,6 +28,7 @@ purpose, such as a form that shows an error and then recovers.
 **Bad:**
 
 ```ts
+// A fixture resets the store with a fresh cpu rule before each test.
 test("rules api", async () => {
   expect((await get("/rules/cpu")).status).toBe(200);
   expect((await get("/rules/nope")).status).toBe(404);
@@ -38,7 +39,16 @@ test("rules api", async () => {
 **Good:**
 
 ```ts
+// A fixture resets the store with a fresh cpu rule before each test.
+test("returns 200 for an existing rule", async () => {
+  expect((await get("/rules/cpu")).status).toBe(200);
+});
+
 test("returns 404 when the rule is missing", async () => {
   expect((await get("/rules/nope")).status).toBe(404);
+});
+
+test("returns 204 after deleting an existing rule", async () => {
+  expect((await del("/rules/cpu")).status).toBe(204);
 });
 ```

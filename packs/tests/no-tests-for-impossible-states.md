@@ -10,24 +10,23 @@ quote: "These test doubles are very likely to exhibit behavior that violates the
 added: 2026-10-19
 ---
 
-Build test states the real code can produce. Don't hand-build a state it can't
-reach, just to exercise a guard or a branch: a stub that returns nothing from a
-method that always returns something, a nil receiver, a zero struct the
-constructor never returns, a race a lock prevents. When such a guard goes (see
+Keep test doubles within the dependency's contract. Reject a manually built
+internal state only when supported entry points and construction paths rule
+it out. When a guard for such a state goes (see
 `core/new-check-needs-a-real-input`), its test goes with it.
 
 **Why:** These tests check behavior no user can reach. They make defensive code
 look required and cleanup look risky, and they break when the real contract is
 tightened.
 
-**Flag:** stubs and mocks that return what the real dependency never returns;
-tests that build an impossible state on purpose (a nil `*Store`, `undefined` for
-a required field, a state written by hand that the real code would set
-differently); names like `TestNilStore` or "handles undefined user".
+**Flag:** a double that returns a value the dependency's contract forbids, or
+an internal state proven unreachable through supported entry points. Identify
+the contract or invariant; a test name, nil value or zero struct is not proof.
 
 **Don't flag:** inputs that really come from outside (malformed JSON, empty form
-fields, a nil from a third-party API), or a regression test for a bug that
-really happened, with a link to it.
+fields, a nil from a third-party API); documented nil or zero-value behavior;
+valid rare-error injection; a test of the boundary that enforces an invariant;
+or a regression test for a bug that really happened, with a link to it.
 
 **Bad:**
 

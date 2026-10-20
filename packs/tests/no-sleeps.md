@@ -48,7 +48,7 @@ func TestWorkerProcessesJob(t *testing.T) {
 	q := NewQueue()
 	w := StartWorker(q)
 	job := q.Push("resize")
-	w.Drain() // returns once the queue is empty
+	w.Drain() // returns after all previously submitted jobs have finished
 	if !job.Done() {
 		t.Fatal("job not done")
 	}

@@ -10,24 +10,24 @@ quote: "Tests do not test themselves, and we rarely write tests for our tests—
 added: 2026-10-19
 ---
 
-Every test must check something that would fail if the code under test were
-broken. Assert the actual value, and make sure the assertion runs. A test that
-only checks "not nil", "defined", "no error" or "was called" passes for almost
-any output.
+A test should fail for the incorrect behavior it is meant to catch. Check the
+part of the result that distinguishes that behavior from a plausible mistake,
+and make sure the check runs.
 
 **Why:** A test that can't fail is worse than no test. It looks like coverage, so
 nobody writes the real one.
 
-**Flag:** tests whose only checks are NotNil, `toBeDefined`, `toBeTruthy`,
-`err == nil`, "doesn't throw" or a bare "was called"; tests with no assertions;
-asserting that a mock returned what it was told to return; assertions that never
-run, such as after the call that raises inside a `raises` block, after an early
-`return`, or in a callback the test doesn't wait for; "not in the log" checks
-that a typo in the message would also pass.
+**Flag:** a check that would also pass for a concrete incorrect result (name
+it); a test with no effective check; asserting that a mock returned what it was
+told to return; checks skipped by the test's control flow or a callback it
+doesn't wait for, where tools don't already report the problem; "not in the log"
+checks that a typo in the message would also pass.
 
-**Don't flag:** a not-nil check that guards real assertions on the value right
-after it, or "no error" when succeeding is the behavior and other tests check
-the output.
+**Don't flag:** existence, a boolean, success or lack of an exception when that
+is the behavior under test; a check made by a helper or framework, including
+an expected-failure check; a required side-effect call. Leave missing-expect
+and syntactically unreachable-code diagnostics to the configured tools that
+already report them.
 
 **Bad:**
 

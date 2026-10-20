@@ -14,7 +14,9 @@ A test must pass alone, in any order and next to other tests. Put back anything
 shared that it changes: package variables, environment variables, feature
 flags, singletons, the working directory. Register the undo so it runs even when
 the test fails. Use resources of its own: a temp directory, unique names, a port
-the OS picks.
+the OS picks. Cleanup after a test does not prevent interference while tests
+run together. Serialize or process-isolate tests that must change process-wide
+state.
 
 **Why:** A test that leaves state behind breaks other tests, depending on the
 order they run in. The failure shows up far from its cause and looks like a
@@ -26,10 +28,11 @@ skips, instead of `defer`, `t.Cleanup`, `afterEach` or a fixture; fixed file
 paths, ports or object names that other tests also use; tests that need another
 test to run first.
 
-**Don't flag:** changes the framework undoes (`t.Setenv`, `t.TempDir`, pytest's
-`monkeypatch` and `tmp_path`); state that a setup hook resets before every
-test; read-only shared fixtures; an expensive shared resource that each test
-leaves as it found it.
+**Don't flag:** framework-managed cleanup (`t.Setenv`, `t.TempDir`, pytest's
+`monkeypatch` and `tmp_path`) or setup resets that isolate every test sharing
+the state, including concurrent tests; read-only shared fixtures; an expensive
+shared resource that each test leaves as it found it. Go's `t.Setenv` cannot
+be used in parallel tests or tests with parallel ancestors.
 
 **Bad:**
 

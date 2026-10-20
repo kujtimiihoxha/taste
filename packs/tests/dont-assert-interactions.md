@@ -25,13 +25,15 @@ that restate the code line by line.
 **Don't flag:** a call that is the behavior: sending an email, writing an audit
 log, charging a card. Then check it happened, with the arguments that matter.
 Also a call count that is the behavior itself, like a cache that must reach the
-backend only once.
+backend only once, or an order required by the protocol being tested.
 
 **Bad:**
 
 ```go
 func TestRenameRule(t *testing.T) {
-	store := &recordingStore{rules: map[string]Rule{"cpu": {ID: "cpu"}}}
+	store := &recordingStore{rules: map[string]Rule{
+		"cpu": {ID: "cpu", Expr: "cpu > 90"},
+	}}
 	Rename(store, "cpu", "cpu-high")
 	want := []string{"Get cpu", "Delete cpu", "Put cpu-high"}
 	if !slices.Equal(store.calls, want) {
@@ -44,10 +46,16 @@ func TestRenameRule(t *testing.T) {
 
 ```go
 func TestRenameRule(t *testing.T) {
-	store := NewMemStore(Rule{ID: "cpu"})
+	store := &recordingStore{rules: map[string]Rule{
+		"cpu": {ID: "cpu", Expr: "cpu > 90"},
+	}}
 	Rename(store, "cpu", "cpu-high")
-	if _, err := store.Get("cpu-high"); err != nil {
-		t.Fatalf("Get(cpu-high) after rename: %v", err)
+	got, err := store.Get("cpu-high")
+	if err != nil || got.ID != "cpu-high" || got.Expr != "cpu > 90" {
+		t.Fatalf("renamed rule = %v, %v; want cpu-high with cpu > 90", got, err)
+	}
+	if _, err := store.Get("cpu"); !errors.Is(err, ErrNotFound) {
+		t.Fatalf("Get(cpu) after rename = %v, want ErrNotFound", err)
 	}
 }
 ```

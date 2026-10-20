@@ -20,9 +20,9 @@ run.
 
 **Flag:** expected values built with string formatting, loops, maps or helper
 calls that mirror the code; `want := f(x)` where `f` is the function under test
-or its twin; `if`/`else` or ternaries that choose the expected value or which
-assertions run; loops that copy values from the actual result into the expected
-one.
+or its twin; `if`/`else` or ternaries that choose the expected value; loops
+that copy values from the actual result into the expected one. Checks that
+never run belong to `tests/assertions-that-can-fail`.
 
 **Don't flag:** properties that hold for any input (round trips like
 `Parse(Format(x)) == x`, sortedness); expected values from an independent,

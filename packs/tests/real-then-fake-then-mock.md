@@ -10,23 +10,27 @@ quote: "A real implementation is preferred if it is fast, deterministic, and has
 added: 2026-10-19
 ---
 
-Use the real code when it is fast, deterministic and easy to build. When it
-isn't, because it talks to the network, a disk or the clock, use a fake: a
-small working version, like an in-memory store. Use a mock only when neither
-works. Don't mock your own fast code just to test a unit alone.
+Prefer the real code when it is practical for the behavior and scope of this
+test. When a double is needed, prefer a maintained fake that implements the
+relevant contract. A focused stub or mock is appropriate for a valid outcome
+that is hard to trigger or when a faithful fake would be impractical. Don't
+mock your own fast code just to test a unit alone.
 
-**Why:** A mock of your own code tests the mock. The test passes when the real
-code is broken, and breaks when the real code is refactored.
+**Why:** Excessive mocking can miss integration mistakes and tie a test to
+implementation details, so a correct refactor breaks the test.
 
 **Flag:** `jest.mock`, `vi.mock` or `patch` of the repo's own pure modules and
 functions; generated mocks (gomock, mockery) of the repo's own interfaces when
 the real type is cheap to build; mocks of value types such as enums, dates and
-simple structs; interfaces added only so a test can mock them.
+simple structs; interfaces around otherwise easy-to-test code added only to
+configure expectations on its implementation details.
 
 **Don't flag:** doubles for things that are slow or outside the process
 (network, disk, clock, randomness, third-party services), a fake the owner of a
 dependency provides, or a shared fake of a slow real dependency such as a
-database.
+database; a focused double for a valid outcome that is hard to trigger, or
+when a maintained fake is unavailable or unsuitable; deliberate integration
+or end-to-end tests of real first-party components.
 
 **Bad:**
 
