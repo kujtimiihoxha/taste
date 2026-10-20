@@ -7,6 +7,18 @@ description: Plan, review and size-check code changes so they stay small, plain 
 
 `taste` is a command-line tool that holds this repo's rules and runs a separate reviewer. Follow these steps every time. Don't skip them because a change looks simple: small changes are where the mess starts.
 
+## Talking with the person
+
+Match the detail to the person's request and familiarity with the work. Use concrete
+actions and consistent names; explain unfamiliar project terms when needed.
+
+- In progress updates, report a useful finding, what it means for the work, and what the next action will resolve.
+- When asking a question, name the decision and explain how the answer changes the work.
+- In the final reply, lead with the result, then the checks that support it and any remaining work or uncertainty. Keep proposed, completed and verified work distinct.
+
+Use these as guidance, not required fields for every message. Remove repetition while
+keeping the context, examples and qualifications the person needs to understand.
+
 ## 0. Is the repo set up?
 
 Run `taste status`. If it fails, the repo isn't set up: say so once and work as usual. If it shows a review in progress, `taste findings` shows where it stands.
@@ -23,9 +35,11 @@ Run `taste status`. If it fails, the repo isn't set up: say so once and work as 
    EOF
    ```
 
-   Change the plan, or answer each finding with `taste reply`, and send it again until it's approved.
+   Change the plan, or answer each finding with `taste reply`, and send it again until Taste approves it.
 
-While you code, stay inside the plan. If you need files the plan didn't name, or the change grows past it, stop, update the plan, and send it again. Don't hack around a plan that turned out wrong.
+4. Show the person the Taste-approved plan, ask for their approval, and wait for an explicit go-ahead before writing code. If they request changes, update the plan and repeat the review and approval steps.
+
+While you code, stay inside the plan. If you need files the plan didn't name, or the change grows past it, stop, update the plan, and repeat the Taste review and user approval steps. Don't hack around a plan that turned out wrong.
 
 ## 2. Write the code
 
@@ -53,4 +67,4 @@ Check its premise first when that's cheap: measure it, or read the code it touch
 
 ## When to ask the person
 
-Only when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), you and the reviewer still disagree when the rounds run out, or the code you're changing had recent incidents. Otherwise keep going.
+In addition to plan approval, ask when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), you and the reviewer still disagree when the rounds run out, or the code you're changing had recent incidents. Otherwise keep going.

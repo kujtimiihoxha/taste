@@ -27,6 +27,10 @@ and the change reviewed, and never let a simplification grow the code.
   them and checked to still hold for current versions: style guides, books, and the review
   history of well-run projects.
 
+The skill guides progress updates and final replies; the CLI prompts guide clear plans
+and review findings. After Taste approves a plan, the agent shows it to you and waits for
+your approval before implementation.
+
 ## Install
 
 Needs git and Node 22.18 or newer (taste runs its TypeScript directly).
