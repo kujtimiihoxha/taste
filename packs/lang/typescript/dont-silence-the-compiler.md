@@ -1,7 +1,7 @@
 ---
 id: typescript/dont-silence-the-compiler
 title: Don't silence the compiler with casts
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
 status: draft
@@ -18,7 +18,7 @@ type where it's wrong. typescript-eslint's recommended config already rejects
 **Why:** A cast doesn't change the value. It only stops the compiler from
 telling you about the bug, which then shows up at run time.
 
-**Flag:** `as unknown as`; `as T` on a value the compiler can't prove is `T`;
+**Flag:** `as unknown as`; `as T` with no sound reason the value is `T`;
 `{ ... } as T` on an object literal, which hides missing or misspelled fields
 (write `: T` or `satisfies T`); `!` on a value that can really be missing, or
 on an optional field that is always set (make it required); an eslint-disable
@@ -26,9 +26,9 @@ for `no-explicit-any`, or a `@ts-expect-error`, whose comment doesn't say why
 the types are wrong.
 
 **Don't flag:** `as const`; `satisfies`; `unknown` at a trust boundary,
-followed by a check; a cast right after a check the compiler can't follow,
-with a comment saying why; partial fixtures in tests, and `!` in a test right
-after asserting the value exists.
+followed by a check; an assertion justified by a check or invariant the compiler cannot follow;
+explain the invariant when it is not obvious. Also partial fixtures, deliberate
+negative type tests, and `!` in a test right after asserting the value exists.
 
 **Bad:**
 

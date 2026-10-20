@@ -1,7 +1,7 @@
 ---
 id: typescript/no-placeholder-values
 title: Don't fill in '' or 0 for a missing value
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
 status: draft

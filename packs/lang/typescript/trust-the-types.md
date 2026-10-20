@@ -1,7 +1,7 @@
 ---
 id: typescript/trust-the-types
 title: Don't re-check what the type already guarantees
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
 status: draft
@@ -12,8 +12,9 @@ added: 2026-10-19
 
 This is `core/new-check-needs-a-real-input` in TypeScript. In strict mode (the
 default since TypeScript 6.0) the type says whether a value can be `null` or
-`undefined`. If it can't, no real input reaches a guard, so don't add one: no
-`?.`, `??`, `if (!x)` or `typeof` check on it.
+`undefined`. If it can't, a nullish guard with `?.` or `??` adds nothing. Remove
+truthiness or `typeof` checks only when the type or an earlier check already
+proves their result: a non-null string, number or boolean can still be falsy.
 
 **Why:** A check for an impossible case makes the reader wonder when it
 happens. The answer is never, so the code got harder to read for nothing. If

@@ -1,7 +1,7 @@
 ---
 id: typescript/named-exports
 title: Use named exports, not default exports
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: nit
 stage: diff
 status: draft
@@ -12,8 +12,8 @@ added: 2026-10-19
 
 Export things by name. Don't use `export default`.
 
-**Why:** With a default export, every importer picks its own name, so search
-and renames miss some of them. A named export has one name everywhere.
+**Why:** Named exports give each symbol a canonical exported name and keep
+import spelling consistent by default.
 
 **Flag:** `export default` in new modules.
 

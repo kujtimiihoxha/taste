@@ -1,7 +1,7 @@
 ---
 id: typescript/known-values-as-unions
 title: Type a known set of values as a union, not string
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
 status: draft

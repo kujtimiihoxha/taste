@@ -1,7 +1,7 @@
 ---
 id: typescript/nullish-not-falsy
 title: Use ?? when 0 or an empty string is a real value
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
 status: draft

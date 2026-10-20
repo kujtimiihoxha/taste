@@ -1,7 +1,7 @@
 ---
 id: typescript/simplest-type
 title: Write the simplest type that says it
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
 status: draft
@@ -10,12 +10,13 @@ quote: "Always use the simplest type construct that can possibly express your co
 added: 2026-10-20
 ---
 
-Write types as plain interfaces and unions. Use conditional, mapped or
-template-literal types, or a stack of `Pick`, `Omit` and `&`, only when a
-plain type can't say the same thing. Spelling out a few fields is fine.
+Prefer a short interface or union when it makes the type clearer. Use
+conditional, mapped or template-literal types, or combinations of `Pick`,
+`Omit` and `&`, when they preserve a useful relationship or express the type
+more clearly. Spelling out a few fixed fields is fine.
 
 **Why:** A reader has to work out a type expression in their head before they
-know what the type is, and editors can't find or rename the fields it makes. A
+know what the type is, and some derived fields are harder to navigate or rename with tooling. A
 plain interface reads at a glance.
 
 **Flag:** a mapped, conditional or template-literal type that a short
@@ -25,8 +26,8 @@ form of `core/no-single-use-abstraction`); an intersection that adds a field
 the type already has.
 
 **Don't flag:** standard helpers used plainly (`Partial<Props>`,
-`Record<Id, Rule>`, `ReturnType<typeof load>`); a type derived from a
-library's or generated type so the two stay in sync
+`Record<Id, Rule>`, `ReturnType<typeof load>`); a type derived from an
+existing local, library or generated type so the two stay in sync
 (`ComponentProps<typeof Button>`, `z.infer<typeof schema>`); a library's
 public types, where the precision helps every caller and the types have
 tests.

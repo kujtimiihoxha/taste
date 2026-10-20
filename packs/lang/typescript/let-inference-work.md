@@ -1,7 +1,7 @@
 ---
 id: typescript/let-inference-work
 title: Let inference work inside functions
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: nit
 stage: diff
 status: draft

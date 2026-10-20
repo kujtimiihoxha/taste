@@ -1,7 +1,7 @@
 ---
 id: typescript/parse-at-the-edge
 title: Parse outside data, don't cast it
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
 status: draft
@@ -10,7 +10,8 @@ quote: "You might fetch JSON via an API and give it a type using an assertion: c
 added: 2026-10-19
 ---
 
-`res.json()` and
+This is the TypeScript case of `core/new-check-needs-a-real-input`: parsing
+JSON does not establish its declared runtime shape. `res.json()` and
 `JSON.parse` return `any`, so any type you put on the result compiles, and
 nothing checks it at run time. Give data from outside the program (API
 responses, local storage, URL params, messages) a real check where it comes

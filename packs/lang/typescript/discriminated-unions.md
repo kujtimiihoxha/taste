@@ -1,7 +1,7 @@
 ---
 id: typescript/discriminated-unions
 title: Model states as a union, not optional fields and flags
-applies: ["**/*.ts", "**/*.tsx"]
+applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
 status: draft
@@ -23,8 +23,7 @@ be built and those checks go away.
 are only set in one state; `data?`, `error?` and `isLoading` on one type.
 
 **Don't flag:** options that really are independent (`isPinned` and
-`isMuted`); types that mirror an external API you don't control (parse those
-into a union at the edge instead).
+`isMuted`); types that mirror an external API you don't control.
 
 **Bad:**
 
