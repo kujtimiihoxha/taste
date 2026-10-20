@@ -9,6 +9,12 @@ applies:
     "**/*.test.jsx",
     "**/*.spec.jsx",
     "**/__tests__/**/*.jsx",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/__tests__/**/*.ts",
+    "**/*.test.js",
+    "**/*.spec.js",
+    "**/__tests__/**/*.js",
   ]
 severity: should-fix
 stage: diff
@@ -18,7 +24,7 @@ quote: "The user cannot see (or hear) these, so this is only recommended for cas
 added: 2026-10-19
 ---
 
-Test a component the way a user uses it: find elements by role, label or
+Test a React component the way a user uses it: find elements by role, label or
 text, act with `userEvent`, and check what the user would see. This is the
 React twist on tests/test-behavior-not-implementation: for a component, the
 public API is the screen.
@@ -29,10 +35,11 @@ label.
 
 **Flag:** `container.querySelector`, class-name or `getByTestId` queries where
 a role, label or text exists; `fireEvent` where `userEvent` fits, often
-wrapped in `act()` to quiet a warning; assertions on state, hook return values
-or the props a child received.
+wrapped in `act()` to quiet a warning; assertions on a component's private state or the props a child received.
 
-**Don't flag:** `getByTestId` for an element with no role or text (a canvas
+**Don't flag:** a public Hook tested through its documented return value,
+or deliberate white-box tests allowed by tests/test-behavior-not-implementation;
+`getByTestId` for an element with no role or text (a canvas
 chart); `fireEvent` for events `userEvent` doesn't support.
 
 **Bad:**

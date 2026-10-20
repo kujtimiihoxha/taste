@@ -1,7 +1,7 @@
 ---
 id: react/fetch-effects-need-cleanup
 title: Effects that fetch must ignore stale responses
-applies: ["**/*.tsx", "**/*.jsx"]
+applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: must-fix
 stage: diff
 status: draft
@@ -10,8 +10,8 @@ quote: "If your Effect fetches something, the cleanup function should either abo
 added: 2026-10-19
 ---
 
-When an effect fetches data, return a cleanup that ignores or aborts the old
-request.
+In React components and custom Hooks, when an effect fetches data, return a
+cleanup that ignores or aborts the old request.
 
 **Why:** Without cleanup, a slow old response can arrive after a newer one and
 overwrite it, so the screen shows data for the wrong input.
@@ -19,8 +19,8 @@ overwrite it, so the screen shows data for the wrong input.
 **Flag:** a `useEffect` that fetches and calls a setter with no cleanup.
 
 **Don't flag:** data loaded through the app's data layer (TanStack Query, SWR,
-a router loader), which handles this already; a fetch with no changing inputs,
-which runs once and can't race.
+a router loader), which handles this already; results independently guarded against stale
+completion. An empty dependency array does not prove the effect runs once.
 
 **Bad:**
 

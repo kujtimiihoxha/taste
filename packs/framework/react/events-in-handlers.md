@@ -1,7 +1,7 @@
 ---
 id: react/events-in-handlers
 title: Put event logic in the event handler, not in an effect
-applies: ["**/*.tsx", "**/*.jsx"]
+applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: should-fix
 stage: diff
 status: draft
@@ -10,7 +10,8 @@ quote: "If this logic is caused by a particular interaction, keep it in the even
 added: 2026-10-19
 ---
 
-If something should happen because the user did something (clicked,
+In React components and custom Hooks, if something should happen because
+the user did something (clicked,
 submitted, typed), do it in that event's handler. Don't set a flag in state
 and react to it in a `useEffect`.
 
@@ -24,7 +25,8 @@ response to a user action; an effect that calls a parent's `onChange` after
 local state changes.
 
 **Don't flag:** effects that run because the component is on screen (a page
-view event, connecting to a server while it is shown).
+view event, connecting to a server while it is shown); synchronization with
+an external system that must follow reactive state regardless of what changed it.
 
 **Bad:**
 

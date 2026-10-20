@@ -24,7 +24,9 @@ instances can share, like ``id={`tabpanel-${index}`}``.
 
 **Don't flag:** an id that something outside the component relies on (a URL
 anchor or skip link, a script that looks up `#root`); an id the parent passes
-in; projects on React 17 or older, which don't have `useId`.
+in; projects on React 17 or older, which don't have `useId`; async Server
+Components, where `useId` is unavailable. Those can receive a stable unique ID
+from a parent.
 
 **Bad:**
 

@@ -19,14 +19,14 @@ each switch on a block of markup.
 eight cases. Most combinations are never used or tested, but every later
 change has to keep them all working.
 
-**Flag:** a new prop that only turns a block of markup or a wrapper on or off;
-a component with three or more such props; props that only make sense
-together.
+**Flag:** unrelated presentation flags accumulating in one component;
+a new flag for a wrapper the caller could plainly supply; coupled flags that
+create unused combinations and make callers harder to understand.
 
 **Don't flag:** a prop for a real state of the component (`disabled`,
 `isOpen`, `selected`); a `variant` or `size` prop the design system already
-uses; a flag on a component with a single caller, where a slot would only add
-code.
+uses; a small, cohesive flag API where a slot would only add code, including
+a component with a single caller.
 
 **Bad:**
 

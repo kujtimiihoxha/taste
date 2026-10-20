@@ -1,7 +1,7 @@
 ---
 id: react/hooks-for-stateful-reuse
-title: Write a custom hook only to reuse stateful logic
-applies: ["**/*.tsx", "**/*.jsx"]
+title: Use the use prefix for functions that call Hooks
+applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: should-fix
 stage: diff
 status: draft
@@ -10,7 +10,8 @@ quote: "Functions that don't call Hooks don't need to be Hooks. If your function
 added: 2026-10-19
 ---
 
-A custom hook shares stateful logic: state, effects, subscriptions. Name a
+In React code, a custom Hook contains stateful logic: state, effects or
+subscriptions. Name a
 function `use...` only if it calls hooks. A plain calculation is a plain
 function. Don't write "lifecycle" hooks like `useMount` that only wrap
 `useEffect`.
