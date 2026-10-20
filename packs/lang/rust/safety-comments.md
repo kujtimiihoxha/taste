@@ -10,14 +10,16 @@ quote: "Likewise, whenever we perform an unsafe operation, it is idiomatic to wr
 added: 2026-10-19
 ---
 
+This is the Rust safety-contract form of `core/comments-say-why`.
 Keep each `unsafe` block to the operation that needs it, and put a
 `// SAFETY:` comment right above it that says why the rules hold there:
 which check, invariant or caller promise makes it sound. In the 2024
-edition, unsafe operations inside an `unsafe fn` need their own block too,
-and that block gets the comment.
+edition, the compiler warns by default about unsafe operations outside an
+`unsafe` block, even inside an `unsafe fn`. Explain the safety of those blocks
+too.
 
-**Why:** The compiler doesn't check the operations inside `unsafe`, so the
-comment is the only argument a reviewer can check. Once the reason is
+**Why:** The compiler cannot prove the preconditions of unsafe operations,
+so the comment gives the reviewer the argument for their safety. Once the reason is
 written down, a later change that breaks it stands out. A big block hides
 which line needed `unsafe` at all.
 
@@ -27,7 +29,8 @@ depends on what the caller passes, which should be an `unsafe fn` with a
 `# Safety` section.
 
 **Don't flag:** generated bindings; one comment above a group of identical
-calls that share the same reason.
+calls that share the same reason; missing blocks or safety documentation
+already reported by rustc or default Clippy lints.
 
 **Bad:**
 

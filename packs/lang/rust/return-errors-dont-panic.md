@@ -15,7 +15,7 @@ dropped connection), return it with `?` or handle it. Don't `unwrap()`,
 `expect()`, index with `[]` or `panic!` on it. In a function that already
 returns `Result` or `Option`, an `unwrap` is usually a missed `?`.
 
-**Why:** The caller can't recover from a panic. A server loses the request or
+**Why:** A panic bypasses the caller's ordinary `Result` error handling. A server loses the request or
 the worker, and a library makes the decision for every one of its users.
 Input that never shows up in tests shows up in production.
 

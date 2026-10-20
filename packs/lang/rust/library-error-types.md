@@ -1,6 +1,6 @@
 ---
 id: rust/library-error-types
-title: A library returns its own error type, not String or Box<dyn Error>
+title: Expose typed errors when library callers need them
 applies: ["**/*.rs"]
 severity: should-fix
 stage: both
@@ -10,30 +10,36 @@ quote: "Use thiserror if you are a library that wants to design your own dedicat
 added: 2026-10-19
 ---
 
-A library's public functions return an error type its callers can match on
-and pass along: an enum or struct that implements `std::error::Error` and
-keeps the underlying error as its `source()`. Derive it with `thiserror`, or
-write the `Display` and `Error` impls by hand. An application can use
-`anyhow::Result` everywhere.
+When library callers handle failures differently, expose the typed
+information they need instead of reducing every error to text. An existing
+standard or dependency error may already supply that contract. If the
+library needs its own error categories, expose a dedicated enum or struct
+implementing `std::error::Error`, retaining underlying errors callers need
+through `source()`. This is the Rust error-contract form of
+`core/errors-where-you-can-act`.
 
-**Why:** A `String` error can only be printed. The caller can't tell a
-missing file from bad input, retry one and not the other, or reach the
-original `io::Error`. A `Box<dyn Error>` can't be matched on either, and
-`anyhow::Error` in a public API pushes anyhow onto every user.
+**Why:** Converting an error to `String` discards its type and cause chain.
+Callers then have to parse display text to recover distinctions they need.
+`Box<dyn Error>` and `anyhow::Error` support downcasting; judge whether the
+API exposes the required information, not just the return type's spelling.
 
-**Flag:** `pub fn` in a library crate returning `Result<_, String>`,
-`Result<_, &str>`, `Box<dyn Error>` or `anyhow::Error`;
-`map_err(|e| e.to_string())` that throws away the cause; public error types
-that don't implement `std::error::Error`.
+**Flag:** a public library error path that discards a type, category or
+underlying cause that callers need to inspect or handle differently, such
+as `map_err(|e| e.to_string())` that replaces a needed typed cause with its
+display text.
 
-**Don't flag:** binaries, CLIs and application code, where `anyhow` is the
-right tool; `main`, tests and examples; private helpers whose errors are
-mapped before they leave the crate. Don't ask for a variant per failure
-either: add variants only for the cases callers handle differently.
+**Don't flag:** binaries, CLIs and application code; `main`, tests and
+examples; private helpers whose errors are mapped before leaving the crate;
+standard, dependency or dynamic errors that already meet the caller
+contract; errors that callers only need to display. Don't add a custom type
+or dependency merely to wrap an adequate existing error
+(`core/no-single-use-abstraction`, `core/new-dependency-needs-a-reason`). Add
+variants only for cases callers handle differently.
 
 **Bad:**
 
 ```rust
+// The ConfigError API must expose its TOML cause; this crate already uses thiserror.
 pub fn parse_config(text: &str) -> Result<Config, String> {
     toml::from_str(text).map_err(|e| e.to_string())
 }
@@ -42,6 +48,7 @@ pub fn parse_config(text: &str) -> Result<Config, String> {
 **Good:**
 
 ```rust
+// The ConfigError API must expose its TOML cause; this crate already uses thiserror.
 #[derive(Debug, thiserror::Error)]
 #[error("invalid config")]
 pub struct ConfigError(#[from] toml::de::Error);

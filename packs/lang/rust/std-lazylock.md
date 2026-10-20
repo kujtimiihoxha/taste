@@ -1,7 +1,7 @@
 ---
 id: rust/std-lazylock
 title: Use std's LazyLock and OnceLock, not lazy_static or once_cell
-applies: ["**/*.rs"]
+applies: ["**/*.rs", "**/Cargo.toml"]
 severity: should-fix
 stage: both
 status: draft

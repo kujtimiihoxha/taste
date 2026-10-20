@@ -25,8 +25,8 @@ no reason or comment; an `allow` added in the same change that caused the
 warning, when the code could be fixed instead; `#[allow(dead_code)]` on code
 nothing uses, which should be deleted (`core/delete-first`).
 
-**Don't flag:** lint levels the project sets in the `[lints]` table of
-`Cargo.toml`; generated code; `allow` instead of `expect` when the lint only
+**Don't flag:** deliberate project-wide lint policy, whether set in the
+`[lints]` table of `Cargo.toml` or crate attributes; generated code; `allow` instead of `expect` when the lint only
 fires on some targets or features, since `expect` would then warn on the
 rest; a comment instead of `reason` on toolchains older than 1.81.
 

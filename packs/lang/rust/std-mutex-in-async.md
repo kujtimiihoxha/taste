@@ -10,21 +10,22 @@ quote: "Contrary to popular belief, it is ok and often preferred to use the ordi
 added: 2026-10-19
 ---
 
-To guard plain data in async code (a map, a counter, a cache), use
-`std::sync::Mutex` and drop the guard before any `.await`. Use
-`tokio::sync::Mutex` only when the guard has to stay alive across an
-`.await`, such as a shared connection.
+For short critical sections over plain data with low contention, prefer
+`std::sync::Mutex` and drop the guard before any `.await`. Use an async mutex
+when the guard must cross `.await` or lock acquisition needs to yield.
 
-**Why:** The async mutex is slower and turns every access into an `.await`.
-Its one extra power is staying locked across an `.await`, which plain data
-doesn't need. If a std guard does end up held across an `.await`, Clippy's
+**Why:** The async mutex has extra overhead, but yields while waiting for
+the lock and allows a guard to cross `.await`. A short, lightly contended
+plain-data update often needs neither. If a std guard does end up held across an `.await`, Clippy's
 default `await_holding_lock` lint points at it.
 
-**Flag:** `tokio::sync::Mutex` around maps, counters, sets or caches whose
-guard is dropped before any `.await`; functions made `async` only so they
-can take such a lock.
+**Flag:** `tokio::sync::Mutex` around short, lightly contended updates to
+maps, counters, sets or caches whose guard is dropped before any `.await`,
+with no need for asynchronous acquisition; functions made `async` only to
+take such a lock.
 
-**Don't flag:** a guard that must be held across `.await`: an I/O resource,
+**Don't flag:** a lock chosen for needed asynchronous acquisition or FIFO
+fairness; a guard that must be held across `.await`: an I/O resource,
 a connection, or a run of async calls that must not interleave;
 `tokio::sync::RwLock`, whose fair queue keeps readers from starving writers,
 which std's `RwLock` doesn't promise.
