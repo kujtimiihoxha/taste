@@ -18,12 +18,13 @@ eslint-plugin-vue requires a key, but it accepts the index.
 gives its component state, input value or focus to the row that moves up.
 Random keys remount every row on every render.
 
-**Flag:** `:key="index"` or `:key="i"` on lists that change order or length
-when rows hold state: a child component's own state, or DOM state such as an
+**Flag:** `:key="index"` or `:key="i"` on lists that reorder, remove, or insert
+before existing rows when those rows hold state: a child component's own state, or DOM state such as an
 input's value or focus; `Math.random()` or `crypto.randomUUID()` as a key in
 the template.
 
-**Don't flag:** static lists that never change; rows that hold no state, such
+**Don't flag:** static lists that never change; append-only lists whose
+existing items keep their positions; rows that hold no state, such
 as plain text or a component that only shows its props, where the docs say
 patching in place is fine; items with no id and no state in a list that is
 only ever replaced whole.

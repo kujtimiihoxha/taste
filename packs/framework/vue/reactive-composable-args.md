@@ -18,8 +18,9 @@ added: 2026-10-19
 ---
 
 When a composable should follow a value that changes, pass the ref itself, a
-`computed`, or a getter such as `() => props.id`. Passing `count.value` or
-`props.id` hands it a plain value that never changes. Inside the composable,
+`computed`, or a getter such as `() => props.id`. Passing a primitive `count.value` or
+`props.id` gives it a snapshot. Passing an object loses changes to the object
+identity if the parent later replaces it; the object itself may still be reactive. Inside the composable,
 read inputs with `toValue()` (Vue 3.3+) in a `watch`, `watchEffect` or
 `computed`, so they are tracked.
 
@@ -28,11 +29,12 @@ its work for the first value only, and the component goes stale when the
 prop or ref changes. Nothing warns about it.
 
 **Flag:** `useThing(someRef.value)`, `useThing(props.id)`, or `useThing(id)`
-with `id` destructured from `defineProps`, when the value can change while
-the component lives; a composable that calls `toValue()` on an input once at
-its top instead of inside a watcher or `computed`.
+with `id` destructured from `defineProps`, when the composable must follow changes to that primitive value or object
+identity; a composable that reads such an input with `toValue()` only once
+instead of inside tracked work.
 
-**Don't flag:** values that never change while the component lives (a
+**Don't flag:** a stable reactive object whose nested changes the composable
+tracks; values that never change while the component lives (a
 constant, a fixed URL); arguments the composable documents as one-time
 options, such as a starting value.
 

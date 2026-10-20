@@ -10,9 +10,10 @@ quote: "Composables should only be called in <script setup> or the setup() hook.
 added: 2026-10-19
 ---
 
-Call composables (`useRouter()`, `useI18n()`, your own `useX()`) at the top
-level of `<script setup>` or `setup()`, or inside another composable that is
-called there. Don't call them inside event handlers, `computed` getters,
+Call composables that need an active component or automatic disposal
+(`useRouter()`, `useI18n()`, many custom `useX()` functions) synchronously in
+`<script setup>`, `setup()`, or another composable called there. Some support
+calls in lifecycle hooks such as `onMounted`; follow that composable's contract. Don't call them inside event handlers, `computed` getters,
 watcher callbacks or timers, or after an `await` inside `setup()` or a
 composable. Unlike React hooks, they may be called inside an `if`.
 
@@ -22,11 +23,14 @@ watchers are never stopped and leak, and `inject()` returns `undefined` with
 a warning, so `useRouter()` in a click handler crashes. Inside a `computed`,
 every recompute makes a new set of refs and watchers.
 
-**Flag:** `useX()` inside a function that runs on a user event, in a
+**Flag:** a composable that needs active component context or automatic
+disposal, called inside a function that runs on a user event, in a
 `computed`, in a `watch` callback or a `setTimeout`; `useX()` after `await`
 inside `setup()` or inside a composable.
 
-**Don't flag:** a composable called inside an `if` in setup; a call after a
+**Don't flag:** a call supported inside a lifecycle hook; an instance-independent
+composable with an explicit lifetime and cleanup owner; a composable called
+inside an `if` in setup; a call after a
 top-level `await` in `<script setup>`, where the compiler restores the
 component; Pinia's `useXStore()` in handlers, guards or actions once
 `app.use(pinia)` has run, which Pinia supports in apps without SSR; `onX()`

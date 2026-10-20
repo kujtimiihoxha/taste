@@ -25,9 +25,9 @@ patch it (see vue/computed-not-watch).
 `ref(props.y)` for a value the user never edits.
 
 **Don't flag:** a prop that is only a starting value and is named that way
-(`initialCount`) for state the user edits, as the Vue docs show; props read
-inside a function that runs later (an event handler, `onMounted`), which see
-the current value; a component its parent remounts with a `key` when the prop
+(`initialCount`) for state the user edits, as the Vue docs show; reads through `props`, or through Vue 3.5+ reactive `defineProps`
+destructures, inside a function that runs later (an event handler, `onMounted`),
+which see the current value; a component its parent remounts with a `key` when the prop
 changes.
 
 **Bad:**

@@ -25,7 +25,8 @@ write or a ref write hides who changes what and ties the child to one parent.
 `getCurrentInstance().parent`; `childRef.value.selected = x` where a prop
 would do; an event bus (mitt) between a parent and its own child.
 
-**Don't flag:** function props whose return value the child needs (a
+**Don't flag:** deliberately coupled internal parent-child components where
+the access is part of their documented contract; function props whose return value the child needs (a
 formatter, a validator, a `beforeClose` hook that can cancel); calling a
 method a child exposes with `defineExpose` for an imperative action such as
 `focus()` or `open()`; an app-wide bus for events between unrelated parts of

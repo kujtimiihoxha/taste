@@ -10,6 +10,7 @@ quote: "v-model can be used on a component to implement a two-way binding. Start
 added: 2026-10-19
 ---
 
+This is the Vue macro case of `core/use-libraries-as-designed`.
 When a parent should bind a value two-way (`v-model`, `v-model:open`),
 declare it in the child with `defineModel()` and read or write the ref it
 returns. Don't build it from a prop, a local copy and watchers that copy both

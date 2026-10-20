@@ -33,6 +33,7 @@ timer is for before suggesting it.
 
 ```vue
 <script setup lang="ts">
+// Vue 3.5+.
 import { ref, useTemplateRef } from "vue";
 
 const open = ref(false);
@@ -54,6 +55,7 @@ function showDetails() {
 
 ```vue
 <script setup lang="ts">
+// Vue 3.5+.
 import { nextTick, ref, useTemplateRef } from "vue";
 
 const open = ref(false);
