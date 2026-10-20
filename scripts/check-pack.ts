@@ -345,7 +345,7 @@ for (const dir of process.argv.slice(2)) {
   const files = readdirSync(dir)
     .filter((f) => f.endsWith(".md") && f !== "README.md")
     .sort();
-  console.log(`\n${dir}: ${files.length} rules (aim for 8 to 12)`);
+  console.log(`\n${dir}: ${files.length} rules`);
   for (const name of files) {
     const text = readFileSync(join(dir, name), "utf8");
     let rule: Rule;

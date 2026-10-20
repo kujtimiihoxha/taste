@@ -1,8 +1,9 @@
 # Writing a pack that isn't slop
 
-A pack is 8 to 12 review rules for one language, framework or tool. This page
-says how to write one. It's for people and for the coding agents they use: an
-agent asked to write a pack should read this first and follow it.
+A pack holds review rules for one language, framework or tool. Its scope and
+evidence decide how many rules belong; there is no minimum or maximum. This
+page is for people and for the coding agents they use: an agent asked to write
+a pack should read this first and follow it.
 
 ## The test
 
@@ -46,7 +47,9 @@ and keep the links and counts in your notes.
 
 ## Gates
 
-Keep a rule only if all of these hold. When in doubt, cut it.
+Ship a rule only when every gate is satisfied. Keep unresolved candidates in
+research notes, outside the pack. Count alone is never a reason to add, merge
+or reject a rule.
 
 1. **Specific to the language.** General advice (names, small functions, dead
    code, checks at the edge, where errors are handled, abstractions, tests) is
@@ -115,11 +118,17 @@ Write like the existing packs: plain words, short sentences, one idea per rule.
    by maintainers (`role` OWNER, MEMBER or COLLABORATOR) that ask for a change.
    Most comments are about the project itself (its docs, its names, its
    features): skip those. Tally the ones about the language.
+   Choose paths that cover the candidate's use case: migration reviews cannot
+   establish how often query mistakes happen. Record the repos, paths and
+   dates sampled; zero observations in an unsuitable sample are inconclusive.
 3. Read the canonical sources. Find what they warn about.
-4. Write 12 to 20 candidates in a notes file outside the pack folder: the rule in one line, the
+4. Write candidates in a notes file outside the pack folder: the rule in one line, the
    source passage, the review comments that back it, and how often the mined
    reviews raised it.
-5. Cut to 8 to 12 with the gates. Record every cut and its reason in the notes.
+5. Apply the gates to each candidate. Record every keep, merge, cut or defer
+   decision and its evidence in the notes. Merge only rules that express the
+   same judgment; keep separate mistakes readable. Defer unresolved candidates
+   for further research rather than calling them uncommon.
 6. Write the rules in `packs/lang/<pack>/` (or `packs/framework/<name>/`). Run
    `node scripts/check-pack.ts packs/lang/<pack>` until it passes. It fetches
    each source page, and runs the examples through python3, bash and
