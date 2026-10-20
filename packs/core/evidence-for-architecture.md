@@ -10,20 +10,22 @@ quote: 'This is where I''m adding a new feature, and I see that the existing cod
 added: 2026-10-19
 ---
 
-Propose a new layer, a package split or merge, a new service or a new pattern
-only when the change you're about to make is hard in the current structure.
-Name that pain, not a principle; where recent bug fixes landed can back it.
-Make the structure change first, as its own step
-(`core/split-structure-from-behavior`), then make the change.
+When a plan changes structure to make this task easier, name the current
+obstacle it removes. A new layer, package split or service needs a present
+job, not a possible future use. Make substantial preparatory structure changes
+in their own step (`core/split-structure-from-behavior`), then make the
+behavior change.
 
 **Why:** Structure changes justified by principles alone ("clean
 architecture", "separation of concerns") add layers that solve nothing. A
 change that makes the next change easy pays off right away.
 
-**Flag:** plans that add a layer, split, service or pattern with no change it
-serves.
+**Flag:** plans that add a layer, split, service or pattern only for
+hypothetical flexibility, without naming a current problem it solves.
 
-**Don't flag:** a structure change the task itself asks for.
+**Don't flag:** structure work the task requests, or a change that addresses
+a demonstrated current reliability, security, performance or maintenance
+problem.
 
 **Bad:**
 
@@ -35,8 +37,8 @@ following clean architecture, to make the code more maintainable.
 **Good:**
 
 ```text
-Plan: this task adds per-team alert filters, and their queries would go in
-alerts/store.go, which 6 of the last 10 alert bug fixes touched.
-Step 1: move query building to alerts/query.go, no behavior change.
+Plan: this task adds per-team alert filters to two handlers that build the
+same query separately.
+Step 1: move their shared query building to alerts/query.go, no behavior change.
 Step 2: add the filters there.
 ```

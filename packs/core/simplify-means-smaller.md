@@ -16,9 +16,11 @@ and no new types, files, exports or dependencies. When something has to grow,
 the change says what each addition is for, and the reviewer decides whether
 the reason holds: plainer code or a real seam, not more layers or checks.
 
-**Why:** "Simplifying" by adding layers, helpers and checks is the most common
-way agents make code worse while looking busy. Size is the one honest measure
-a reader feels.
+This is taste's local size budget. Beck's rules put correctness and clear
+intent before minimizing elements; the budget does not replace those checks.
+
+**Why:** Added layers can leave more code to maintain even when described as
+cleanup. Size makes that cost visible, but behavior and clarity still matter.
 
 **Flag:** a simplify pass that ends with more code, more branches, or new
 types, files or exports than it started with, and no reason that holds.
@@ -45,16 +47,22 @@ func (p RetryPolicy) Do(fn func() error) (err error) {
 	}
 	return err
 }
+
+func sendWithRetry() error {
+	return (RetryPolicy{MaxAttempts: 3, Backoff: time.Second}).Do(send)
+}
 ```
 
 **Good:**
 
 ```go
-// Simplify the retry loop in place.
-for range 3 {
-	if err = send(); err == nil {
-		break
+func sendWithRetry() (err error) {
+	for i := 0; i < 3; i++ {
+		if err = send(); err == nil {
+			return nil
+		}
+		time.Sleep(time.Second)
 	}
-	time.Sleep(time.Second)
+	return err
 }
 ```

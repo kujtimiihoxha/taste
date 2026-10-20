@@ -5,23 +5,25 @@ applies: ["**/*"]
 severity: should-fix
 stage: both
 status: draft
-source: Russ Cox, "Our Software Dependency Problem" (2019), https://research.swtch.com/deps; Go Proverbs, "A little copying is better than a little dependency"; Dan McKinley, "Choose Boring Technology" (2015)
+source: Russ Cox, "Our Software Dependency Problem" (2019), https://research.swtch.com/deps; Go Proverbs, "A little copying is better than a little dependency"; Dan McKinley, "Choose Boring Technology" (2015); taste's human-approval policy
 quote: "Adding a package as a dependency outsources the work of developing that code—designing, writing, testing, debugging, and maintaining—to someone else on the internet, someone you often don't know."
 added: 2026-10-19
 ---
 
-Add a dependency only when the standard library and the repo's existing
-dependencies can't do the job, the package is maintained, and it's worth its
-upgrade and security cost. Ask a human before adding one.
+Add a direct dependency only when the standard library and existing packages
+do not adequately meet the requirement, the package is maintained, and its
+benefit is worth its upgrade and security cost. Taste's policy also requires
+a human OK before adding a new direct dependency.
 
 **Why:** Every dependency is code you don't control, updates you have to make
 and a security risk you take on, often to save a few lines.
 
-**Flag:** new entries in go.mod, package.json or similar, especially ones used
-once or for something the standard library already does.
+**Flag:** a new direct dependency without a human OK; one that duplicates an
+adequate existing API without a concrete benefit. Name the existing option
+and explain how it meets this task's requirements.
 
-**Don't flag:** a dependency the plan names and a human approved, or a move
-from one version of an existing dependency to another.
+**Don't flag:** a dependency the plan names and a human approved, a version
+upgrade of an existing dependency, or transitive lockfile changes.
 
 **Bad:**
 

@@ -10,19 +10,20 @@ quote: "So, don't worry about performance until the application is running; if i
 added: 2026-10-19
 ---
 
-Add caching, concurrency, pooling or lazy setup only when there's evidence: a
-profile, a benchmark, or a path known to be hot. Otherwise keep the plain
-code.
+Add complexity solely to improve performance only with evidence: a profile,
+a benchmark, or a clear algorithmic cost for the expected inputs. Otherwise
+keep the plain code.
 
 **Why:** Speed-ups add state, locks and branches that every reader pays for,
 and most of them speed up code that was never slow.
 
-**Flag:** new caches, threads or goroutines, worker pools, memoization or lazy
-init with no measurement or hot path named.
+**Flag:** caches, parallel work, pools, memoization or lazy initialization
+introduced only as a speedup without evidence that the current work is costly.
 
-**Don't flag:** a change backed by a measurement, or a fix for a clear
-algorithm problem (N+1 queries, quadratic loops over large inputs) with the
-reason stated.
+**Don't flag:** a measured improvement, or a fix for a clear algorithm problem
+(N+1 queries, quadratic loops over large inputs) with the reason stated;
+concurrency, bounded resources or lazy initialization required for behavior,
+responsiveness or initialization order, with that purpose clear.
 
 **Bad:**
 

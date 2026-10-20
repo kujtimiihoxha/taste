@@ -11,31 +11,44 @@ added: 2026-10-19
 ---
 
 Before writing a helper, search the repo, the standard library and the
-libraries the repo already depends on for one that already does the job, and
-call it. Don't write a near-copy.
+libraries the repo already depends on for one with the same behavior. Call it
+when its dependency direction and ownership fit. Don't write a near-copy of
+code that already meets this requirement.
 
 **Why:** Copies drift apart, bugs get fixed in one copy only, and readers have
 to learn two things that do the same job.
 
-**Flag:** a new function whose job matches an existing helper or a standard
-library call (name it), or a pasted block with small edits.
+**Flag:** new code duplicating an existing suitable helper or standard
+library call (name it and its equivalent behavior); a pasted block that
+repeats the same policy with small edits.
 
 **Don't flag:** when the existing code behaves differently in a way that
-matters here (say how), when using it would pull in a heavy dependency, or
-setup repeated in tests so each test reads on its own.
+matters here (say how); using it would pull in a heavy dependency or cross an
+ownership boundary; similar code represents separate policies; setup repeated
+in tests so each test reads on its own.
 
 **Bad:**
 
 ```go
-func shortDuration(d time.Duration) string {
-	return fmt.Sprintf("%dm%ds", int(d.Minutes()), int(d.Seconds())%60)
+// Existing in this package: ownerNames(rules []Rule) []string.
+// It keeps rule order and duplicates; empty input gives a non-nil empty slice.
+
+func ownersForRules(rules []Rule) []string {
+	owners := make([]string, 0, len(rules))
+	for _, r := range rules {
+		owners = append(owners, r.Owner)
+	}
+	return owners
 }
 
-msg := "retrying in " + shortDuration(backoff)
+owners := ownersForRules(rules)
 ```
 
 **Good:**
 
 ```go
-msg := "retrying in " + backoff.Round(time.Second).String()
+// Existing in this package: ownerNames(rules []Rule) []string.
+// It keeps rule order and duplicates; empty input gives a non-nil empty slice.
+
+owners := ownerNames(rules)
 ```

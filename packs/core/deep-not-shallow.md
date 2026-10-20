@@ -1,6 +1,6 @@
 ---
 id: core/deep-not-shallow
-title: Fewer, deeper functions over many tiny ones
+title: Avoid helpers that add indirection without hiding work
 applies: ["**/*"]
 severity: should-fix
 stage: diff
@@ -10,25 +10,26 @@ quote: 'However, like most ideas in software design, decomposition can be taken 
 added: 2026-10-19
 ---
 
-Don't split code into many tiny functions or files that each do almost
-nothing. A function should hide more than it shows. Extract code when that
-removes duplication or hides a real decision, not just to give three lines a
-name.
+Extract a function when its name and interface let callers understand the
+operation without reading its body. Inline a forwarding helper when it adds
+a jump but leaves callers needing the same details.
 
-**Why:** Each extracted function adds a name, a signature and a jump the reader
-has to follow. Ten shallow functions are harder to read than one clear one.
+**Why:** A forwarding helper adds a name and a jump without hiding the
+details its callers need. Readers open it only to find what they already knew.
 
-**Flag:** functions whose body is about as long as their signature, one-line
-wrappers around a field or a call, helpers used once, files that hold one tiny
-function.
+**Flag:** forwarding helpers whose callers still need to know the wrapped
+implementation, or helpers that must be read together to understand one
+operation. Explain the extra work the reader must do; length and number of
+callers alone are not reasons.
 
-**Don't flag:** a well-named function that hides a real decision or is used in
-several places, or a long function split along real seams, where each part has
-its own job.
+**Don't flag:** required adapters or framework callbacks, a useful domain
+name, an invariant or public API boundary, or a helper that hides a real
+decision. A function can serve one caller and still do useful work.
 
 **Bad:**
 
 ```ts
+// These private helpers only rename field reads; they are not an API boundary.
 function isRuleEnabled(rule: Rule): boolean {
   return rule.enabled;
 }

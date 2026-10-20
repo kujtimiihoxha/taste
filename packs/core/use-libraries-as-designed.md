@@ -13,25 +13,25 @@ added: 2026-10-19
 When the repo already uses a library or framework for a job, use what it
 gives you, the way its docs show for the version the repo has. Don't rebuild
 around it what it already does: its loading and error state, its retries, its
-caching, its validation. Don't reach into its internals or lean on behavior its
-docs don't promise.
+caching, its validation. Check that the supported API meets this task's
+requirements.
 
 **Why:** A library carries the knowledge of the people who built it and of
 everyone who used it before you. Code built around it duplicates that, usually
 worse, and breaks when the library changes.
 
-**Flag:** hand-written state, retries or caching around a library that already
-provides them; calls that the docs for the repo's version replace or
-deprecate; reaching into a library's internals or undocumented behavior.
+**Flag:** hand-written state, retries or caching that duplicate a supported
+feature of an existing library. Name that feature and how it meets the same
+requirement in the repo's version.
 
 **Don't flag:** a wrapper at a real boundary that adapts the library to this
-repo's own types; a documented gap in the library, with a link to it;
-deprecations the compiler or linter already reports.
+repo's own types; a requirement the provided feature cannot meet, including
+deliberately different retry or caching behavior. Explain the difference.
 
 **Bad:**
 
 ```tsx
-// The app already uses react-query.
+// The app already uses TanStack Query v5.
 const [rules, setRules] = useState<Rule[]>([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState<Error>();
@@ -45,6 +45,7 @@ useEffect(() => {
 **Good:**
 
 ```tsx
+// The app already uses TanStack Query v5.
 const {
   data: rules = [],
   isPending,

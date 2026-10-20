@@ -16,18 +16,20 @@ format. Don't rename, remove or change it in a way that breaks them. Add the new
 one, or make the break on purpose: in a major version, with a note that says
 what users must do.
 
-**Why:** A break turns every user's upgrade into an outage they didn't plan
-for, and users depend on more than the docs promise.
+**Why:** An unintended break can stop existing consumers from working after
+an upgrade. Consumers may depend on more than the docs promise.
 
 **Flag:** with no deprecation, major version or upgrade note: a renamed or
 removed flag, config key, field, endpoint, metric or exported function that a
 release already shipped; a changed default or output format; a new required
 parameter on a public function.
 
-**Don't flag:** anything not released yet, or used only inside this repo (see
-`core/no-compat-for-nobody`); a break the change makes on purpose, with a
-migration note; a fix for behavior the docs call a bug; new wording for a
-message meant for people, unless the repo says tools parse it.
+**Don't flag:** anything not released or shared yet (see
+`core/no-compat-for-nobody`); internal code whose callers change atomically and
+which has no separately deployed or persisted consumers; an intentional break
+or bug correction whose migration and rollout requirements the change
+addresses; new wording for a message meant for people, unless the repo says
+tools parse it.
 
 **Bad:**
 

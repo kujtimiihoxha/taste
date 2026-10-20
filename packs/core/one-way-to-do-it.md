@@ -10,20 +10,21 @@ quote: "Having two systems to accomplish the same thing might not seem like a pr
 added: 2026-10-19
 ---
 
-Don't add a second HTTP client, logger, config loader, error type, state
-store or test helper next to the one the repo already uses. If the old way
-should go, plan the migration and finish it. A migration left half done means
-two ways forever.
+When the repo already has a component that meets the same requirement, use
+it rather than adding a competing HTTP client, logger, config loader, state
+store or test helper. If the old way should go, plan the migration and finish
+it. A migration left half done means two ways forever.
 
 **Why:** Two ways to do one thing means every reader has to learn both, and
 every new change has to pick one.
 
-**Flag:** a new library or way of doing a job the repo already does one way
-(name the one in use); a change that starts a migration without a plan to
-finish it.
+**Flag:** a competing component when the existing one supports the same use
+case (name it and the equivalent behavior); a migration started without a
+plan to finish it.
 
 **Don't flag:** a step of a planned migration that names the end state and the
-remaining steps.
+remaining steps; a materially different requirement the existing component
+cannot meet; a runtime or ownership boundary that makes sharing unsuitable.
 
 **Bad:**
 
