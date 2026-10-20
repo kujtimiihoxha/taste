@@ -1,6 +1,6 @@
 ---
 id: python/broad-except-at-the-top
-title: Catch Exception only at the top of a loop, thread or request
+title: Catch broad exceptions only at a defined boundary
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
@@ -11,10 +11,12 @@ added: 2026-10-19
 ---
 
 Catch the exceptions the call is known to raise: the library's own error
-class, `OSError`, `TimeoutError`. Catch `Exception` only at the top of a
-worker loop, a thread, a task or a request, where one failure must not stop
-the rest. This is the Python side of `core/errors-where-you-can-act`: even at
-the layer that handles the error, name what you catch.
+class, `OSError`, `TimeoutError`. Catch `Exception` at a deliberate isolation
+point, such as a worker loop or request, where one failure must not stop the
+rest, or at an API boundary that translates failures while preserving their
+cause. This is the Python side of `core/errors-where-you-can-act`.
+`BaseException` also includes interruption, exit and cancellation signals;
+an ordinary error handler must not swallow those.
 
 **Why:** `except Exception` also catches bugs: a `TypeError`, an
 `AttributeError`, a `NameError` from a typo. They get the same handling as a
@@ -23,13 +25,15 @@ dropped connection, so nobody sees them. ruff's default BLE001 flags a plain
 new error `from` the caught one, and `# noqa` silences it. Those are the cases
 left to review.
 
-**Flag:** `except Exception:` or `except BaseException:` below the top layer,
-kept with `# noqa: BLE001`, `# pylint: disable=broad-except`, a
-`logger.exception(...)` call or a `raise SomeError(...) from err`.
+**Flag:** a broad handler with no intended isolation or translation boundary,
+kept with a lint suppression, traceback logging or a chained replacement
+error; an error handler that catches `BaseException` and suppresses exit or
+cancellation. Logging or chaining alone does not justify catching every bug.
 
 **Don't flag:** the top of a worker loop, thread, task or request handler
-that logs the traceback and moves on; a broad `except` that cleans up and then
-re-raises; a third-party call that is documented to raise plain `Exception`,
+that catches `Exception`, logs the traceback and moves on; a broad `except`
+that cleans up and then re-raises; an API boundary that deliberately translates
+failures with `raise ... from err` while allowing cancellation to propagate; a third-party call that is documented to raise plain `Exception`,
 with a comment saying so.
 
 **Bad:**

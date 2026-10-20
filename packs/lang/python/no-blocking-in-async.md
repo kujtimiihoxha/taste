@@ -11,8 +11,12 @@ added: 2026-10-19
 ---
 
 Inside a coroutine, every call must return quickly or be awaited. Run
-blocking I/O, such as a sync SDK or database client or a serial port, with
-`await asyncio.to_thread(...)`, or use the library's async client.
+blocking I/O, such as a sync SDK or database client or a serial port, in
+a worker, or use the library's async client.
+Use `await asyncio.to_thread(...)` only when the client can safely be used
+in that worker thread. For a thread-bound client, such as a default
+`sqlite3` connection, create and use it in its owning worker; do not move
+one call on an event-loop-owned connection to an arbitrary thread.
 
 **Why:** One event loop runs every task. A blocking call stops all of them
 until it returns, so one slow device or query stalls the whole service.
@@ -26,13 +30,13 @@ take, acquired in a coroutine or an event loop callback; a plan that picks a
 sync library for code that runs on asyncio.
 
 **Don't flag:** calls that only touch memory; code already wrapped in
-`to_thread` or `run_in_executor`; a script where `asyncio.run()` drives one
+`to_thread` or `run_in_executor` with a thread-safe or worker-owned client; a script where `asyncio.run()` drives one
 task and nothing else waits on the loop.
 
 **Bad:**
 
 ```python
-# self.client is the vendor's sync SDK; get_status() makes an HTTP request.
+# self.client is a thread-safe sync SDK; get_status() makes an HTTP request.
 async def refresh(self) -> None:
     self.status = self.client.get_status()
 ```
@@ -40,7 +44,7 @@ async def refresh(self) -> None:
 **Good:**
 
 ```python
-# self.client is the vendor's sync SDK; get_status() makes an HTTP request.
+# self.client is a thread-safe sync SDK; get_status() makes an HTTP request.
 async def refresh(self) -> None:
     self.status = await asyncio.to_thread(self.client.get_status)
 ```

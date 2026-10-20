@@ -12,12 +12,13 @@ added: 2026-10-19
 
 When you check a signature, token, API key or one-time code that came from
 outside against the expected value, use `hmac.compare_digest(a, b)` or
-`secrets.compare_digest(a, b)`.
+`secrets.compare_digest(a, b)`. Compare values of the same type: bytes, or
+ASCII-only strings. Validate or decode the wire format once at the input
+boundary; non-ASCII strings raise `TypeError`.
 
-**Why:** `==` stops at the first character that differs, so the time it
-takes shows how much of a guess was right. An attacker can guess the expected
-value a character at a time. `compare_digest` takes the same time however
-much of the input matches.
+**Why:** ordinary equality can reveal secret-dependent timing.
+`compare_digest` avoids content-based short-circuiting; it does not promise
+to hide the operands' types or lengths.
 
 **Flag:** `==` or `!=` between a value from a request and a stored secret:
 webhook signatures, API keys, session or reset tokens, one-time codes.
@@ -29,15 +30,15 @@ safely; tests.
 **Bad:**
 
 ```python
-def verify_webhook(body: bytes, signature: str) -> bool:
-    expected = hmac.new(WEBHOOK_SECRET, body, hashlib.sha256).hexdigest()
+def verify_webhook(body: bytes, signature: bytes) -> bool:
+    expected = hmac.new(WEBHOOK_SECRET, body, hashlib.sha256).digest()
     return signature == expected
 ```
 
 **Good:**
 
 ```python
-def verify_webhook(body: bytes, signature: str) -> bool:
-    expected = hmac.new(WEBHOOK_SECRET, body, hashlib.sha256).hexdigest()
+def verify_webhook(body: bytes, signature: bytes) -> bool:
+    expected = hmac.new(WEBHOOK_SECRET, body, hashlib.sha256).digest()
     return hmac.compare_digest(signature, expected)
 ```
