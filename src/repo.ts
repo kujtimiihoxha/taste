@@ -1,9 +1,9 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { matchesAny, stringList } from "./rules.ts";
+import { loadRules, matchesAny, stringList } from "./rules.ts";
 
 // The shared engine and packs.
 export const TASTE_HOME = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,7 +27,7 @@ export type Repo = {
   local: string;
   // Review threads and their state; inside .git so they never show in `git status`.
   state: string;
-  config: Config | undefined;
+  config: Config;
 };
 
 export const DEFAULT_TESTS = [
@@ -97,6 +97,31 @@ function readConfig(file: string): Config {
   };
 }
 
+function inferredConfig(root: string): Config {
+  const files = git(root, ["ls-files", "-z", "--cached", "--others", "--exclude-standard"])
+    .split("\0")
+    .filter((file) => file && !matchesAny(DEFAULT_GENERATED, file) && existsSync(join(root, file)));
+  const matching = (pack: string) =>
+    loadRules([join(TASTE_HOME, "packs", pack)]).some(
+      ({ applies }) => applies !== "tests" && files.some((file) => matchesAny(applies, file)),
+    );
+  const languages = readdirSync(join(TASTE_HOME, "packs", "lang"))
+    .sort()
+    .map((name) => `lang/${name}`);
+  const packs = ["core", "tests", ...languages.filter(matching)];
+  const manifests = files
+    .filter((file) => basename(file) === "package.json")
+    .map((file) => readFileSync(join(root, file), "utf8"));
+  for (const framework of ["react", "vue"]) {
+    if (
+      matching(`framework/${framework}`) &&
+      manifests.some((manifest) => manifest.includes(`"${framework}":`))
+    )
+      packs.push(`framework/${framework}`);
+  }
+  return { packs, tests: DEFAULT_TESTS, generated: DEFAULT_GENERATED };
+}
+
 export function openRepo(path: string): Repo {
   let root: string;
   try {
@@ -114,15 +139,25 @@ export function openRepo(path: string): Repo {
     overlay,
     local,
     state: join(resolve(root, git(root, ["rev-parse", "--git-dir"]).trim()), "taste"),
-    config: configFile ? readConfig(configFile) : undefined,
+    config: configFile ? readConfig(configFile) : inferredConfig(root),
   };
 }
 
-// The one place that turns "repo isn't set up" into a clear message.
 export function configOf(repo: Repo): Config {
-  if (!repo.config)
-    throw new Error(`${repo.name} is not set up for taste. Run: taste init -C ${repo.root}`);
   return repo.config;
+}
+
+export function initRepo(repo: Repo): string {
+  const file = join(repo.local, "config.json");
+  if (existsSync(file)) return `Kept existing configuration: ${file}`;
+  const personal = join(repo.overlay, "config.json");
+  // Copy saved overrides, not readConfig's merged defaults.
+  const saved = existsSync(personal)
+    ? readFileSync(personal, "utf8")
+    : JSON.stringify({ packs: repo.config.packs }, null, 2) + "\n";
+  mkdirSync(repo.local, { recursive: true });
+  writeFileSync(file, saved, { flag: "wx" });
+  return `Created ${file} with packs: ${repo.config.packs.join(", ")}.\nCommit .taste/config.json to share this setup. Notes and custom rules are optional.`;
 }
 
 // A pack is looked up in ~/.taste/packs first (private ones, like an org's), then
@@ -138,10 +173,21 @@ export function ruleDirs(repo: Repo): string[] {
 
 // The repo's own notes for agents: what's guaranteed, what's approved, what not to copy.
 export function repoNotes(repo: Repo): string {
-  return ["invariants.md", "patterns.md", "dont-copy.md"]
-    .map((file) => [join(repo.local, file), join(repo.overlay, file)].find(existsSync))
-    .filter((file) => file !== undefined)
-    .map((file) => readFileSync(file, "utf8").trim())
+  // Older init versions wrote these examples as live notes. Only skip an
+  // untouched template; an edited note belongs to the user.
+  const templates = {
+    "invariants.md": `# Guarantees in ${repo.name}\n\nWhat this code already guarantees, so agents don't check it again. One line each, with where it's guaranteed.\n\n- <value> is always <state> after <function> (path/to/file:line)`,
+    "patterns.md": `# Approved patterns in ${repo.name}\n\nHow this repo does common things. Agents follow these, not whatever nearby code does.\n\n- <job>: <how we do it> (path/to/example)`,
+    "dont-copy.md": `# Don't copy in ${repo.name}\n\nPatterns that exist here but must not spread. Agents never copy these, even when nearby code does.\n\n- <pattern>: <why> (path/to/example)`,
+  };
+  return Object.entries(templates)
+    .map(([name, template]) => {
+      const file = [join(repo.local, name), join(repo.overlay, name)].find(existsSync);
+      if (!file) return "";
+      const note = readFileSync(file, "utf8").trim();
+      return note === template ? "" : note;
+    })
+    .filter(Boolean)
     .join("\n\n");
 }
 

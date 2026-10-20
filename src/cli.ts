@@ -1,21 +1,15 @@
 import { spawnSync } from "node:child_process";
-import {
-  chmodSync,
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import type { Readable } from "node:stream";
 import { text } from "node:stream/consumers";
 import type { Models } from "@earendil-works/pi-ai";
 import type { ModelRef } from "@earendil-works/pi-durable";
-import { Command, CommanderError } from "commander";
+import { Command, CommanderError, Option } from "commander";
 import { budget, formatBudget } from "./budget.ts";
 import { fileDiffs, scopeOf } from "./diff.ts";
 import { evidence } from "./evidence.ts";
+import { install, type InstallOptions } from "./install.ts";
 import { mine } from "./mine.ts";
 import {
   BEFORE_PLANNING,
@@ -25,21 +19,22 @@ import {
   WHEN_TO_ASK,
   context,
 } from "./prompts.ts";
-import { TASTE_HOME, type Repo, branchLabel, configOf, git, openRepo, ruleDirs } from "./repo.ts";
-import { AUTH_FILE, formatReview, review, reviewJson } from "./review.ts";
 import {
-  type ReviewStage,
-  brokenReferences,
-  loadRules,
-  matchesAny,
-  problems,
-  route,
-} from "./rules.ts";
+  TASTE_HOME,
+  type Repo,
+  branchLabel,
+  configOf,
+  initRepo,
+  openRepo,
+  ruleDirs,
+} from "./repo.ts";
+import { AUTH_FILE, formatReview, review, reviewJson } from "./review.ts";
+import { type ReviewStage, brokenReferences, loadRules, problems, route } from "./rules.ts";
 import { MAX_ROUNDS, type Thread, answer, numbered, readThreads, startSimplify } from "./state.ts";
 
 // Where one run of the CLI reads and writes. Tests pass their own, and models to review with.
 export type Io = {
-  stdin: Readable;
+  stdin: Readable & { isTTY?: boolean };
   stdout: { write(text: string): unknown };
   stderr: { write(text: string): unknown };
   models?: Models;
@@ -50,49 +45,6 @@ export type Io = {
 type Output = { text: string; data?: unknown; code?: number };
 
 const count = (n: number, what: string) => `${n} ${what}${n === 1 ? "" : "s"}`;
-
-// The globs a shared pack's rules apply to.
-function globsOf(pack: string): string[] {
-  return loadRules([join(TASTE_HOME, "packs", pack)]).flatMap((r) =>
-    r.applies === "tests" ? [] : r.applies,
-  );
-}
-
-function init(repo: Repo): string {
-  const files = git(repo.root, ["ls-files", "--cached", "--others", "--exclude-standard"]).split(
-    "\n",
-  );
-  const matching = (globs: string[]) => files.filter((f) => matchesAny(globs, f)).length;
-  const manifests = files
-    .filter((f) => f.endsWith("package.json") && !f.includes("node_modules/"))
-    .map((f) => readFileSync(join(repo.root, f), "utf8"));
-  const uses = (dep: string) => manifests.some((m) => m.includes(`"${dep}":`));
-  // A language pack turns on when a few of the repo's files match its rules.
-  const languages = readdirSync(join(TASTE_HOME, "packs", "lang")).map((name) => `lang/${name}`);
-  const packs = ["core", "tests", ...languages.sort().filter((p) => matching(globsOf(p)) >= 3)];
-  if (uses("react") && matching(globsOf("framework/react")) > 0) packs.push("framework/react");
-  if (uses("vue") && matching(globsOf("framework/vue")) > 0) packs.push("framework/vue");
-
-  mkdirSync(join(repo.overlay, "rules"), { recursive: true });
-  const write = (name: string, body: string) => {
-    const file = join(repo.overlay, name);
-    if (!existsSync(file)) writeFileSync(file, body);
-  };
-  write("config.json", JSON.stringify({ packs }, null, 2) + "\n");
-  write(
-    "invariants.md",
-    `# Guarantees in ${repo.name}\n\nWhat this code already guarantees, so agents don't check it again. One line each, with where it's guaranteed.\n\n- <value> is always <state> after <function> (path/to/file:line)\n`,
-  );
-  write(
-    "patterns.md",
-    `# Approved patterns in ${repo.name}\n\nHow this repo does common things. Agents follow these, not whatever nearby code does.\n\n- <job>: <how we do it> (path/to/example)\n`,
-  );
-  write(
-    "dont-copy.md",
-    `# Don't copy in ${repo.name}\n\nPatterns that exist here but must not spread. Agents never copy these, even when nearby code does.\n\n- <pattern>: <why> (path/to/example)\n`,
-  );
-  return `Set up ${repo.name} with packs: ${packs.join(", ")}.\nNotes are in ${repo.overlay}. Fill in invariants.md, patterns.md and dont-copy.md, then run: taste evidence -C ${repo.root}`;
-}
 
 function status(repo: Repo, threads: Partial<Record<ReviewStage, Thread>>): string {
   const rules = loadRules(ruleDirs(repo));
@@ -109,7 +61,10 @@ function status(repo: Repo, threads: Partial<Record<ReviewStage, Thread>>): stri
     `${repo.name} on ${branchLabel(repo)}`,
     `packs:    ${configOf(repo).packs.join(", ")}`,
     `rules:    ${route(rules, "plan").length} for plans, ${route(rules, "diff").length} for changes`,
-    `notes:    ${existsSync(join(repo.local, "config.json")) ? repo.local : repo.overlay}`,
+    `config:   ${
+      [join(repo.local, "config.json"), join(repo.overlay, "config.json")].find(existsSync) ??
+      "automatic defaults (no config file)"
+    }`,
     `plan:     ${say("plan")}`,
     `change:   ${say("diff")}`,
     `simplify: ${pass ? `in progress since ${pass.at}` : "none"}`,
@@ -323,9 +278,22 @@ export async function main(
 
   program.commandsGroup("Set up:");
   program
+    .command("install")
+    .description("install the Taste skill for this repo or your user")
+    .addOption(new Option("--local", "install in this repository").conflicts("global"))
+    .addOption(
+      new Option("--global", "install for your user in all repositories").conflicts("local"),
+    )
+    .option("--codex", "install for Codex")
+    .option("--claude", "install for Claude Code")
+    .option("--force", "replace an existing skill, including a symlink")
+    .action(async (opts: InstallOptions, cmd: Command) =>
+      print(cmd, { text: await install(dirOf(cmd), opts, io) }),
+    );
+  program
     .command("init")
-    .description("set up a repo: pick its packs and create its notes")
-    .action((_opts: object, cmd: Command) => print(cmd, { text: init(repoOf(cmd)) }));
+    .description("save this repo's configuration in .taste/config.json")
+    .action((_opts: object, cmd: Command) => print(cmd, { text: initRepo(repoOf(cmd)) }));
   program
     .command("status")
     .description("what's set up, and what's in progress")

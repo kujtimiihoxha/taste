@@ -39,23 +39,70 @@ Needs git and Node 22.18 or newer (taste runs its TypeScript directly).
 git clone <this repo> ~/dev/taste
 cd ~/dev/taste && npm install
 ln -s ~/dev/taste/bin/taste ~/.local/bin/taste     # the CLI, on your PATH
-ln -s ~/dev/taste/skill ~/.claude/skills/taste     # Claude Code
-ln -s ~/dev/taste/skill ~/.codex/skills/taste      # Codex
-taste login anthropic                              # or openai, or set ANTHROPIC_API_KEY / OPENAI_API_KEY
+taste login anthropic                          # or openai, or set ANTHROPIC_API_KEY / OPENAI_API_KEY
 ```
+
+Install the agent skill from the repo where you want to use Taste:
+
+```sh
+taste install -C ~/code/my-repo
+```
+
+It asks whether to install for this repository or all your repositories, then whether
+to use Codex, Claude Code, or both. Local is suggested inside a Git repo; global is
+suggested outside one. For scripts, provide the choices explicitly:
+
+```sh
+taste install --local --codex --claude   # this repo, both agents
+taste install --global --codex          # your user, all repos, Codex only
+```
+
+Local installation writes `.taste/config.json` and copies the skill into
+`.agents/skills/taste/` for Codex and `.claude/skills/taste/` for Claude Code.
+Commit these files once; other checkouts inherit the setup. Global installation copies
+the skills into those same directories under your home and doesn't create repo config.
+Each machine still needs Taste on PATH and its own login or API key. Start a new agent
+session after installation.
+
+Installing again leaves identical skills and existing config alone. A different skill
+or a symlink requires `--force`; it replaces the destination without editing the symlink's
+target. After upgrading Taste, refresh the copied skills with the same scope and agents:
+
+```sh
+taste install --local --codex --claude --force
+```
+
+Review any custom skill edits before using `--force`. If you used the old manual Codex
+installation at `~/.codex/skills/taste`, remove that old Taste link after installing in
+`~/.agents/skills/taste` to avoid duplicate skills.
 
 ## Use it in a repo
 
+Taste works in any Git repo without `init`. It selects core and test rules plus language
+and framework packs matching the repo, even when there is only one source file. Files
+matching a pack's globs get that pack's rules; generated files don't drive detection.
+No placeholder notes or custom rules are created.
+
+To save a shared pack selection without installing skills, run:
+
 ```sh
-taste init -C ~/code/my-repo       # picks packs and creates the repo's notes
-taste evidence -C ~/code/my-repo   # hotspots and coupled files, from git history
+taste init -C ~/code/my-repo       # creates only .taste/config.json; commit it
+taste evidence -C ~/code/my-repo   # optional hotspots and coupled files from git history
 ```
 
-Then fill in the repo's notes. Agents read them on every plan and review:
+Existing `.taste/config.json` takes precedence over personal repo config and automatic
+defaults. `init` preserves existing local config; when personal config exists, it copies
+the saved settings into the repo. `taste status` shows the active config and packs.
+
+Add notes under `.taste/` only when you have real guidance. Agents and reviewers read them:
 
 - `invariants.md`: what the code already guarantees, so nobody checks it again.
 - `patterns.md`: how this repo does common things.
 - `dont-copy.md`: patterns that exist in the repo but must not spread.
+
+Custom rules go in `.taste/rules/` using the [pack format](packs/README.md).
+Examples belong in documentation, not in these active guidance files. Exact untouched
+note templates from older `init` versions are ignored; edited notes are kept.
 
 ## Where things live
 
@@ -79,7 +126,8 @@ taste findings                  the latest findings and answers: P1... on the pl
 taste reply <id> <answer>       answer a finding: fixed, or "disagree: <reason>"
 taste simplify                  start a simplify pass, which must not grow the code
 taste budget                    how much the code grew, in the simplify pass or on this branch
-taste init                      set up a repo: pick its packs and create its notes
+taste install                   install agent skills for this repo or your user
+taste init                      save this repo's configuration in .taste/config.json
 taste status                    what's set up, and what's in progress
 taste rules                     the rules for the files this change touches
 taste evidence [--since <when>] hotspots and coupled files, from git history

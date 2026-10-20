@@ -1,11 +1,11 @@
 ---
 name: taste
-description: Plan, review and size-check code changes so they stay small, plain and at the right level, the way a careful senior engineer would. Use for every coding task in a repo where `taste status` works - before writing code for anything bigger than a small fix, before saying a change is done, and for any simplify, cleanup or refactor task.
+description: Plan, review and size-check code changes so they stay small, plain and at the right level, the way a careful senior engineer would. Use for every coding task in a Git repo where the taste CLI is available; no taste init is required. Use before writing code for anything bigger than a small fix, before saying a change is done, and for any simplify, cleanup or refactor task.
 ---
 
 # taste
 
-`taste` is a command-line tool that holds this repo's rules and runs a separate reviewer. Follow these steps every time. Don't skip them because a change looks simple: small changes are where the mess starts.
+`taste` is a command-line tool that selects rules for this repo and runs a separate reviewer. Follow these steps every time. Don't skip them because a change looks simple: small changes are where the mess starts.
 
 ## Talking with the person
 
@@ -19,9 +19,17 @@ actions and consistent names; explain unfamiliar project terms when needed.
 Use these as guidance, not required fields for every message. Remove repetition while
 keeping the context, examples and qualifications the person needs to understand.
 
-## 0. Is the repo set up?
+## 0. Check the current state
 
-Run `taste status`. If it fails, the repo isn't set up: say so once and work as usual. If it shows a review in progress, `taste findings` shows where it stands.
+Run `taste status`. Taste works without `taste init`: it uses automatic defaults unless
+the repo has explicit configuration. A committed `.taste/config.json` shares that
+configuration across checkouts. Notes and custom rules under `.taste/` are optional;
+do not create placeholder guidance to make Taste work.
+
+If status fails, report the actual error. A missing CLI or a directory outside Git
+means Taste is unavailable; continue normally after saying so. For an invalid config
+or another failure, resolve the error rather than treating it as missing setup.
+If status shows a review in progress, `taste findings` shows where it stands.
 
 ## 1. Plan anything bigger than a small fix
 

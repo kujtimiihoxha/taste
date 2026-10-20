@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { Readable } from "node:stream";
@@ -338,6 +348,37 @@ test("a plan comes from stdin or a file, and reviews of the change get the last 
   assert.ok(sent[2].includes("## Plan\n\n# Plan: from a file"), sent[2]);
 });
 
+test("untouched init templates stay out of reviewer guidance, while edited notes remain", async () => {
+  const root = tempRepo({ "store.go": STORE });
+  const templates = {
+    "invariants.md": `# Guarantees in ${basename(root)}\n\nWhat this code already guarantees, so agents don't check it again. One line each, with where it's guaranteed.\n\n- <value> is always <state> after <function> (path/to/file:line)\n`,
+    "patterns.md": `# Approved patterns in ${basename(root)}\n\nHow this repo does common things. Agents follow these, not whatever nearby code does.\n\n- <job>: <how we do it> (path/to/example)\n`,
+    "dont-copy.md": `# Don't copy in ${basename(root)}\n\nPatterns that exist here but must not spread. Agents never copy these, even when nearby code does.\n\n- <pattern>: <why> (path/to/example)\n`,
+  };
+  for (const [name, body] of Object.entries(templates))
+    writeFileSync(join(root, ".taste", name), body);
+  const sent: string[] = [];
+  const saw = (context: TranscriptContext) => {
+    sent.push(JSON.stringify(context));
+    return approve();
+  };
+  const models = reviewer(saw, saw);
+  const first = await taste(root, ["review", "--plan", "-"], { models, stdin: "# Plan: one" });
+  assert.equal(first.code, 0, first.err);
+  assert.ok(!sent[0].includes("## Notes for this repo"), sent[0]);
+  for (const placeholder of ["<value>", "<job>", "<pattern>"])
+    assert.ok(!sent[0].includes(placeholder), sent[0]);
+
+  writeFileSync(
+    join(root, ".taste", "invariants.md"),
+    templates["invariants.md"] + "\nStore.Rule always returns a value or an error.\n",
+  );
+  const second = await taste(root, ["review", "--plan", "-"], { models, stdin: "# Plan: two" });
+  assert.equal(second.code, 0, second.err);
+  assert.ok(sent[1].includes("Store.Rule always returns a value or an error."), sent[1]);
+  assert.ok(sent[1].includes("<value>"), "Do not strip text from an edited note.");
+});
+
 test("findings number the plan's P1... and the change's F1..., past the limit too, with answers", async () => {
   const root = tempRepo({ "store.go": STORE });
   writeFileSync(join(root, "store.go"), NIL_CHECK);
@@ -412,6 +453,149 @@ test("-C runs taste from anywhere inside a repo, and says when a folder isn't in
   const outside = await taste(tempDir("plain-"), ["status"]);
   assert.equal(outside.code, 1);
   assert.match(outside.err, /is not in a git repo/);
+});
+
+test("unconfigured repos infer packs from a single source file without writing scaffolding", async () => {
+  const root = tempRepo({
+    "src/view.tsx": "export const View = () => <div />;\n",
+    "package.json": '{"dependencies":{"react":"19.0.0"}}\n',
+    "vendor/only.go": STORE,
+    "deleted.py": "pass\n",
+  });
+  rmSync(join(root, ".taste"), { recursive: true });
+  rmSync(join(root, "deleted.py"));
+  const status = await taste(join(root, "src"), ["status"]);
+  assert.equal(status.code, 0, status.err);
+  assert.match(status.out, /packs:    core, tests, lang\/typescript, framework\/react\n/);
+  assert.match(status.out, /automatic defaults/);
+  assert.equal((await taste(root, ["plan"])).code, 0);
+  assert.equal((await taste(root, ["rules"])).code, 0);
+  assert.equal((await taste(root, ["budget"])).code, 0);
+  const review = await taste(root, ["review", "--plan", "-"], {
+    models: reviewer(approve()),
+    stdin: "# Plan: use the defaults",
+  });
+  assert.equal(review.code, 0, review.err);
+  assert.ok(!existsSync(join(root, ".taste")));
+  assert.ok(!existsSync(openRepo(root).overlay));
+});
+
+test("local installation creates portable config and skills, and init preserves custom settings", async () => {
+  const root = tempRepo({ "src/one.ts": "export const one = 1;\n" });
+  rmSync(join(root, ".taste"), { recursive: true });
+  const installed = await taste(join(root, "src"), ["install", "--local", "--codex", "--claude"]);
+  assert.equal(installed.code, 0, installed.err);
+  assert.deepEqual(readdirSync(join(root, ".taste")), ["config.json"]);
+  const config = join(root, ".taste", "config.json");
+  assert.deepEqual(JSON.parse(readFileSync(config, "utf8")), {
+    packs: ["core", "tests", "lang/typescript"],
+  });
+  for (const agent of [".agents", ".claude"]) {
+    const skill = join(root, agent, "skills", "taste", "SKILL.md");
+    assert.ok(lstatSync(skill).isFile());
+    assert.equal(
+      readFileSync(skill, "utf8"),
+      readFileSync(join(TASTE_HOME, "skill", "SKILL.md"), "utf8"),
+    );
+  }
+  const repeated = await taste(root, ["install", "--local", "--codex", "--claude"]);
+  assert.equal(repeated.code, 0, repeated.err);
+  assert.match(repeated.out, /Already installed/);
+  const saved = '{"packs":["core"],"tests":["**/checks/**"],"generated":["**/build/**"]}\n';
+  writeFileSync(config, saved);
+  assert.equal((await taste(root, ["init"])).code, 0);
+  assert.equal(readFileSync(config, "utf8"), saved);
+  execFileSync("git", ["add", "-A"], { cwd: root });
+  execFileSync("git", ["commit", "-qm", "configure taste"], { cwd: root });
+  const clone = join(tempDir("taste-clone-"), "checkout");
+  execFileSync("git", ["clone", "-q", root, clone]);
+  const status = await taste(clone, ["status"]);
+  assert.equal(status.code, 0, status.err);
+  assert.match(status.out, /packs:    core\n/);
+  assert.match(status.out, /config:.*\.taste\/config.json/);
+  assert.ok(existsSync(join(clone, ".agents", "skills", "taste", "SKILL.md")));
+  const plan = await taste(clone, ["plan"]);
+  assert.ok(!plan.out.includes("## Notes for this repo"));
+});
+
+test("install checks all conflicts before writing, and force replaces links without editing their targets", async () => {
+  const root = tempRepo({ "store.go": STORE });
+  rmSync(join(root, ".taste"), { recursive: true });
+  const folder = join(root, ".claude", "skills", "taste");
+  mkdirSync(folder, { recursive: true });
+  writeFileSync(join(folder, "SKILL.md"), "My custom skill\n");
+  const blocked = await taste(root, ["install", "--local", "--codex", "--claude"]);
+  assert.equal(blocked.code, 1);
+  assert.match(blocked.err, /--force/);
+  assert.equal(readFileSync(join(folder, "SKILL.md"), "utf8"), "My custom skill\n");
+  assert.ok(!existsSync(join(root, ".agents")));
+  assert.ok(!existsSync(join(root, ".taste")));
+
+  const source = tempDir("taste-skill-source-");
+  const original = join(source, "SKILL.md");
+  writeFileSync(original, "Keep the source\n");
+  rmSync(folder, { recursive: true });
+  symlinkSync(source, folder, "dir");
+  assert.equal((await taste(root, ["install", "--local", "--claude"])).code, 1);
+  const forced = await taste(root, ["install", "--local", "--claude", "--force"]);
+  assert.equal(forced.code, 0, forced.err);
+  assert.equal(readFileSync(original, "utf8"), "Keep the source\n");
+  assert.ok(!lstatSync(folder).isSymbolicLink());
+  rmSync(join(folder, "SKILL.md"));
+  symlinkSync(original, join(folder, "SKILL.md"));
+  assert.equal((await taste(root, ["install", "--local", "--claude", "--force"])).code, 0);
+  assert.equal(readFileSync(original, "utf8"), "Keep the source\n");
+  assert.ok(lstatSync(join(folder, "SKILL.md")).isFile());
+});
+
+test("noninteractive installation requires scope and agents and rejects conflicting scopes", async () => {
+  const root = tempRepo({ "store.go": STORE });
+  for (const args of [[], ["--local"], ["--codex"]]) {
+    const result = await taste(root, ["install", ...args]);
+    assert.equal(result.code, 1);
+    assert.match(result.err, /noninteractive/);
+  }
+  const conflict = await taste(root, ["install", "--local", "--global", "--codex"]);
+  assert.equal(conflict.code, 1);
+  assert.match(conflict.err, /cannot be used with/);
+  const outside = await taste(tempDir("taste-outside-"), ["install", "--local", "--codex"]);
+  assert.equal(outside.code, 1);
+  assert.match(outside.err, /not in a git repo/);
+  assert.ok(!existsSync(join(root, ".agents")));
+});
+
+test("global install works outside Git and init copies raw personal overrides into the repo", () => {
+  const home = tempDir("taste-home-");
+  const outside = tempDir("taste-outside-");
+  const run = (dir: string, ...args: string[]) =>
+    spawnSync(process.execPath, [join(TASTE_HOME, "src", "cli.ts"), "-C", dir, ...args], {
+      encoding: "utf8",
+      timeout: 30_000,
+      env: { ...process.env, HOME: home },
+    });
+  const global = run(outside, "install", "--global", "--codex", "--claude");
+  assert.equal(global.status, 0, global.stderr);
+  for (const agent of [".agents", ".claude"])
+    assert.ok(existsSync(join(home, agent, "skills", "taste", "SKILL.md")));
+  assert.ok(!existsSync(join(outside, ".taste")));
+  assert.ok(!existsSync(join(home, ".taste")));
+
+  const root = tempRepo({ "store.go": STORE });
+  rmSync(join(root, ".taste"), { recursive: true });
+  const overlay = join(home, ".taste", "repos", basename(root));
+  mkdirSync(overlay, { recursive: true });
+  const saved = '{"packs":["core"],"tests":["**/checks/**"],"generated":["**/build/**"]}\n';
+  writeFileSync(join(overlay, "config.json"), saved);
+  writeFileSync(join(overlay, "invariants.md"), "Personal guidance.\n");
+  const initialized = run(root, "init");
+  assert.equal(initialized.status, 0, initialized.stderr);
+  assert.equal(readFileSync(join(root, ".taste", "config.json"), "utf8"), saved);
+  assert.deepEqual(readdirSync(join(root, ".taste")), ["config.json"]);
+  writeFileSync(join(root, ".taste", "invariants.md"), "Shared guidance.\n");
+  const plan = run(root, "plan");
+  assert.equal(plan.status, 0, plan.stderr);
+  assert.match(plan.stdout, /Shared guidance/);
+  assert.ok(!plan.stdout.includes("Personal guidance"));
 });
 
 test("bin/taste runs a real subcommand and exits with its code", () => {
