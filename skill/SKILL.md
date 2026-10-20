@@ -45,9 +45,7 @@ If status shows a review in progress, `taste findings` shows where it stands.
 
    Change the plan, or answer each finding with `taste reply`, and send it again until Taste approves it.
 
-4. Show the person the Taste-approved plan, ask for their approval, and wait for an explicit go-ahead before writing code. If they request changes, update the plan and repeat the review and approval steps.
-
-While you code, stay inside the plan. If you need files the plan didn't name, or the change grows past it, stop, update the plan, and repeat the Taste review and user approval steps. Don't hack around a plan that turned out wrong.
+While you code, stay inside the plan. If you need files the plan didn't name, or the change grows past it, stop, update the plan, and send it again. Don't hack around a plan that turned out wrong.
 
 ## 2. Write the code
 
@@ -75,4 +73,4 @@ Check its premise first when that's cheap: measure it, or read the code it touch
 
 ## When to ask the person
 
-In addition to plan approval, ask when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), you and the reviewer still disagree when the rounds run out, or the code you're changing had recent incidents. Otherwise keep going.
+Only when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), you and the reviewer still disagree when the rounds run out, or the code you're changing had recent incidents. Otherwise keep going.

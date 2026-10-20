@@ -91,10 +91,7 @@ function reviewed(
   const code = r.verdict === "approve" ? 0 : round >= MAX_ROUNDS ? 3 : 2;
   const lines = [formatReview(r, stage, { round, parts })];
   if (code === 0 && stage === "plan")
-    lines.push(
-      "",
-      "Next: show the approved plan to the person and ask for approval. Wait for their explicit go-ahead before writing code, then run: taste review",
-    );
+    lines.push("", "Next: write the code, then run: taste review");
   if (code === 2) lines.push("", nextSteps(stage, again));
   if (code === 3) {
     lines.push(

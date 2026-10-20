@@ -34,10 +34,7 @@ detail to the task and the person's request: remove repetition, keep useful exam
 and qualifications. Put a long file list after the steps, inside the same plan, so the
 reader gets the explanation first and the reviewer still has the complete file scope.`;
 
-export const WHEN_TO_ASK = `After Taste approves the plan, show it to the person, ask for approval, and wait for an
-explicit go-ahead before writing code. If the plan changes, repeat the review and approval steps.
-
-Also ask the person when:
+export const WHEN_TO_ASK = `Ask the person only when:
 - the task is unclear in a way that changes the plan
 - the change is hard to undo (public API, data format, migration, security)
 - you and the reviewer still disagree after two rounds
