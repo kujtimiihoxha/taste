@@ -11,7 +11,7 @@ added: 2026-10-19
 ---
 
 Don't write to a fixed name like `/tmp/build.log` or `/tmp/app.$$`. Make a
-private directory with `tmp=$(mktemp -d)`, set `trap 'rm -rf -- "$tmp"' EXIT`
+private directory with `tmp=$(mktemp -d) || exit`, set `trap 'rm -rf -- "$tmp"' EXIT`
 on the next line, and put every temp file inside it. `mktemp` isn't in POSIX,
 but GNU and macOS both have it.
 
@@ -19,8 +19,8 @@ but GNU and macOS both have it.
 each other's files, and another user can plant a symlink there first. Cleanup
 on the script's last line never runs when a step fails.
 
-**Flag:** literal paths under `/tmp` or `/var/tmp`; names there built from `$$`
-or `$RANDOM`.
+**Flag:** creating or writing files at predictable paths under `/tmp` or
+`/var/tmp`, including literal names or names built from `$$` or `$RANDOM`.
 
 **Don't flag:** files inside a directory the script made with `mktemp -d`;
 private directories (`$XDG_RUNTIME_DIR`, the repo's build output); temp
@@ -37,7 +37,7 @@ rm /tmp/node.tar.gz
 **Good:**
 
 ```bash
-tmp=$(mktemp -d)
+tmp=$(mktemp -d) || exit
 trap 'rm -rf -- "$tmp"' EXIT
 curl -fsSL "$url" -o "$tmp/node.tar.gz"
 tar -xzf "$tmp/node.tar.gz" -C "$prefix"

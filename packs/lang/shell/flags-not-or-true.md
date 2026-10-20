@@ -24,9 +24,10 @@ and nothing says why.
 **Flag:** `|| true`, `|| :` or `2>/dev/null` on `rm` or `mkdir` where `-f` or
 `-p` covers the expected case.
 
-**Don't flag:** commands that may fail for a normal reason and have no flag
-for it, such as `grep` finding no match; there `|| true` is the usual way to
-mark the line as allowed to fail under `set -e`.
+**Don't flag:** deliberate best-effort cleanup whose failure does not matter
+(`core/dont-hide-failures`); commands whose nonzero results are all acceptable.
+If only `grep` finding no match is harmless, distinguish that status from an
+actual read or execution error.
 
 **Bad:**
 

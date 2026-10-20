@@ -10,12 +10,12 @@ quote: "The exit status of a pipeline is the exit status of the last command in 
 added: 2026-10-19
 ---
 
+This is the pipeline form of `core/dont-hide-failures`.
 `cmd | tee log` succeeds when `cmd` fails, because a pipeline reports only its
 last command. When an earlier command's failure matters, turn on
 `set -o pipefail`, or check `PIPESTATUS` right after the pipeline. Bash has
 `pipefail`, and POSIX added it in 2024, but check your `/bin/sh` before
-relying on it there: the `dash` in Ubuntu 24.04, Debian 12 and macOS rejects
-it.
+relying on it there: the `dash` in Ubuntu 24.04 and Debian 12 rejects it.
 
 **Why:** This is how CI goes green on failing tests: `npm test | tee
 test.log` and `go test | go-junit-report` both exit 0 when tests fail.

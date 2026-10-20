@@ -10,7 +10,8 @@ quote: "However, the function fn returns 1 (failure) because that was the exit s
 added: 2026-10-19
 ---
 
-When `[ -n "$x" ] && cmd` is the last command of a function or script, write
+When `[ -n "$x" ] && cmd` is optional work at the end of a function or script
+and a false test should still mean success, write
 it as `if [ -n "$x" ]; then cmd; fi`. The `&&` form fails when the test is
 false, that failure becomes the function's or script's exit status, and under
 `set -e` the caller stops. An `if` whose test is false returns 0.
@@ -20,9 +21,11 @@ whenever debugging is off, so with `set -e` its first call quietly ends the
 script.
 
 **Flag:** `[ ... ] && cmd`, `[[ ... ]] && cmd` or `test ... && cmd` as the
-last command of a function or script.
+last command of a function or script whose false condition should still
+return success.
 
-**Don't flag:** the same line in the middle of a function or script, where a
+**Don't flag:** predicates or scripts that intentionally return the test
+status to their callers; the same line in the middle of a function or script, where a
 false test changes nothing; `[ ... ] || cmd`, which returns 0 when the test is
 true; error exits such as `cd "$dir" || exit` and `cmd || return`.
 

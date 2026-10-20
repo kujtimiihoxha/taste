@@ -10,6 +10,7 @@ quote: "If the wait utility is invoked with no operands, it shall wait until all
 added: 2026-10-19
 ---
 
+This is the background-job form of `core/dont-hide-failures`.
 `wait` with no arguments returns 0, even when every job failed. When a script
 starts jobs with `&` and their results matter, save each `$!` and run
 `wait "$pid"` for each one. `wait "$a" "$b"` is not enough: it returns the

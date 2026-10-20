@@ -10,6 +10,7 @@ quote: "As soon as a function is used as a conditional (in a list or with a cond
 added: 2026-10-19
 ---
 
+This is the conditional-call form of `core/dont-hide-failures`.
 When a function runs as the test of an `if` or `while`, after `!`, or before
 `&&` or `||`, `set -e` is off for everything inside it, so a failed step
 doesn't stop the next one. Check the steps that matter with `|| return` or
@@ -20,7 +21,9 @@ line, and runs to the end when called from an `if`. Wrapping a call in
 `if ! step; then` to report errors is exactly what turns `set -e` off.
 
 **Flag:** a function that counts on `set -e` to stop after a failed `cd`,
-`cp`, download or build, and is called from `if`, `while`, `!`, `&&` or `||`.
+`cp`, download or build, and has its status tested by `if`, `while`, `!`,
+or a following `&&` or `||`. The final command of an AND/OR list is not
+exempt merely because it follows one of those operators.
 
 **Don't flag:** `set -euo pipefail` at the top of a script; functions that
 check their own important steps; steps whose failure doesn't matter. Experts
