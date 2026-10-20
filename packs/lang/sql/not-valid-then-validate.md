@@ -10,6 +10,9 @@ quote: "Scanning a large table to verify new foreign-key, check, or not-null con
 added: 2026-10-19
 ---
 
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
+
 Adding a foreign key, a `CHECK` or `NOT NULL` to an existing table scans every
 row while holding a lock that blocks writes, and for `CHECK` and `NOT NULL`
 reads too. On a big table, add the constraint as `NOT VALID` first. That is

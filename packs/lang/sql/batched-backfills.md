@@ -10,10 +10,14 @@ quote: "There are three keys to backfilling safely: batching, throttling, and ru
 added: 2026-10-19
 ---
 
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
+
 Don't fill a column for every row of a big table in one `UPDATE`, and never in
 the same transaction as the `ALTER TABLE` that added it. Run the backfill as
-its own step with no transaction around it, in batches of a few thousand rows
-by primary key range (not `OFFSET`), and skip rows that already have the value.
+its own step, with each batch committed separately and no transaction around
+the whole run. Batch by primary key range (not `OFFSET`), skip rows that
+already have the value, and throttle the work to keep production load tolerable.
 
 A column with a volatile default, like `DEFAULT gen_random_uuid()`, rewrites
 the whole table when it's added. Add the column without the default, set the
@@ -49,7 +53,7 @@ COMMIT;
 ```sql
 ALTER TABLE users ADD COLUMN email_normalized text;
 
--- A later step with no transaction around it, run for each id range in turn:
+-- A later step: commit each id range separately, with no enclosing transaction:
 UPDATE users SET email_normalized = lower(email)
 WHERE id >= 1 AND id < 10001 AND email_normalized IS NULL;
 ```

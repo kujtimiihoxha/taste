@@ -10,23 +10,30 @@ quote: "Since a DELETE of a row from the referenced table or an UPDATE of a refe
 added: 2026-10-19
 ---
 
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
+
 PostgreSQL indexes the key a foreign key points at, but not the column that
-points at it. When you add `REFERENCES` or `FOREIGN KEY`, add an index that
-starts with the referencing column, unless one already does. If most rows
-leave the column NULL, index only the rest: `WHERE col IS NOT NULL`.
+points at it. When parent deletes, key updates or child lookups need it,
+add an index on the referencing columns unless one already serves those
+queries. For equality on every column of a composite foreign key, those
+columns can lead a B-tree index in either order. If most rows leave a single
+foreign-key column NULL, a partial index can omit them: `WHERE col IS NOT NULL`.
 
 **Why:** Every delete of a parent row, or change of its key, looks up the child
 rows that point at it. Without an index, that's a scan of the whole child table
 for each parent row, so deleting a user or a post gets slow, and so do joins
 from a parent to its children.
 
-**Flag:** a new foreign key whose columns don't start any index on the child
-table.
+**Flag:** a new foreign key whose child lookups would scan a large table
+during parent deletes, key updates or expected queries, with no suitable
+index. Name the operation that needs it.
 
-**Don't flag:** a column that already starts an index, such as a composite
-primary key or unique constraint that begins with it; ORM helpers that add the
-index for you, like Rails' `t.references`; small child tables whose parents are
-rarely deleted.
+**Don't flag:** an existing index with the foreign-key columns as its leading
+columns, including a suitable primary key or unique index; ORM helpers that
+add the index, like Rails' `t.references`; small child tables whose parents
+are rarely deleted; a workload with no relevant child lookups, parent deletes
+or key updates. Avoid an index whose maintenance has no useful query to serve.
 
 **Bad:**
 

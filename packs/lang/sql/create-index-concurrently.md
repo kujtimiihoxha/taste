@@ -10,6 +10,9 @@ quote: "Very large tables can take many hours to be indexed, and even for smalle
 added: 2026-10-19
 ---
 
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
+
 A plain `CREATE INDEX` blocks every insert, update and delete on the table
 until the build finishes. On a table that already serves traffic, use
 `CREATE INDEX CONCURRENTLY`.
@@ -24,11 +27,13 @@ and build again, because `IF NOT EXISTS` would keep the broken one.
 for it. A concurrent build takes longer, but writes keep working.
 
 **Flag:** `CREATE INDEX` or `CREATE UNIQUE INDEX` without `CONCURRENTLY` on an
-existing table in a migration; Rails `add_index` or `add_reference` on an
-existing table without `algorithm: :concurrently`.
+table serving writes when the build would block them unacceptably; Rails
+`add_index` or `add_reference` in that situation without
+`algorithm: :concurrently`.
 
 **Don't flag:** indexes on a table created in the same migration, which is
-still empty; tables the change shows are small; those Rails helpers when
+still empty; tables the change shows are small; an offline build or planned
+maintenance window where blocking writes is acceptable; those Rails helpers when
 strong_migrations' `safe_by_default` is on, since it builds the index
 concurrently for you; a partitioned table, which can't be indexed concurrently
 at the top: build the index on each partition with `CONCURRENTLY`, then create

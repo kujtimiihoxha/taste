@@ -10,20 +10,22 @@ quote: "You will be creating extra work for yourself and your co-workers and cau
 added: 2026-10-19
 ---
 
-Migration tools record which migrations have run and never run them again. An
-edit to a migration that has shipped never reaches the databases that already
+Versioned, run-once migrations are recorded after they run. Editing one
+that has shipped does not apply its new statements to databases that already
 ran it, so they drift apart from new installs. Put the change in a new
-migration.
+migration. Repeatable migrations follow a different contract.
 
 **Why:** Production, staging and every developer's database keep the old
 version. The schema then depends on when each database was created, and bugs
 show up on only some of them.
 
-**Flag:** changes to a migration file that is already on the main branch or in
-a release, other than comments (with Flyway, which checksums applied files,
+**Flag:** changes to a versioned migration known to have run on a deployed
+database, other than comments (with Flyway, which checksums applied files,
 comments count too); renaming or deleting such a file.
 
-**Don't flag:** a migration added earlier in the same unmerged branch;
+**Don't flag:** edits to repeatable migrations that the tool intentionally
+reapplies when their contents change, such as Flyway `R__` migrations;
+a migration added earlier in the same unmerged branch;
 migrations no deployed database has run yet (see `core/no-compat-for-nobody`);
 deleting old migrations when new databases are built from a schema file, which
 the Rails guide allows; a deliberate fix to an old migration that no longer

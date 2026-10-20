@@ -10,6 +10,9 @@ quote: "So if what you want to store is a point in time, rather than a picture o
 added: 2026-10-19
 ---
 
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
+
 Use `timestamptz` (`timestamp with time zone`) for moments: when a row was
 created, when a token expires, when something happened. Plain `timestamp`
 stores a date and a clock reading with no zone, so the database can't tell

@@ -1,6 +1,6 @@
 ---
 id: sql/not-exists-over-not-in
-title: Use NOT EXISTS, not NOT IN with a subquery
+title: Preserve intended NULL behavior in anti-matches
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: diff
@@ -10,28 +10,34 @@ quote: "In most cases, the NULL behavior of NOT IN (SELECT …) is not intention
 added: 2026-10-19
 ---
 
-Write `NOT EXISTS (SELECT 1 FROM b WHERE b.x = a.x)`, not
-`a.x NOT IN (SELECT b.x FROM b)`. If the subquery returns even one NULL,
-`NOT IN` is never true, and the query returns no rows at all.
+Apply this rule when the database is known to be PostgreSQL. Do not infer
+the dialect from a `.sql` file or migration path alone.
 
-**Why:** `x NOT IN (1, NULL)` is NULL, not true, so every row is dropped. The
-query passes tests on clean data, then returns nothing in production once a
-NULL shows up. It's also slow: through PostgreSQL 18 it can't run as an
-anti-join, so on big tables it can take hours. PostgreSQL 19 fixes the speed
-only when neither side can be NULL.
+Use `NOT EXISTS` for an anti-match when NULLs in a `NOT IN` subquery would
+incorrectly discard rows. If the subquery returns any NULL, `NOT IN` cannot
+be true for a nonmatching value.
 
-**Flag:** `NOT IN (SELECT ...)` and `NOT (x IN (SELECT ...))`; `<> ALL (...)`,
-which works the same way; `NOT IN` over a list or array parameter that can
-hold a NULL.
+**Why:** `x NOT IN (1, NULL)` is unknown when `x` is not 1, so a `WHERE`
+clause excludes it. A query can pass on clean data and return nothing after a
+NULL appears. The intended NULL behavior must decide the rewrite: a null
+outer value is also excluded by a nonempty `NOT IN` subquery, while a plain
+correlated `NOT EXISTS` would include it. Preserve that distinction when it
+matters. Performance depends on the version, plan and data; the syntax alone
+is not evidence of an outage.
 
-**Don't flag:** `NOT IN` with a list of constants, like
-`status NOT IN ('done', 'failed')`; a subquery on a small table whose column is
-`NOT NULL`, such as its primary key.
+**Flag:** `NOT IN (SELECT ...)`, `NOT (x IN (SELECT ...))`, `<> ALL (...)`,
+or a list/array parameter whose possible NULL values make the result differ
+from the intended anti-match. Identify the nullable input and the lost rows.
+
+**Don't flag:** deliberately chosen NULL semantics; inputs proven non-null
+with no demonstrated performance problem; fixed non-null constant lists,
+such as `status NOT IN ('done', 'failed')`.
 
 **Bad:**
 
 ```sql
--- Users who never ordered. orders.user_id is NULL for guest checkouts.
+-- Users who never ordered. u.id is a non-null primary key.
+-- orders.user_id is NULL for guest checkouts.
 SELECT u.id, u.email
 FROM users u
 WHERE u.id NOT IN (SELECT o.user_id FROM orders o);

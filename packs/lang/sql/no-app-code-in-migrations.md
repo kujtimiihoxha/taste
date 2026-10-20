@@ -27,7 +27,11 @@ settings from a migration; app enums or constants like `Order.Status.PENDING`
 or `Reviewable.statuses[:approved]`.
 
 **Don't flag:** `apps.get_model(...)` in Django; a model class defined inside
-the migration, with its table name set.
+the migration, with its table name set; framework-supported serialized
+references to custom fields, managers or functions whose historical behavior
+is kept compatible; Django's `settings.AUTH_USER_MODEL` with
+`swappable_dependency`. These supported migration dependencies do not justify
+calling changing business logic.
 
 **Bad:**
 
