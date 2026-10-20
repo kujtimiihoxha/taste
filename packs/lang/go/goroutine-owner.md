@@ -19,16 +19,18 @@ the process runs out of memory.
 
 **Flag:**
 
-- `go func()` running a loop with no `ctx.Done()` or stop channel.
+- A goroutine with no bounded completion or cancellation path, such as a
+  loop that can wait forever on input that will never arrive.
 - Goroutines that send on a channel nobody reads once the caller returns
   early, for example on the first error.
 - Library code that starts a goroutine and gives the caller no way to stop
   it or wait for it.
 
 **Don't flag:** goroutines that live as long as the process, started from
-`main`; `errgroup` or `sync.WaitGroup` code where the caller waits
-(`wg.Go`, Go 1.25+, does the `Add` and `Done` for you). A goroutine nobody
-needed is `core/speed-needs-evidence`, not this rule.
+`main`; finite work or a loop whose input is guaranteed to end.
+`errgroup` and `sync.WaitGroup` coordinate waiting, but the work must still
+have a way to finish (`wg.Go`, Go 1.25+, does `Add` and `Done` for you).
+Concurrency added solely for speed also needs `core/speed-needs-evidence`.
 
 **Bad:**
 

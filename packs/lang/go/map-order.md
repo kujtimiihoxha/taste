@@ -21,11 +21,12 @@ same input.
 
 **Flag:** a `range` over a map that appends to a slice, builds a string or
 writes output that callers or tests expect in a fixed order; code that takes
-"the first" key of a map.
+"the first" key of a map when the caller needs a particular or stable key.
 
 **Don't flag:** loops whose result doesn't depend on order (sums, counts,
 building another map or set); results that are sorted afterwards; tests that
-compare without order (`cmpopts.SortSlices`, `ElementsMatch`); log lines.
+compare without order (`cmpopts.SortSlices`, `ElementsMatch`); intentional
+selection of any arbitrary member; log lines.
 
 **Bad:**
 
