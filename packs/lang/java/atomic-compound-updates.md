@@ -5,7 +5,7 @@ applies: ["**/*.java"]
 severity: must-fix
 stage: diff
 status: draft
-source: JDK 25 API, java.util.concurrent.ConcurrentHashMap, putIfAbsent, https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html; Error Prone, "NonAtomicVolatileUpdate" (count++ on a volatile field is not atomic)
+source: JDK 27 API, java.util.concurrent.ConcurrentHashMap, putIfAbsent, https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html; Error Prone, "NonAtomicVolatileUpdate" (count++ on a volatile field is not atomic)
 quote: "This is equivalent to, for this map: if (!map.containsKey(key)) return map.put(key, value); else return map.get(key); except that the action is performed atomically."
 added: 2026-10-19
 ---
@@ -28,7 +28,8 @@ threads use; `count++` or `total += n` on a `volatile` field; a `volatile`
 flag that is checked and then set to run something once; a check outside a
 `synchronized` block whose write is inside it.
 
-**Don't flag:** maps and fields that only one thread touches (there
+**Don't flag:** updates already reported by configured tools, such as Error
+Prone's default `NonAtomicVolatileUpdate`; maps and fields that only one thread touches (there
 `computeIfAbsent` is just tidier); a sequence that already runs under one
 lock; a `volatile` field with a single writer. Don't ask to replace a correct
 `synchronized` method with atomics or a concurrent map: that's a speed change

@@ -13,8 +13,9 @@ added: 2026-10-19
 Give each class, constructor, method and field the narrowest access that
 works: `private` first, then package-private (no modifier), and `public` only
 for what code in other packages calls. Tests sit in the same package, so they
-can call package-private code. Don't make something public, or reach for
-reflection, just so a test can use it. Fields are never public, except
+can call package-private code when testing it meets
+`tests/test-behavior-not-implementation`. Don't make something public, or
+reach for reflection, just so a test can use it. Fields are never public, except
 constants.
 
 **Why:** Everything public becomes API. Other code starts to depend on it, and
@@ -41,7 +42,7 @@ public class OffsetStore {
         return offsets.getOrDefault(topic, 0L);
     }
 
-    // Only OffsetStoreTest, in the same package, calls this.
+    // Only the recovery worker, in the same package, calls this.
     public void reset() {
         offsets.clear();
     }
@@ -58,6 +59,7 @@ public class OffsetStore {
         return offsets.getOrDefault(topic, 0L);
     }
 
+    // Only the recovery worker, in the same package, calls this.
     void reset() {
         offsets.clear();
     }

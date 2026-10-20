@@ -20,15 +20,16 @@ if-else or `instanceof` chain over the cases gets no check at all.
 
 **Why:** A `default` that throws turns "you forgot the new case" from a
 compile error into an exception in production. A `default` that returns a
-value hides it for good. Without one, a value that shows up at run time
-without a recompile still throws a `MatchException`.
+value hides it for good. On Java 21+, a value that shows up at run time without a recompile still
+throws a `MatchException` when no case matches.
 
 **Flag:** `default -> throw ...` or `default:` in a switch expression or a
-pattern switch that already names every constant of an enum or every
-permitted subtype of a sealed type; if-else or `instanceof` chains that pick
-among the constants of an enum or the subtypes of a sealed type.
+pattern switch whose remaining cases are exhaustive without that default;
+if-else or `instanceof` chains that classify the full enum or sealed domain
+and can be replaced without changing null, guard or fallback behavior.
 
-**Don't flag:** a `default` in a switch statement over an enum: javac doesn't
+**Don't flag:** guards or partial patterns that need a fallback, or a switch
+that deliberately handles only part of a domain; a `default` in a switch statement over an enum: javac doesn't
 check those, so removing it only removes the guard; enums from another library
 or service that can gain values without your code being recompiled (keep the
 default and say why); switches on `int`, `String` or open class hierarchies,

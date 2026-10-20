@@ -26,7 +26,8 @@ Optional brings back the `NullPointerException` the type was meant to remove.
 `ifPresent` would do; `get()` with no check; `return null` from a method that
 returns `Optional`; `opt == null` or `opt != null`.
 
-**Don't flag:** a presence test whose branch throws a checked exception or
+**Don't flag:** a rewrite that changes nullable mapping or fallback behavior;
+a presence test whose branch throws a checked exception or
 does several unrelated steps, where a lambda can't or reads worse; `get()` in
 a test right after asserting the value is present.
 
@@ -34,9 +35,9 @@ a test right after asserting the value is present.
 
 ```java
 String emailOf(String id) {
-    Optional<User> user = users.byId(id);
-    if (user.isPresent()) {
-        return user.get().email();
+    Optional<String> email = users.emailById(id);
+    if (email.isPresent()) {
+        return email.get();
     }
     return "unknown";
 }
@@ -46,6 +47,6 @@ String emailOf(String id) {
 
 ```java
 String emailOf(String id) {
-    return users.byId(id).map(User::email).orElse("unknown");
+    return users.emailById(id).orElse("unknown");
 }
 ```
