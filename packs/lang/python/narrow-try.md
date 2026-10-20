@@ -4,7 +4,6 @@ title: Keep the try block to the line that can fail
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: PEP 8, "Programming Recommendations", https://peps.python.org/pep-0008/#programming-recommendations
 quote: "Additionally, for all try/except clauses, limit the try clause to the absolute minimum amount of code necessary."
 added: 2026-10-19

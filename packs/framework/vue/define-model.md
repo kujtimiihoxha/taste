@@ -4,7 +4,6 @@ title: Use defineModel for v-model on your own components
 applies: ["**/*.vue"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Component v-model", https://vuejs.org/guide/components/v-model.html
 quote: "v-model can be used on a component to implement a two-way binding. Starting in Vue 3.4, the recommended approach to achieve this is using the defineModel() macro"
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Put trait bounds on impls, not on struct definitions
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: Rust API Guidelines, "Data structures do not duplicate derived trait bounds (C-STRUCT-BOUNDS)", https://rust-lang.github.io/api-guidelines/future-proofing.html
 quote: "Generic data structures should not use trait bounds that can be derived or do not otherwise add semantic value."
 added: 2026-10-19

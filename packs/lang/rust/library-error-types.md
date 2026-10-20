@@ -4,7 +4,6 @@ title: Expose typed errors when library callers need them
 applies: ["**/*.rs"]
 severity: should-fix
 stage: both
-status: draft
 source: dtolnay, anyhow README, "Comparison to thiserror", https://github.com/dtolnay/anyhow
 quote: "Use thiserror if you are a library that wants to design your own dedicated error type(s) so that on failures the caller gets exactly the information that you choose."
 added: 2026-10-19

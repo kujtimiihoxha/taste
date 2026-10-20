@@ -4,7 +4,6 @@ title: Don't add an index that a key or another index already covers
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: should-fix
 stage: diff
-status: draft
 source: PostgreSQL docs, "Constraints", "Unique Constraints", https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS
 quote: "Adding a unique constraint will automatically create a unique B-tree index on the column or group of columns listed in the constraint."
 added: 2026-10-19

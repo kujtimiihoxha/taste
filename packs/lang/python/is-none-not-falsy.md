@@ -4,7 +4,6 @@ title: Test for None with is None when 0 or empty is a valid value
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: PEP 8, "Programming Recommendations", https://peps.python.org/pep-0008/#programming-recommendations
 quote: "Also, beware of writing if x when you really mean if x is not None – e.g. when testing whether a variable or argument that defaults to None was set to some other value. The other value might have a type (such as a container) that could be false in a boolean context!"
 added: 2026-10-19

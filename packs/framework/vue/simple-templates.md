@@ -4,7 +4,6 @@ title: Keep template expressions simple; put logic in the script
 applies: ["**/*.vue"]
 severity: nit
 stage: diff
-status: draft
 source: Vue Style Guide, "Simple expressions in templates", https://vuejs.org/style-guide/rules-strongly-recommended.html#simple-expressions-in-templates
 quote: "Component templates should only include simple expressions, with more complex expressions refactored into computed properties or methods. Complex expressions in your templates make them less declarative."
 added: 2026-10-19

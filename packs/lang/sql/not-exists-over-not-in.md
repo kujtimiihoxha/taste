@@ -4,7 +4,6 @@ title: Preserve intended NULL behavior in anti-matches
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: diff
-status: draft
 source: PostgreSQL wiki, "Don't Do This", "Don't use NOT IN", https://wiki.postgresql.org/wiki/Don%27t_Do_This#Don.27t_use_NOT_IN
 quote: "In most cases, the NULL behavior of NOT IN (SELECT …) is not intentionally desired, and the query can be rewritten using NOT EXISTS (SELECT …)"
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Compose components instead of adding flag props
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: both
-status: draft
 source: Kent C. Dodds, "Inversion of Control", https://kentcdodds.com/blog/inversion-of-control
 quote: "When you're thinking about how to create a nice API for people who are trying to do things slightly differently, instead of reaching for if statements and ternaries, consider the possibility of inverting control."
 added: 2026-10-19

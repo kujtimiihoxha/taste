@@ -4,7 +4,6 @@ title: Write expected values as literals, not logic
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#donapostrophet_put_logic_in_tests, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Don't Put Logic in Tests"
 quote: "The lesson is clear: in test code, stick to straight-line code over clever logic, and consider tolerating some duplication when it makes the test more descriptive and meaningful."
 added: 2026-10-19

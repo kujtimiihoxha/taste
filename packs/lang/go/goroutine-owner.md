@@ -4,7 +4,6 @@ title: Every goroutine has an owner and a way to stop
 applies: ["**/*.go"]
 severity: must-fix
 stage: both
-status: draft
 source: https://go.dev/wiki/CodeReviewComments#goroutine-lifetimes; Go Code Review Comments, "Goroutine Lifetimes"; Uber Go Style Guide, "Don't fire-and-forget goroutines"
 quote: "When you spawn goroutines, make it clear when - or whether - they exit. Goroutines can leak by blocking on channel sends or receives: the garbage collector will not terminate a goroutine even if the channels it is blocked on are unreachable."
 added: 2026-10-19

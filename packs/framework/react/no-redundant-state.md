@@ -4,7 +4,6 @@ title: Keep state minimal, with no copies and nothing you can compute
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Choosing the State Structure" (Avoid redundant state), https://react.dev/learn/choosing-the-state-structure#avoid-redundant-state
 quote: "If you can calculate some information from the component's props or its existing state variables during rendering, you should not put that information into that component's state."
 added: 2026-10-19

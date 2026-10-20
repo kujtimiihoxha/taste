@@ -4,7 +4,6 @@ title: Look for code to delete first
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Software Engineering at Google (2020), ch. 15 "Deprecation" (Hyrum Wright), https://abseil.io/resources/swe-book/html/ch15.html; Joel Spolsky, "Things You Should Never Do, Part I" (2000)
 quote: "Instead of focusing on how much code we can produce, or how large is our codebase, we should instead focus on how much functionality it can deliver per unit of code and try to maximize that metric. One of the easiest ways to do so isn't writing more code and hoping to get more functionality; it's removing excess code and systems that are no longer needed."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Every test needs an assertion that can fail
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://google.github.io/eng-practices/review/reviewer/looking-for.html#tests, Google Engineering Practices, "What to look for in a code review", "Tests"
 quote: "Tests do not test themselves, and we rarely write tests for our tests—a human must ensure that tests are valid. Will the tests actually fail when the code is broken?"
 added: 2026-10-19

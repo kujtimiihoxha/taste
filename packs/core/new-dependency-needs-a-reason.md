@@ -4,7 +4,6 @@ title: A new dependency needs a reason and a human OK
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Russ Cox, "Our Software Dependency Problem" (2019), https://research.swtch.com/deps; Go Proverbs, "A little copying is better than a little dependency"; Dan McKinley, "Choose Boring Technology" (2015); taste's human-approval policy
 quote: "Adding a package as a dependency outsources the work of developing that code—designing, writing, testing, debugging, and maintaining—to someone else on the internet, someone you often don't know."
 added: 2026-10-19

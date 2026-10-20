@@ -4,7 +4,6 @@ title: Call composables in setup, not in handlers, computed or timers
 applies: ["**/*.vue", "**/composables/**/*.ts", "**/composables/**/*.js"]
 severity: must-fix
 stage: diff
-status: draft
 source: Vue docs, "Composables", usage restrictions, https://vuejs.org/guide/reusability/composables.html#usage-restrictions
 quote: "Composables should only be called in <script setup> or the setup() hook. They should also be called synchronously in these contexts. In some cases, you can also call them in lifecycle hooks like onMounted()."
 added: 2026-10-19

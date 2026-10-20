@@ -4,7 +4,6 @@ title: Derive from props inside computed, not once in setup
 applies: ["**/*.vue"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Props", one-way data flow, https://vuejs.org/guide/components/props.html#one-way-data-flow
 quote: "The prop is passed in as a raw value that needs to be transformed. In this case, it's best to define a computed property using the prop's value"
 added: 2026-10-19

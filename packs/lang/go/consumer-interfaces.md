@@ -4,7 +4,6 @@ title: Interfaces belong to the code that uses them
 applies: ["**/*.go"]
 severity: should-fix
 stage: both
-status: draft
 source: https://go.dev/wiki/CodeReviewComments#interfaces; Go Code Review Comments, "Interfaces"; Google Go Style Guide, Decisions, "Interfaces"
 quote: "Go interfaces generally belong in the package that uses values of the interface type, not the package that implements those values. The implementing package should return concrete (usually pointer or struct) types: that way, new methods can be added to implementations without requiring extensive refactoring."
 added: 2026-10-19

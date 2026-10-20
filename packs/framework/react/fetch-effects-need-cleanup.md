@@ -4,7 +4,6 @@ title: Effects that fetch must ignore stale responses
 applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: must-fix
 stage: diff
-status: draft
 source: react.dev, "Synchronizing with Effects" (Fetching data), https://react.dev/learn/synchronizing-with-effects#fetching-data
 quote: "If your Effect fetches something, the cleanup function should either abort the fetch or ignore its result"
 added: 2026-10-19

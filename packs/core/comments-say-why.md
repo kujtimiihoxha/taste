@@ -4,7 +4,6 @@ title: Comments say why, not what
 applies: ["**/*"]
 severity: nit
 stage: diff
-status: draft
 source: Google Engineering Practices, "What to look for in a code review", Comments, https://google.github.io/eng-practices/review/reviewer/looking-for.html; John Ousterhout, "A Philosophy of Software Design", ch. 12-13
 quote: "Usually comments are useful when they explain why some code exists, and should not be explaining what some code is doing."
 added: 2026-10-19

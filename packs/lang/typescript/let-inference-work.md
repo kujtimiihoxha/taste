@@ -4,7 +4,6 @@ title: Let inference work inside functions
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: nit
 stage: diff
-status: draft
 source: Dan Vanderkam, Effective TypeScript, Item 19, "Avoid Cluttering Your Code with Inferable Types", https://effectivetypescript.com/2020/04/28/avoid-inferable/
 quote: "Ideal TypeScript code includes type annotations for function/method signatures but not for the local variables created in their bodies."
 added: 2026-10-19

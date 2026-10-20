@@ -4,7 +4,6 @@ title: Type a known set of values as a union, not string
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: TypeScript Handbook, "Everyday Types", Literal Types, https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types
 quote: "But by combining literals into unions, you can express a much more useful concept - for example, functions that only accept a certain set of known values"
 added: 2026-10-20

@@ -4,7 +4,6 @@ title: Package names say what they provide
 applies: ["**/*.go"]
 severity: should-fix
 stage: both
-status: draft
 source: https://go.dev/wiki/CodeReviewComments#package-names; Go Code Review Comments, "Package Names"; Effective Go, "Package names"; The Go Blog, "Package names" (Sameer Ajmani, 2015)
 quote: "For example, if you are in package chubby, you don't need type ChubbyFile, which clients will write as chubby.ChubbyFile. Instead, name the type File, which clients will write as chubby.File. Avoid meaningless package names like util, common, misc, api, types, and interfaces."
 added: 2026-10-19

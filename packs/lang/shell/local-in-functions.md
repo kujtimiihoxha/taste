@@ -4,7 +4,6 @@ title: Declare function variables local
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Shell Style Guide, "Use Local Variables", https://google.github.io/styleguide/shellguide.html#use-local-variables
 quote: "Ensure that local variables are only seen inside a function and its children by using local when declaring them. This avoids polluting the global namespace and inadvertently setting variables that may have significance outside the function."
 added: 2026-10-19

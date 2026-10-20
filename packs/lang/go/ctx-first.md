@@ -4,7 +4,6 @@ title: Pass the caller's ctx as the first argument; never store it
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://pkg.go.dev/context; package context documentation; Go Code Review Comments, "Contexts"; Google Go Style Guide, Decisions, "Contexts"; The Go Blog, "Contexts and structs" (2021)
 quote: "Do not store Contexts inside a struct type; instead, pass a Context explicitly to each function that needs it."
 added: 2026-10-19

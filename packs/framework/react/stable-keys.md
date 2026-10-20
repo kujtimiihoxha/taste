@@ -4,7 +4,6 @@ title: Give list items stable keys
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Rendering Lists" (Why does React need keys?), https://react.dev/learn/rendering-lists#why-does-react-need-keys
 quote: "But the order in which you render items will change over time if an item is inserted, deleted, or if the array gets reordered. Index as a key often leads to subtle and confusing bugs."
 added: 2026-10-19

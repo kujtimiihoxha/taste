@@ -4,7 +4,6 @@ title: Avoid helpers that add indirection without hiding work
 applies: ["**/*"]
 severity: should-fix
 stage: diff
-status: draft
 source: John Ousterhout and Robert Martin, "aposd-vs-clean-code" (Ousterhout's part), https://github.com/johnousterhout/aposd-vs-clean-code; John Ousterhout, "A Philosophy of Software Design", ch. 4 "Modules Should Be Deep"
 quote: 'However, like most ideas in software design, decomposition can be taken too far. As methods get smaller and smaller there is less and less benefit to further subdivision. The amount of functionality hidden behind each interface drops, while the interfaces often become more complex. I call these interfaces "shallow": they don''t help much in terms of reducing what the programmer needs to know.'
 added: 2026-10-19

@@ -11,7 +11,6 @@ applies:
   ]
 severity: must-fix
 stage: diff
-status: draft
 source: Vue docs, "Server-Side Rendering", access to platform-specific APIs, https://vuejs.org/guide/scaling-up/ssr.html#access-to-platform-specific-apis
 quote: "Universal code cannot assume access to platform-specific APIs, so if your code directly uses browser-only globals like window or document, they will throw errors when executed in Node.js, and vice-versa."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Throw and catch specific exception types
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: Error Prone, "ThrowSpecificExceptions", https://errorprone.info/bugpattern/ThrowSpecificExceptions; Brian Goetz on catching Exception, https://stackoverflow.com/a/23861634 (2014)
 quote: "Base exception classes should be treated as abstract. If the exception is intended to be caught, throw a domain-specific exception. Otherwise, prefer a more specific exception for clarity."
 added: 2026-10-19

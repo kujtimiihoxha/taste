@@ -4,7 +4,6 @@ title: Don't silence the compiler with casts
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google TypeScript Style Guide, "Type and non-nullability assertions", https://google.github.io/styleguide/tsguide.html#type-and-non-nullability-assertions
 quote: "Type assertions (x as SomeType) and non-nullability assertions (y!) are unsafe. Both only silence the TypeScript compiler, but do not insert any runtime checks to match these assertions, so they can cause your program to crash at runtime."
 added: 2026-10-19

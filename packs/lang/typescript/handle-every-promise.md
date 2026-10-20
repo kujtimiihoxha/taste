@@ -4,7 +4,6 @@ title: Await or handle every promise
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: must-fix
 stage: diff
-status: draft
 source: typescript-eslint, "no-floating-promises", https://typescript-eslint.io/rules/no-floating-promises/
 quote: "Floating Promises can cause several issues, such as improperly sequenced operations, ignored Promise rejections, and more."
 added: 2026-10-20

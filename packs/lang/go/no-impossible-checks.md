@@ -4,7 +4,6 @@ title: Don't guard nil maps and slices; Go already handles them
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://go.dev/ref/spec#Index_expressions; The Go Programming Language Specification, "Index expressions", "For statements with range clause" and "Length and capacity"
 quote: "if the map is nil or does not contain such an entry, a[x] is the zero value for the element type of M"
 added: 2026-10-19

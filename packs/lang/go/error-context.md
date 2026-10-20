@@ -4,7 +4,6 @@ title: Wrap errors with %w and what this layer knows; don't swap in a sentinel
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://github.com/uber-go/guide/blob/master/style.md#error-wrapping; Uber Go Style Guide, "Error Wrapping" and "Error Types"; The Go Blog, "Working with Errors in Go 1.13" (2019)
 quote: "Use fmt.Errorf to add context to your errors, picking between the %w or %v verbs based on whether the caller should be able to match and extract the underlying cause."
 added: 2026-10-19

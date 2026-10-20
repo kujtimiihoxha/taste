@@ -4,7 +4,6 @@ title: Unwrap an Optional with its own methods
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: Brian Goetz (Java language architect), Stack Overflow answer on Optional (2014, updated for Java 10), https://api.stackexchange.com/2.3/answers/26328555?site=stackoverflow&filter=withbody (the answer at https://stackoverflow.com/a/26328555, read through the API because stackoverflow.com blocks scripts); dev.java, "Using Optionals", Rules #1 and #2
 quote: "never call Optional.get, unless you can prove it will never be null; instead, use one of the safe methods, like orElse or ifPresent."
 added: 2026-10-19

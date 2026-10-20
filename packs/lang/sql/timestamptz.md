@@ -4,7 +4,6 @@ title: Store points in time as timestamptz
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: should-fix
 stage: diff
-status: draft
 source: PostgreSQL wiki, "Don't Do This", "Don't use timestamp (without time zone)", https://wiki.postgresql.org/wiki/Don%27t_Do_This#Don.27t_use_timestamp_.28without_time_zone.29
 quote: "So if what you want to store is a point in time, rather than a picture of a clock, use timestamptz."
 added: 2026-10-19

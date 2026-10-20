@@ -4,7 +4,6 @@ title: Make temp files with mktemp, not fixed names in /tmp
 applies: ["**/*.sh", "**/*.bash"]
 severity: must-fix
 stage: diff
-status: draft
 source: Greg's Wiki, BashFAQ/062, "How do I create a temporary file in a secure manner?", https://mywiki.wooledge.org/BashFAQ/062
 quote: "The problem with this is: if the file already exists (for example, as a symlink to /etc/passwd), then the script may write things in places they should not be written."
 added: 2026-10-19

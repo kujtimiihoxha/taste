@@ -4,7 +4,6 @@ title: Architecture changes need a reason from this repo
 applies: ["**/*"]
 severity: should-fix
 stage: plan
-status: draft
 source: Martin Fowler, "An example of preparatory refactoring" (2015), https://martinfowler.com/articles/preparatory-refactoring-example.html; Kent Beck, "make the change easy, then make the easy change"
 quote: 'This is where I''m adding a new feature, and I see that the existing code is not structured in such a way that makes adding the feature easy. So first I refactor the code into the structure that makes it easy to add the feature, or as Kent Beck pithily put it "make the change easy, then make the easy change".'
 added: 2026-10-19

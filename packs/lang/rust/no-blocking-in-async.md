@@ -4,7 +4,6 @@ title: Don't block the thread inside async code
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: tokio docs, tokio::task::spawn_blocking, https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html
 quote: "In general, issuing a blocking call or performing a lot of compute in a future without yielding is problematic, as it may prevent the executor from driving other futures forward."
 added: 2026-10-19

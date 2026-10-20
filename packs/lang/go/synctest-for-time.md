@@ -4,7 +4,6 @@ title: Test timers and timeouts with testing/synctest
 applies: ["**/*.go"]
 severity: should-fix
 stage: both
-status: draft
 source: https://go.dev/blog/testing-time; The Go Blog, "Testing Time (and other asynchronicities)" (Damien Neil, 2025); package testing/synctest documentation
 quote: 'And now, in Go 1.25, we''ve released the testing/synctest package as part of the standard library. It lets you run a function in what we''re calling a "bubble". Within the bubble, the time package uses a fake clock, and the synctest package provides a function to wait for the bubble to quiesce.'
 added: 2026-10-20

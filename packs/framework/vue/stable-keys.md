@@ -4,7 +4,6 @@ title: Key list items by a stable id, not the index
 applies: ["**/*.vue"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "List Rendering", maintaining state with key, https://vuejs.org/guide/essentials/list.html#maintaining-state-with-key
 quote: "If the order of the data items has changed, instead of moving the DOM elements to match the order of the items, Vue will patch each element in-place and make sure it reflects what should be rendered at that particular index. This default mode is efficient, but only suitable when your list render output does not rely on child component state or temporary DOM state (e.g. form input values)."
 added: 2026-10-19

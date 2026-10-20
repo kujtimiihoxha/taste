@@ -4,7 +4,6 @@ title: Wait on signals, never on sleeps
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://martinfowler.com/articles/nonDeterminism.html#AsynchronousBehavior, Martin Fowler, "Eradicating Non-Determinism in Tests" (2011), "Asynchronous Behavior"
 quote: "Never use bare sleeps to wait for asynchonous responses: use a callback or polling."
 added: 2026-10-19

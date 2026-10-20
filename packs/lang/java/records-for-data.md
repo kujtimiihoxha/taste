@@ -4,7 +4,6 @@ title: Use a record for a class that only carries data
 applies: ["**/*.java"]
 severity: should-fix
 stage: both
-status: draft
 source: JEP 395, "Records", "Motivation", https://openjdk.org/jeps/395; dev.java, "Using Records to Model Immutable Data"
 quote: "Properly writing such a data-carrier class involves a lot of low-value, repetitive, error-prone code: constructors, accessors, equals, hashCode, toString, etc."
 added: 2026-10-19

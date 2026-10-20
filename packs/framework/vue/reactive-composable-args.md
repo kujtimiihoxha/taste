@@ -11,7 +11,6 @@ applies:
   ]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Composables", accepting reactive state, https://vuejs.org/guide/reusability/composables.html#accepting-reactive-state
 quote: "useFetch() takes a static URL string as input - so it performs the fetch only once and is then done. What if we want it to re-fetch whenever the URL changes? In order to achieve this, we need to pass reactive state into the composable function, and let the composable create watchers that perform actions using the passed state."
 added: 2026-10-19

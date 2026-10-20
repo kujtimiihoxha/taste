@@ -4,7 +4,6 @@ title: Make flags and options keyword-only
 applies: ["**/*.py"]
 severity: nit
 stage: diff
-status: draft
 source: Python Tutorial, 4.9.3.5 "Recap", https://docs.python.org/3/tutorial/controlflow.html#recap
 quote: "Use keyword-only when names have meaning and the function definition is more understandable by being explicit with names or you want to prevent users relying on the position of the argument being passed."
 added: 2026-10-19

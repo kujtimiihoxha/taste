@@ -4,7 +4,6 @@ title: Fix a problem where it starts, not where it shows
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: John Ousterhout, "My Favorite Sayings", "If you don't know what the problem was, you haven't fixed it", https://web.stanford.edu/~ouster/cgi-bin/sayings.php; John Ousterhout, "A Philosophy of Software Design", ch. 8 "Pull Complexity Downwards"
 quote: "Don't ever assume that a problem has been fixed until you can identify the exact lines of code that caused it and convince yourself that the particular code really explains the behavior you have seen."
 added: 2026-10-19

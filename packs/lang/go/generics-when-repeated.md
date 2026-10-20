@@ -4,7 +4,6 @@ title: Use generics for code that is really repeated, not "in case"
 applies: ["**/*.go"]
 severity: should-fix
 stage: both
-status: draft
 source: https://go.dev/blog/when-generics; The Go Blog, "When To Use Generics" (Ian Lance Taylor, 2022); Google Go Style Guide, Decisions, "Generics"
 quote: "Another way to say this is that you should avoid type parameters until you notice that you are about to write the exact same code multiple times."
 added: 2026-10-19

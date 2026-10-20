@@ -4,7 +4,6 @@ title: Create per-instance state in __init__, not in the class body
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: Python Tutorial, 9.3.5 "Class and Instance Variables", https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables
 quote: "the tricks list in the following code should not be used as a class variable because just a single list would be shared by all Dog instances"
 added: 2026-10-19

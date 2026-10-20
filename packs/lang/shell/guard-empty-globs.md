@@ -4,7 +4,6 @@ title: Handle a glob that matches nothing
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Greg's Wiki, BashPitfalls, pitfall 1, https://mywiki.wooledge.org/BashPitfalls
 quote: 'What happens if there are no *.mp3-files in the current directory? Then the for loop is executed once, with file="./*.mp3", which is not the expected behavior!'
 added: 2026-10-19

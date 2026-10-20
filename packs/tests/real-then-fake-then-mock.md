@@ -4,7 +4,6 @@ title: Use the real code, then a fake, and a mock last
 applies: tests
 severity: should-fix
 stage: both
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch13.html#how_to_decide_when_to_use_a_real_implem, Software Engineering at Google (2020), ch. 13 "Test Doubles", "How to Decide When to Use a Real Implementation"
 quote: "A real implementation is preferred if it is fast, deterministic, and has simple dependencies."
 added: 2026-10-19

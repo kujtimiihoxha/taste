@@ -4,7 +4,6 @@ title: Slice strings only at char boundaries
 applies: ["**/*.rs"]
 severity: must-fix
 stage: diff
-status: draft
 source: The Rust Programming Language, ch. 8.2 "Storing UTF-8 Encoded Text with Strings", https://doc.rust-lang.org/book/ch08-02-strings.html
 quote: "If we were to try to slice only part of a character's bytes with something like &hello[0..1], Rust would panic at runtime in the same way as if an invalid index were accessed in a vector"
 added: 2026-10-19

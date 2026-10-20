@@ -4,7 +4,6 @@ title: Name getters without Get
 applies: ["**/*.go"]
 severity: nit
 stage: diff
-status: draft
 source: https://google.github.io/styleguide/go/decisions#getters; Google Go Style Guide, Decisions, "Getters"; Effective Go, "Getters"
 quote: 'Function and method names should not use a Get or get prefix, unless the underlying concept uses the word "get" (e.g. an HTTP GET).'
 added: 2026-10-19

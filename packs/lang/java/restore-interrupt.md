@@ -4,7 +4,6 @@ title: Don't swallow InterruptedException
 applies: ["**/*.java"]
 severity: must-fix
 stage: diff
-status: draft
 source: Brian Goetz, "Java theory and practice: Dealing with InterruptedException", IBM developerWorks (2006), https://web.archive.org/web/20201025132525/https://www.ibm.com/developerworks/library/j-jtp05236/index.html; Goetz et al., "Java Concurrency in Practice" (2006), 7.1.3; the JDK 25 ExecutorService docs still show the same idiom ("Preserve interrupt status")
 quote: "At the very least, whenever you catch InterruptedException and don't rethrow it, reinterrupt the current thread before returning."
 added: 2026-10-19

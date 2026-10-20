@@ -4,7 +4,6 @@ title: Wait for the DOM update with nextTick, not a timer
 applies: ["**/*.vue", "**/composables/**/*.ts", "**/composables/**/*.js"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Reactivity Fundamentals", DOM update timing, https://vuejs.org/guide/essentials/reactivity-fundamentals.html#dom-update-timing
 quote: 'However, it should be noted that the DOM updates are not applied synchronously. Instead, Vue buffers them until the "next tick" in the update cycle to ensure that each component updates only once no matter how many state changes you have made. To wait for the DOM update to complete after a state change, you can use the nextTick() global API'
 added: 2026-10-19

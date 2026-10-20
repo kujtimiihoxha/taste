@@ -4,7 +4,6 @@ title: A new check needs a real input that reaches it
 applies: ["**/*"]
 severity: should-fix
 stage: diff
-status: draft
 source: Alexis King, "Parse, don't validate" (2019), https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/; James Shore, "Fail Fast" (2004)
 quote: "We already checked that the list is non-empty, why do we have to clutter our code with another redundant check?"
 added: 2026-10-19

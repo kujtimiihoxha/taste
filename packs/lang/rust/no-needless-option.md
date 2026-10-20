@@ -4,7 +4,6 @@ title: Don't wrap a value in Option when it's always there
 applies: ["**/*.rs"]
 severity: should-fix
 stage: both
-status: draft
 source: The Rust Programming Language, ch. 9.3 "To panic! or Not to panic!", https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html
 quote: "For example, if you have a type rather than an Option, your program expects to have something rather than nothing."
 added: 2026-10-19

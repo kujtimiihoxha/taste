@@ -4,7 +4,6 @@ title: Check the result, not the calls that made it
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#test_statecomma_not_interactions, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Test State, Not Interactions"
 quote: "Interaction tests tend to be more brittle than state tests for the same reason that it’s more brittle to test a private method than to test a public method: interaction tests check how a system arrived at its result, whereas usually you should care only what the result is."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Don't clone to get past the borrow checker
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: Rust Design Patterns, "Clone to satisfy the borrow checker", https://rust-unofficial.github.io/patterns/anti_patterns/borrow_clone.html
 quote: "If a clone is used to make a borrow checker error disappear, that's a good indication this anti-pattern may be in use."
 added: 2026-10-19

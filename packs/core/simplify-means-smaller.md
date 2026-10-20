@@ -4,7 +4,6 @@ title: A simplification should shrink the code
 applies: ["**/*"]
 severity: should-fix
 stage: diff
-status: draft
 source: Martin Fowler, "BeckDesignRules" (2015), on Kent Beck's rules of simple design ("fewest elements"), https://martinfowler.com/bliki/BeckDesignRules.html; taste's size budget
 quote: "The last rule tells us that anything that doesn't serve the three prior rules should be removed."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Every unsafe block says why it's sound
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: The Rust Programming Language, ch. 20.1 "Unsafe Rust", https://doc.rust-lang.org/book/ch20-01-unsafe-rust.html
 quote: "Likewise, whenever we perform an unsafe operation, it is idiomatic to write a comment starting with SAFETY to explain how the safety rules are upheld."
 added: 2026-10-19

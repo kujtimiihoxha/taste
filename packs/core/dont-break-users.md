@@ -4,7 +4,6 @@ title: Don't break what users already depend on
 applies: ["**/*"]
 severity: must-fix
 stage: both
-status: draft
 source: Hyrum Wright, "Hyrum's Law", https://www.hyrumslaw.com/; Software Engineering at Google (2020), ch. 1 and ch. 15
 quote: "With a sufficient number of users of an API, it does not matter what you promise in the contract: all observable behaviors of your system will be depended on by somebody."
 added: 2026-10-20

@@ -4,7 +4,6 @@ title: Handle an error once, where something can be done about it
 applies: ["**/*"]
 severity: should-fix
 stage: diff
-status: draft
 source: Dave Cheney, "Don't just check errors, handle them gracefully" (2016), https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully; Go Proverbs, "Don't just check errors, handle them gracefully"
 quote: "Lastly, I want to mention that you should only handle errors once. Handling an error means inspecting the error value, and making a decision."
 added: 2026-10-19

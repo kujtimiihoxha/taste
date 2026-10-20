@@ -4,7 +4,6 @@ title: Write the simplest type that says it
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google TypeScript Style Guide, "Mapped and conditional types", https://google.github.io/styleguide/tsguide.html#mapped-conditional-types
 quote: "Always use the simplest type construct that can possibly express your code. A little bit of repetition or verbosity is often much cheaper than the long term cost of complex type expressions."
 added: 2026-10-20

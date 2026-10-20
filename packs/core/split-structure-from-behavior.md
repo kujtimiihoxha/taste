@@ -4,7 +4,6 @@ title: Keep refactoring and behavior changes in separate steps
 applies: ["**/*"]
 severity: should-fix
 stage: plan
-status: draft
 source: Google Engineering Practices, "Small CLs", "Separate Out Refactorings", https://google.github.io/eng-practices/review/developer/small-cls.html; Kent Beck, "Tidy First?" (2023)
 quote: "It's usually best to do refactorings in a separate CL from feature changes or bug fixes."
 added: 2026-10-19

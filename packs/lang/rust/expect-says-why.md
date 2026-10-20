@@ -4,7 +4,6 @@ title: When a value can't be missing, say why in expect
 applies: ["**/*.rs"]
 severity: nit
 stage: diff
-status: draft
 source: Rust standard library docs, Result::expect, "Recommended Message Style", https://doc.rust-lang.org/std/result/enum.Result.html
 quote: "We recommend that expect messages are used to describe the reason you expect the Result should be Ok."
 added: 2026-10-19

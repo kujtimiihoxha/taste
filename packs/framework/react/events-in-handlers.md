@@ -4,7 +4,6 @@ title: Put event logic in the event handler, not in an effect
 applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "You Might Not Need an Effect" (Sending a POST request), https://react.dev/learn/you-might-not-need-an-effect#sending-a-post-request
 quote: "If this logic is caused by a particular interaction, keep it in the event handler. If it's caused by the user seeing the component on the screen, keep it in the Effect."
 added: 2026-10-19

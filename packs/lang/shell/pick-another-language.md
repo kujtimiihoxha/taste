@@ -4,7 +4,6 @@ title: Don't write a program in shell
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: both
-status: draft
 source: Google Shell Style Guide, "When to use Shell", https://google.github.io/styleguide/shellguide.html#when-to-use-shell
 quote: "If you are writing a script that is more than 100 lines long, or that uses non-straightforward control flow logic, you should rewrite it in a more structured language now."
 added: 2026-10-19

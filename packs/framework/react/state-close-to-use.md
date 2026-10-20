@@ -4,7 +4,6 @@ title: Keep state close to where it's used
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: both
-status: draft
 source: react.dev, memo reference (Should you add memo everywhere?), https://react.dev/reference/react/memo#should-you-add-memo-everywhere
 quote: "Prefer local state and don't lift state up any further than necessary. For example, don't keep transient state like forms and whether an item is hovered at the top of your tree or in a global state library."
 added: 2026-10-19

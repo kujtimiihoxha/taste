@@ -4,7 +4,6 @@ title: Keep properties cheap; do I/O in a method
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Python Style Guide, 2.13 "Properties", https://google.github.io/styleguide/pyguide.html#213-properties
 quote: "Property implementations must match the general expectations of regular attribute access: that they are cheap, straightforward, and unsurprising."
 added: 2026-10-19

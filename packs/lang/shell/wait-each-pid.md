@@ -4,7 +4,6 @@ title: Wait on each background job, not on all of them
 applies: ["**/*.sh", "**/*.bash"]
 severity: must-fix
 stage: diff
-status: draft
 source: POSIX.1-2024, "wait", https://pubs.opengroup.org/onlinepubs/9799919799/utilities/wait.html
 quote: "If the wait utility is invoked with no operands, it shall wait until all process IDs known to the invoking shell have terminated and exit with a zero exit status."
 added: 2026-10-19

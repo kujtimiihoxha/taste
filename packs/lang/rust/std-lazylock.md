@@ -4,7 +4,6 @@ title: Use std's LazyLock and OnceLock, not lazy_static or once_cell
 applies: ["**/*.rs", "**/Cargo.toml"]
 severity: should-fix
 stage: both
-status: draft
 source: The Rust Release Team, "Announcing Rust 1.80.0", "LazyCell and LazyLock", https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/
 quote: "This completes the stabilization of functionality adopted into the standard library from the popular lazy_static and once_cell crates."
 added: 2026-10-19

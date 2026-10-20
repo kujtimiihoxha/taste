@@ -4,7 +4,6 @@ title: A failing test says what it got and what it wanted
 applies: tests
 severity: nit
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#write_clear_failure_messages, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Write Clear Failure Messages"
 quote: "A good failure message contains much the same information as the test’s name: it should clearly express the desired outcome, the actual outcome, and any relevant parameters."
 added: 2026-10-20

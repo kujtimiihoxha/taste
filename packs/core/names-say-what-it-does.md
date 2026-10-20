@@ -4,7 +4,6 @@ title: A name says what the thing is or does
 applies: ["**/*"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Engineering Practices, "What to look for in a code review", Naming, https://google.github.io/eng-practices/review/reviewer/looking-for.html
 quote: "A good name is long enough to fully communicate what the item is or does, without being so long that it becomes hard to read."
 added: 2026-10-20

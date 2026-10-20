@@ -4,7 +4,6 @@ title: Build argument lists in arrays, not strings
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Shell Style Guide, "Arrays", https://google.github.io/styleguide/shellguide.html#arrays
 quote: "Using a single string for multiple command arguments should be avoided, as it inevitably leads to authors using eval or trying to nest quotes inside the string, which does not give reliable or readable results and leads to needless complexity."
 added: 2026-10-19

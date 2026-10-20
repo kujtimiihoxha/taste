@@ -4,7 +4,6 @@ title: Don't test states the code can't reach
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch13.html#commercial_atdonotmock, Software Engineering at Google (2020), ch. 13 "Test Doubles", "Case Study: @DoNotMock"
 quote: "These test doubles are very likely to exhibit behavior that violates the API contract of the type being mocked—for instance, returning null for a method that can never return null."
 added: 2026-10-19

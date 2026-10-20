@@ -4,7 +4,6 @@ title: Don't edit a migration that has already run; add a new one
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: diff
-status: draft
 source: Rails Guides, "Active Record Migrations", "Changing Existing Migrations", https://guides.rubyonrails.org/active_record_migrations.html#changing-existing-migrations
 quote: "You will be creating extra work for yourself and your co-workers and cause major headaches if the existing version of the migration has already been run on production machines."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Don't call blocking code from async def
 applies: ["**/*.py"]
 severity: must-fix
 stage: both
-status: draft
 source: Python docs, asyncio "Coroutines and Tasks", "Running in Threads", https://docs.python.org/3/library/asyncio-task.html#running-in-threads
 quote: "Directly calling blocking_io() in any coroutine would block the event loop for its duration, resulting in an additional 1 second of run time."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Put cases of one behavior in a table
 applies: ["**/*_test.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://go.dev/wiki/TableDrivenTests; Go wiki, "TableDrivenTests"; Google Go Style Guide, Decisions, "Table-driven tests"
 quote: "If you ever find yourself using copy and paste when writing a test, think about whether refactoring into a table-driven test or pulling the copied code out into a helper function might be a better option."
 added: 2026-10-19

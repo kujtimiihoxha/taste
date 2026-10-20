@@ -4,7 +4,6 @@ title: Add constraints to big tables as NOT VALID, then validate
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: diff
-status: draft
 source: PostgreSQL docs, "ALTER TABLE", Notes, https://www.postgresql.org/docs/current/sql-altertable.html#SQL-ALTERTABLE-NOTES
 quote: "Scanning a large table to verify new foreign-key, check, or not-null constraints can take a long time, and other updates to the table are locked out until the ALTER TABLE ADD CONSTRAINT command is committed."
 added: 2026-10-19

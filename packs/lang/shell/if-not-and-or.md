@@ -4,7 +4,6 @@ title: Use if, not &&, as the last command of a function
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Greg's Wiki, BashFAQ/105 Answers, exercise 3, https://mywiki.wooledge.org/BashFAQ/105/Answers
 quote: "However, the function fn returns 1 (failure) because that was the exit status of the last command executed in the function."
 added: 2026-10-19

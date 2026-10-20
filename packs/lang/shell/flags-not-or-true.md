@@ -4,7 +4,6 @@ title: Use rm -f and mkdir -p, not || true
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: POSIX.1-2024, "rm", option -f, https://pubs.opengroup.org/onlinepubs/9799919799/utilities/rm.html
 quote: "Do not write diagnostic messages or modify the exit status in the case of no file operands, or in the case of operands that do not exist."
 added: 2026-10-19

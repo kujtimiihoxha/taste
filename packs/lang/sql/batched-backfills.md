@@ -4,7 +4,6 @@ title: Backfill big tables in batches, outside the schema change
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: both
-status: draft
 source: Andrew Kane, strong_migrations README, "Backfilling data", https://github.com/ankane/strong_migrations#backfilling-data
 quote: "There are three keys to backfilling safely: batching, throttling, and running it outside a transaction."
 added: 2026-10-19

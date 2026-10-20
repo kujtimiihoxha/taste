@@ -4,7 +4,6 @@ title: Keep initialisms in one case (URL, ID, HTTP)
 applies: ["**/*.go"]
 severity: nit
 stage: diff
-status: draft
 source: https://go.dev/wiki/CodeReviewComments#initialisms; Go Code Review Comments, "Initialisms"; Google Go Style Guide, Decisions, "Initialisms"
 quote: 'Words in names that are initialisms or acronyms (e.g. "URL" or "NATO") have a consistent case.'
 added: 2026-10-20

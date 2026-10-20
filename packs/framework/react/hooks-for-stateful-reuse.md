@@ -4,7 +4,6 @@ title: Use the use prefix for functions that call Hooks
 applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Reusing Logic with Custom Hooks" (Should all functions called during rendering start with the use prefix?), https://react.dev/learn/reusing-logic-with-custom-hooks#should-all-functions-called-during-rendering-start-with-the-use-prefix
 quote: "Functions that don't call Hooks don't need to be Hooks. If your function doesn't call any Hooks, avoid the use prefix."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Index the referencing column of a foreign key
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: should-fix
 stage: diff
-status: draft
 source: PostgreSQL docs, "Constraints", "Foreign Keys", https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK
 quote: "Since a DELETE of a row from the referenced table or an UPDATE of a referenced column will require a scan of the referencing table for rows matching the old value, it is often a good idea to index the referencing columns too."
 added: 2026-10-19

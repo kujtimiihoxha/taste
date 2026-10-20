@@ -4,7 +4,6 @@ title: Catch broad exceptions only at a defined boundary
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Python Style Guide, 2.4 "Exceptions", https://google.github.io/styleguide/pyguide.html#24-exceptions
 quote: "Never use catch-all except: statements, or catch Exception or StandardError, unless you are re-raising the exception, or creating an isolation point in the program where exceptions are not propagated but are recorded and suppressed instead, such as protecting a thread from crashing by guarding its outermost block."
 added: 2026-10-19

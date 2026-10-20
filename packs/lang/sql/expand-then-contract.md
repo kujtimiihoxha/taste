@@ -4,7 +4,6 @@ title: Don't rename or drop what running code still uses
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: both
-status: draft
 source: Andrew Kane, strong_migrations README, "Renaming a column", https://github.com/ankane/strong_migrations#renaming-a-column
 quote: "Renaming a column that's in use will cause errors in your application."
 added: 2026-10-19

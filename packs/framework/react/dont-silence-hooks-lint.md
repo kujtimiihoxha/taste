@@ -4,7 +4,6 @@ title: Fix the code instead of silencing the hooks lint
 applies: ["**/*.tsx", "**/*.jsx", "**/*.ts", "**/*.js"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Removing Effect Dependencies" (To change the dependencies, change the code), https://react.dev/learn/removing-effect-dependencies#to-change-the-dependencies-change-the-code
 quote: 'When dependencies don''t match the code, there is a very high risk of introducing bugs. By suppressing the linter, you "lie" to React about the values your Effect depends on.'
 added: 2026-10-20

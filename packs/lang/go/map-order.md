@@ -4,7 +4,6 @@ title: Don't depend on map iteration order
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://go.dev/ref/spec#For_range; The Go Programming Language Specification, "For statements with range clause"
 quote: "The iteration order over maps is not specified and is not guaranteed to be the same from one iteration to the next."
 added: 2026-10-20

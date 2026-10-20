@@ -4,7 +4,6 @@ title: Don't fill in '' or 0 for a missing value
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
-status: draft
 source: Dan Vanderkam, Effective TypeScript, Item 36, "Use a Distinct Type for Special Values", https://effectivetypescript.com/2024/06/13/special-values/
 quote: 'Choosing in-domain special values like -1, 0, or "" is similar in spirit to turning off strictNullChecks.'
 added: 2026-10-20

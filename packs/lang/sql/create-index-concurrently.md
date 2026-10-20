@@ -4,7 +4,6 @@ title: Build indexes on live tables with CONCURRENTLY
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: must-fix
 stage: diff
-status: draft
 source: PostgreSQL docs, "CREATE INDEX", "Building Indexes Concurrently", https://www.postgresql.org/docs/current/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY
 quote: "Very large tables can take many hours to be indexed, and even for smaller tables, an index build can lock out writers for periods that are unacceptably long for a production system."
 added: 2026-10-19

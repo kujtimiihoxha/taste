@@ -4,7 +4,6 @@ title: No mutable package-level state or init() setup; pass dependencies in
 applies: ["**/*.go"]
 severity: should-fix
 stage: both
-status: draft
 source: https://github.com/uber-go/guide/blob/master/style.md#avoid-mutable-globals; Uber Go Style Guide, "Avoid Mutable Globals" and "Avoid init()"; Google Go Style Guide, Best Practices, "Global state"
 quote: "Avoid mutating global variables, instead opting for dependency injection. This applies to function pointers as well as other kinds of values."
 added: 2026-10-19

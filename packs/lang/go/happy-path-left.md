@@ -4,7 +4,6 @@ title: Keep the happy path at the left edge
 applies: ["**/*.go"]
 severity: nit
 stage: diff
-status: draft
 source: https://go.dev/wiki/CodeReviewComments#indent-error-flow; Go Code Review Comments, "Indent Error Flow"; Effective Go, "If"; Google Go Style Guide, Decisions, "Indent error flow"
 quote: "Try to keep the normal code path at a minimal indentation, and indent the error handling, dealing with it first."
 added: 2026-10-19

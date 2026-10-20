@@ -4,7 +4,6 @@ title: Look for existing code before writing new code
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: John Carmack, "John Carmack on Inlined Code" (2007), http://number-none.com/blow/john_carmack_on_inlined_code.html; Kent Beck's rules of simple design, "no duplication"
 quote: "I tracked all the bugs (problems that surfaced after I thought everything was working correctly) I fixed for a while, and I was quite surprised at how often copy-paste-modify operations resulted in subtle bugs that weren't immediately obvious."
 added: 2026-10-19

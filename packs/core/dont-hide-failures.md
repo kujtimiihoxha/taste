@@ -4,7 +4,6 @@ title: Never hide a failure
 applies: ["**/*"]
 severity: must-fix
 stage: diff
-status: draft
 source: James Shore, "Fail Fast" (2004), https://www.jamesshore.com/v2/blog/2004/fail-fast; IEEE Software, Design column
 quote: "Many people recommend writing software so that it automatically works around errors. This results in software failing in mysterious ways later on."
 added: 2026-10-20

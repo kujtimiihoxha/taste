@@ -4,7 +4,6 @@ title: Each test cleans up what it changes
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://martinfowler.com/articles/nonDeterminism.html#LackOfIsolation, Martin Fowler, "Eradicating Non-Determinism in Tests" (2011), "Lack of Isolation"
 quote: "Keep your tests isolated from each other, so that execution of one test will not affect any others."
 added: 2026-10-20

@@ -4,7 +4,6 @@ title: A bug fix comes with a test that fails without it
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#strive_for_unchanging_tests, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Strive for Unchanging Tests"
 quote: "Fixing a bug is much like adding a new feature: the presence of the bug suggests that a case was missing from the initial test suite, and the bug fix should include that missing test case."
 added: 2026-10-20

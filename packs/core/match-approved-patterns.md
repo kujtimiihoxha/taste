@@ -4,7 +4,6 @@ title: Copy approved patterns, not whatever is nearby
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Google Engineering Practices, "The Standard of Code Review", https://google.github.io/eng-practices/review/reviewer/standard.html; taste's own design (repo notes in invariants.md, patterns.md and dont-copy.md)
 quote: "If no other rule applies, then the reviewer may ask the author to be consistent with what is in the current codebase, as long as that doesn't worsen the overall code health of the system."
 added: 2026-10-19

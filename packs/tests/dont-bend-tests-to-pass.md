@@ -4,7 +4,6 @@ title: Don't change old tests to make a change pass
 applies: tests
 severity: should-fix
 stage: both
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#strive_for_unchanging_tests, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Strive for Unchanging Tests"
 quote: "The takeaway is that after you write a test, you shouldn’t need to touch that test again as you refactor the system, fix bugs, or add new features."
 added: 2026-10-20

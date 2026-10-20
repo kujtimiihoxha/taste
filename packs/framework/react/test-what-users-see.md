@@ -18,7 +18,6 @@ applies:
   ]
 severity: should-fix
 stage: diff
-status: draft
 source: Testing Library, "About Queries" (Priority), https://testing-library.com/docs/queries/about#priority
 quote: "The user cannot see (or hear) these, so this is only recommended for cases where you can't match by role or text or it doesn't make sense (e.g. the text is dynamic)."
 added: 2026-10-19

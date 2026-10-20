@@ -4,7 +4,6 @@ title: Index keys that must be there; use .get() only for optional ones
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: Python docs, Built-in Types, "dict.get", https://docs.python.org/3/library/stdtypes.html#dict.get
 quote: "If default is not given, it defaults to None, so that this method never raises a KeyError."
 added: 2026-10-19

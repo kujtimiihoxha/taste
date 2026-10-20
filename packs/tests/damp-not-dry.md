@@ -4,7 +4,6 @@ title: Keep what matters visible in the test
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#shared_setup, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Shared Setup"
 quote: "Tests like these that explicitly care about particular values should state those values directly, overriding the default defined in the setup method if need be."
 added: 2026-10-19

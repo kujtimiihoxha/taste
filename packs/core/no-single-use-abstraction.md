@@ -4,7 +4,6 @@ title: No abstraction with only one user
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Google Engineering Practices, "What to look for in a code review", Complexity, https://google.github.io/eng-practices/review/reviewer/looking-for.html; Martin Fowler, "Yagni" (2015); Sandi Metz, "The Wrong Abstraction" (2016); taste's one-user default
 quote: "A particular type of complexity is over-engineering, where developers have made the code more generic than it needs to be, or added functionality that isn't presently needed by the system."
 added: 2026-10-19

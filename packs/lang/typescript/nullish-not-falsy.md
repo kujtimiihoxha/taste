@@ -4,7 +4,6 @@ title: Use ?? when 0 or an empty string is a real value
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: TypeScript 3.7 release notes, "Nullish Coalescing", https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#nullish-coalescing
 quote: 'When localStorage.volume is set to 0, the page will set the volume to 0.5 which is unintended. ?? avoids some unintended behavior from 0, NaN and "" being treated as falsy values.'
 added: 2026-10-20

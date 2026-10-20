@@ -4,7 +4,6 @@ title: Don't copy props into state
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Choosing the State Structure" (Don't mirror props in state), https://react.dev/learn/choosing-the-state-structure#don-t-mirror-props-in-state
 quote: "Don't put props into state unless you specifically want to prevent updates."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Keep your own copy of a collection you're given
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: The Java Tutorials, "A Strategy for Defining Immutable Objects", https://docs.oracle.com/javase/tutorial/essential/concurrency/imstrat.html; dev.java, "Using Records to Model Immutable Data" (defensive copies of record components)
 quote: "Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and store references to the copies."
 added: 2026-10-19

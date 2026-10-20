@@ -4,7 +4,6 @@ title: Pass the caught exception on as the cause
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: Error Prone, "UnusedException", https://errorprone.info/bugpattern/UnusedException; dev.java, "Throwing Exceptions", "Chained Exceptions"
 quote: "This catch block catches an exception and re-throws another, but swallows the caught exception rather than setting it as a cause."
 added: 2026-10-19

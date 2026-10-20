@@ -4,7 +4,6 @@ title: Make the smallest change that does the job
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Google Engineering Practices, "Small CLs", https://google.github.io/eng-practices/review/developer/small-cls.html; Kent Beck, "Tidy First?" (2023)
 quote: "The CL makes a minimal change that addresses just one thing."
 added: 2026-10-19

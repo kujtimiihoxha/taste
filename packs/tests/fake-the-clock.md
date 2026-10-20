@@ -4,7 +4,6 @@ title: Control time in tests with a fake clock
 applies: tests
 severity: should-fix
 stage: diff
-status: draft
 source: https://martinfowler.com/articles/nonDeterminism.html#Time, Martin Fowler, "Eradicating Non-Determinism in Tests" (2011), "Time"
 quote: "The most important thing here is to ensure that you always wrap the system clock with routines that can be replaced with a seeded value for testing."
 added: 2026-10-20

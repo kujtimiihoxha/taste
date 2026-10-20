@@ -4,7 +4,6 @@ title: Make the left side of && a boolean
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, "Conditional Rendering" (Logical AND operator), https://react.dev/learn/conditional-rendering#logical-and-operator-
 quote: "However, if the left side is 0, then the whole expression gets that value (0), and React will happily render 0 rather than nothing."
 added: 2026-10-20

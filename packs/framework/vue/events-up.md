@@ -4,7 +4,6 @@ title: Children report changes with emits, not callbacks or refs
 applies: ["**/*.vue"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue Style Guide, "Implicit parent-child communication", https://vuejs.org/style-guide/rules-use-with-caution.html#implicit-parent-child-communication
 quote: "Props and events should be preferred for parent-child component communication, instead of this.$parent or mutating props. An ideal Vue application is props down, events up."
 added: 2026-10-19

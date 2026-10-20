@@ -4,7 +4,6 @@ title: Don't add a type parameter that only sets the return type
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google TypeScript Style Guide, "Return type only generics", https://google.github.io/styleguide/tsguide.html#return-type-only-generics
 quote: "Avoid creating APIs that have return type only generics. When working with existing APIs that have return type only generics always explicitly specify the generics."
 added: 2026-10-20

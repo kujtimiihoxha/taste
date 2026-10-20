@@ -4,7 +4,6 @@ title: Read JSON with jq, not grep or sed
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Greg's Wiki, "BashWeaknesses", https://mywiki.wooledge.org/BashWeaknesses
 quote: "JSON parsing. Not quite as bad as XML, but you still shouldn't use the wrong tool for the job. Try jq instead"
 added: 2026-10-19

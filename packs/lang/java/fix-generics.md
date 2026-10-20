@@ -4,7 +4,6 @@ title: Fix the generic types instead of silencing the warning
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: The Java Tutorials, "Generics", "Raw Types", https://docs.oracle.com/javase/tutorial/java/generics/rawTypes.html; JDK 25 API, java.lang.SuppressWarnings (use it "on the most deeply nested element where it is effective")
 quote: "The warning shows that raw types bypass generic type checks, deferring the catch of unsafe code to runtime. Therefore, you should avoid using raw types."
 added: 2026-10-19

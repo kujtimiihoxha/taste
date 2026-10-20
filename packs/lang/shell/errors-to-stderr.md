@@ -4,7 +4,6 @@ title: Send error messages to stderr
 applies: ["**/*.sh", "**/*.bash"]
 severity: should-fix
 stage: diff
-status: draft
 source: Google Shell Style Guide, "STDOUT vs STDERR", https://google.github.io/styleguide/shellguide.html#stdout-vs-stderr
 quote: "All error messages should go to STDERR. This makes it easier to separate normal status from actual issues."
 added: 2026-10-19

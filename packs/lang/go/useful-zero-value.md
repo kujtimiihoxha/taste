@@ -4,7 +4,6 @@ title: Make the zero value useful
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://go.dev/doc/effective_go#allocation_new; Effective Go, "Allocation with new"; Uber Go Style Guide, "Zero-value Mutexes are Valid"
 quote: "Since the memory returned by new is zeroed, it's helpful to arrange when designing your data structures that the zero value of each type can be used without further initialization."
 added: 2026-10-19

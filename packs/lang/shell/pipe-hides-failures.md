@@ -4,7 +4,6 @@ title: A pipeline hides every failure but the last
 applies: ["**/*.sh", "**/*.bash"]
 severity: must-fix
 stage: diff
-status: draft
 source: GNU Bash Reference Manual (Bash 5.3), "Pipelines", https://tiswww.case.edu/php/chet/bash/bashref.html#Pipelines
 quote: "The exit status of a pipeline is the exit status of the last command in the pipeline, unless the pipefail option is enabled (see The Set Builtin)."
 added: 2026-10-19

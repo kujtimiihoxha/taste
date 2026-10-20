@@ -4,7 +4,6 @@ title: Compare secrets with hmac.compare_digest, not ==
 applies: ["**/*.py"]
 severity: must-fix
 stage: diff
-status: draft
 source: Python docs, hmac, "HMAC.digest", https://docs.python.org/3/library/hmac.html#hmac.HMAC.digest
 quote: "When comparing the output of digest() to an externally supplied digest during a verification routine, it is recommended to use the compare_digest() function instead of the == operator to reduce the vulnerability to timing attacks."
 added: 2026-10-19

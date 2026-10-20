@@ -4,7 +4,6 @@ title: Fix the lint; if you must silence it, do it on one item with a reason
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: Rust RFC 2383, "lint reasons", https://rust-lang.github.io/rfcs/2383-lint-reasons.html
 quote: "Lint settings should have an explanation for their use to explain why they were chosen and where they are or are not applicable."
 added: 2026-10-19

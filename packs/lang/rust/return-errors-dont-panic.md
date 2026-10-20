@@ -4,7 +4,6 @@ title: Return errors the caller can handle; don't unwrap them
 applies: ["**/*.rs"]
 severity: must-fix
 stage: diff
-status: draft
 source: The Rust Programming Language, ch. 9.3 "To panic! or Not to panic!", https://doc.rust-lang.org/book/ch09-03-to-panic-or-not-to-panic.html
 quote: "when failure is expected, it's more appropriate to return a Result than to make a panic! call."
 added: 2026-10-19

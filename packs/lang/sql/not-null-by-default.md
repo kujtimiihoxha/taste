@@ -4,7 +4,6 @@ title: Make columns NOT NULL unless "no value" is a real state
 applies: ["**/*.sql", "**/migrations/**", "**/db/migrate/**"]
 severity: should-fix
 stage: diff
-status: draft
 source: PostgreSQL docs, "Constraints", "Not-Null Constraints", https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-NOT-NULL
 quote: "In most database designs the majority of columns should be marked not null."
 added: 2026-10-19

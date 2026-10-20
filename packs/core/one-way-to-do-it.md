@@ -4,7 +4,6 @@ title: Don't add a second way to do the same thing
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Software Engineering at Google (2020), ch. 15 "Deprecation" (Hyrum Wright), https://abseil.io/resources/swe-book/html/ch15.html; Danilo Sato, "ParallelChange" (2014)
 quote: "Having two systems to accomplish the same thing might not seem like a pressing problem, but over time, the costs of maintaining them both can grow substantially."
 added: 2026-10-19

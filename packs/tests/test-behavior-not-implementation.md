@@ -4,7 +4,6 @@ title: Test behavior through the public API
 applies: tests
 severity: should-fix
 stage: both
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#test_via_public_apis, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Test via Public APIs"
 quote: "By far the most important way to ensure this is to write tests that invoke the system being tested in the same way its users would; that is, make calls against its public API rather than its implementation details."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Use the narrowest access that works
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: dev.java, "More on Classes", "Tips on Choosing an Access Level", https://dev.java/learn/language/oop/classes-objects/more-on-classes/
 quote: "Use the most restrictive access level that makes sense for a particular member. Use private unless you have a good reason not to."
 added: 2026-10-19

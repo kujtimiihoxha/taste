@@ -4,7 +4,6 @@ title: One behavior per test, named for it
 applies: tests
 severity: nit
 stage: diff
-status: draft
 source: https://abseil.io/resources/swe-book/html/ch12.html#structure_tests_to_emphasize_behaviors, Software Engineering at Google (2020), ch. 12 "Unit Testing", "Structure tests to emphasize behaviors"
 quote: 'Each test should cover only a single behavior, and the vast majority of unit tests require only one "when" and one "then" block.'
 added: 2026-10-19

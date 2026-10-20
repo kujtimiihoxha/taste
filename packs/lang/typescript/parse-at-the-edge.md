@@ -4,7 +4,6 @@ title: Parse outside data, don't cast it
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
-status: draft
 source: Dan Vanderkam, "The Seven Sources of Unsoundness in TypeScript", Type Assertions, https://effectivetypescript.com/2021/05/06/unsoundness/
 quote: "You might fetch JSON via an API and give it a type using an assertion: const response = await fetch('/api/fun-fact'); const fact = await response.json() as FunFact; Nothing ensures that this API is actually returning a FunFact."
 added: 2026-10-19

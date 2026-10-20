@@ -4,7 +4,6 @@ title: No compatibility code for something nobody uses yet
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Martin Fowler, "Yagni" (2015), https://martinfowler.com/bliki/Yagni.html; Kent Beck, "Extreme Programming Explained" (1999); a person's review correction, 2026-10-19
 quote: 'It''s a statement that some capability we presume our software needs in the future should not be built now because "you aren''t gonna need it".'
 added: 2026-10-19

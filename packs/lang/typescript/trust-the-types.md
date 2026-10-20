@@ -4,7 +4,6 @@ title: Don't re-check what the type already guarantees
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: diff
-status: draft
 source: typescript-eslint, "no-unnecessary-condition", https://typescript-eslint.io/rules/no-unnecessary-condition/
 quote: "Conversely, any expression that always evaluates to truthy or always evaluates to falsy, as determined by the type of the expression, is considered unnecessary and will be flagged by this rule."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Use named exports, not default exports
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: nit
 stage: diff
-status: draft
 source: Google TypeScript Style Guide, "Exports", https://google.github.io/styleguide/tsguide.html#exports
 quote: "Default exports provide no canonical name, which makes central maintenance difficult with relatively little benefit to code owners, including potentially decreased readability"
 added: 2026-10-19

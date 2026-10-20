@@ -4,7 +4,6 @@ title: Use std's Mutex for plain data, even in async code
 applies: ["**/*.rs"]
 severity: should-fix
 stage: diff
-status: draft
 source: tokio docs, tokio::sync::Mutex, "Which kind of mutex should you use?", https://docs.rs/tokio/latest/tokio/sync/struct.Mutex.html
 quote: "Contrary to popular belief, it is ok and often preferred to use the ordinary Mutex from the standard library in asynchronous code."
 added: 2026-10-19

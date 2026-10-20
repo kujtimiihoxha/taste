@@ -4,7 +4,6 @@ title: Use template refs and bindings, not DOM queries
 applies: ["**/*.vue", "**/composables/**/*.ts", "**/composables/**/*.js"]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Template Refs", https://vuejs.org/guide/essentials/template-refs.html
 quote: "While Vue's declarative rendering model abstracts away most of the direct DOM operations for you, there may still be cases where we need direct access to the underlying DOM elements. To achieve this, we can use the special ref attribute"
 added: 2026-10-19

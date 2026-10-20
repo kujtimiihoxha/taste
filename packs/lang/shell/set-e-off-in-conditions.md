@@ -4,7 +4,6 @@ title: set -e is off inside a function called as a condition
 applies: ["**/*.sh", "**/*.bash"]
 severity: must-fix
 stage: diff
-status: draft
 source: Greg's Wiki, BashFAQ/105, "Why doesn't set -e do what I expected?", https://mywiki.wooledge.org/BashFAQ/105
 quote: "As soon as a function is used as a conditional (in a list or with a conditional test or loop) set -e stops being applied within the function."
 added: 2026-10-19

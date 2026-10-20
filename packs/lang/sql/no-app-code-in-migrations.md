@@ -4,7 +4,6 @@ title: Migrations don't use the app's models or constants
 applies: ["**/migrations/**", "**/db/migrate/**"]
 severity: should-fix
 stage: diff
-status: draft
 source: Django docs, "Migrations", "Historical models", https://docs.djangoproject.com/en/stable/topics/migrations/#historical-models
 quote: "If you import models directly rather than using the historical models, your migrations may work initially but will fail in the future when you try to rerun old migrations (commonly, when you set up a new installation and run through all the migrations to set up the database)."
 added: 2026-10-19

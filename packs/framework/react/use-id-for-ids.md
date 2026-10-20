@@ -4,7 +4,6 @@ title: Make element ids with useId, not fixed strings
 applies: ["**/*.tsx", "**/*.jsx"]
 severity: should-fix
 stage: diff
-status: draft
 source: react.dev, useId reference (Generating unique IDs for accessibility attributes), https://react.dev/reference/react/useId#generating-unique-ids-for-accessibility-attributes
 quote: "However, hardcoding IDs like this is not a good practice in React. A component may be rendered more than once on the page—but IDs have to be unique!"
 added: 2026-10-20

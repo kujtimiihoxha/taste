@@ -4,7 +4,6 @@ title: Model states as a union, not optional fields and flags
 applies: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"]
 severity: should-fix
 stage: both
-status: draft
 source: TypeScript Handbook, "Narrowing", Discriminated unions, https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions
 quote: "The problem with this encoding of Shape is that the type-checker doesn't have any way to know whether or not radius or sideLength are present based on the kind property."
 added: 2026-10-19

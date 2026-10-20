@@ -4,7 +4,6 @@ title: Don't silence the type checker with Any
 applies: ["**/*.py"]
 severity: should-fix
 stage: diff
-status: draft
 source: Python docs, typing, "The Any type", https://docs.python.org/3/library/typing.html#the-any-type
 quote: "Use object to indicate that a value could be any type in a typesafe manner. Use Any to indicate that a value is dynamically typed."
 added: 2026-10-19

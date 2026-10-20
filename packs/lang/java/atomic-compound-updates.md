@@ -4,7 +4,6 @@ title: Make check-then-act on shared state one atomic step
 applies: ["**/*.java"]
 severity: must-fix
 stage: diff
-status: draft
 source: JDK 27 API, java.util.concurrent.ConcurrentHashMap, putIfAbsent, https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html; Error Prone, "NonAtomicVolatileUpdate" (count++ on a volatile field is not atomic)
 quote: "This is equivalent to, for this map: if (!map.containsKey(key)) return map.put(key, value); else return map.get(key); except that the action is performed atomically."
 added: 2026-10-19

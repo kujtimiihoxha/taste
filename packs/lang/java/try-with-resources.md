@@ -4,7 +4,6 @@ title: Close what you open with try-with-resources
 applies: ["**/*.java"]
 severity: must-fix
 stage: diff
-status: draft
 source: dev.java, "Catching and Handling Exceptions", "The Try-with-resources Statement", https://dev.java/learn/language/annotations-exceptions/exceptions/catching-handling/; JDK 25 API, java.nio.file.Files (lines, list, walk and find must be closed)
 quote: "A resource is an object that must be closed after the program is finished with it. The try-with-resources statement ensures that each resource is closed at the end of the statement."
 added: 2026-10-19

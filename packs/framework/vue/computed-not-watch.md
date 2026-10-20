@@ -11,7 +11,6 @@ applies:
   ]
 severity: should-fix
 stage: diff
-status: draft
 source: Vue docs, "Watchers", https://vuejs.org/guide/essentials/watchers.html
 quote: 'Computed properties allow us to declaratively compute derived values. However, there are cases where we need to perform "side effects" in reaction to state changes - for example, mutating the DOM, or changing another piece of state based on the result of an async operation.'
 added: 2026-10-19

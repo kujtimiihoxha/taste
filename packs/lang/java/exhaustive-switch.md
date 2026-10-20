@@ -4,7 +4,6 @@ title: Switch over enums and sealed types without a default
 applies: ["**/*.java"]
 severity: should-fix
 stage: diff
-status: draft
 source: JEP 441, "Pattern Matching for switch", "Exhaustiveness in practice", https://openjdk.org/jeps/441; JEP 409, "Sealed Classes"
 quote: "Manually writing a default clause in this situation is not only irritating but actually pernicious, since the compiler can do a better job of checking exhaustiveness without one."
 added: 2026-10-19

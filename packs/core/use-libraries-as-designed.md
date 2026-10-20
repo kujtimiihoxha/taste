@@ -4,7 +4,6 @@ title: Build on a library the way it's meant to be used
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: Rob Pike, "Simplicity" (2023), https://commandcenter.blogspot.com/2023/12/simplicity.html; Joshua Bloch, "Effective Java", 3rd ed. (2018), Item 59 "Know and use the libraries"; Hyrum's Law
 quote: "Learn about the systems that already exist, and build on them rather than around them."
 added: 2026-10-19

@@ -4,7 +4,6 @@ title: Make code faster only with evidence
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: John Ousterhout, "My Favorite Sayings", "The greatest performance improvement of all is when a system goes from not-working to working", https://web.stanford.edu/~ouster/cgi-bin/sayings.php; Rob Pike, "Notes on Programming in C" (1989), rules 1-2
 quote: "So, don't worry about performance until the application is running; if it isn't fast enough, then go in and carefully measure to figure out where the performance bottlenecks are (they are likely to be in places you wouldn't have guessed). Tune only the places where you have measured that there is an issue."
 added: 2026-10-19
