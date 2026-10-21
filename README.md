@@ -147,7 +147,14 @@ In CI, review a pull request the way GitHub shows it:
 taste review origin/main...HEAD --json > review.json   # exit code 2: changes requested
 ```
 
-Exit codes: 0 fine, 1 error, 2 changes requested or over budget, 3 stop and ask the person.
+Exit codes: 0 fine, 1 error, 2 changes requested or over budget, 3 review checkpoint.
+
+From the third consecutive review requesting changes, code 3 tells the agent to check
+progress: apply agreed fixes, run the relevant checks, reply and review again until
+approved. Ask the person only for unresolved disagreement or repeated findings without
+progress, after finishing independent agreed fixes. The round count alone doesn't stop
+the work, and approval is still required. This replaces code 3's former mandatory stop;
+scripts that treat it as a required human handoff should adopt the checkpoint behavior.
 
 ## The reviewer's model
 

@@ -23,7 +23,6 @@ import type { ReviewStage } from "./rules.ts";
 import {
   Answers,
   type Brief,
-  MAX_ROUNDS,
   Plan,
   type Review,
   Rounds,
@@ -317,7 +316,7 @@ async function roundMessage(
         ? (await readThread(harness, planThread)).plan
         : "";
   const what = subject.stage === "plan" ? `the plan for ${branchLabel(repo)}` : subject.scope.label;
-  const out = [`Review round ${round} of ${MAX_ROUNDS}: ${what}.`];
+  const out = [`Review round ${round}: ${what}.`];
   out.push(plan ? `## Plan\n\n${plan}` : "## Plan\n\nNo plan was reviewed for this change.");
   const answered = own.review
     ? numbered(own.review, subject.stage).filter(({ id }) => own.answers[id])
@@ -454,7 +453,7 @@ export function formatReview(
   }: { round?: number; parts?: number; answers?: Record<string, string> } = {},
 ): string {
   const how = parts > 1 ? `, a lead and ${parts} part reviewers` : "";
-  const when = round > 0 ? ` (round ${round} of ${MAX_ROUNDS}${how})` : "";
+  const when = round > 0 ? ` (round ${round}${how})` : "";
   const verdict = r.verdict === "approve" ? "approved" : "changes requested";
   const lines = [`${stage === "plan" ? "The plan" : "The change"}: ${verdict}${when}`, r.summary];
   numbered(r, stage).forEach(({ id, finding: f }, i) => {

@@ -265,7 +265,7 @@ test("a review asking for changes exits 2 with numbered findings, and an approva
 
   const second = await taste(root, ["review"], { models });
   assert.equal(second.code, 0);
-  assert.match(second.out, /^The change: approved \(round 2 of 3\)/);
+  assert.match(second.out, /^The change: approved \(round 2\)/);
 
   assert.equal(JSON.parse((await taste(root, ["review", "--json"], { models })).out).round, 1);
 });
@@ -277,6 +277,51 @@ test("a clean working tree has nothing to review and asks no model", async () =>
   assert.match(err, /^Reviewing uncommitted changes on branch \w+: 0 files/);
   assert.equal(out, "Nothing to review.\n");
 });
+
+for (const stage of ["plan", "diff"] as const) {
+  test(`${stage} reviews keep agreed fixes moving at and beyond the third-round checkpoint`, async () => {
+    const root = tempRepo({ "store.go": STORE });
+    writeFileSync(join(root, "store.go"), NIL_CHECK);
+    const args = stage === "plan" ? ["--plan", "-"] : ["--base", "HEAD"];
+    const again = `taste review ${args.join(" ")}`;
+    const id = stage === "plan" ? "P1" : "F1";
+    const models = reviewer(
+      ...Array.from({ length: 4 }, () =>
+        submit({ verdict: "changes-requested", summary: "Fix the check.", findings: [FINDING] }),
+      ),
+      approve(),
+      approve(),
+    );
+    const options = { models, stdin: "# Plan: Remove the impossible check" };
+
+    for (const expectedCode of [2, 2, 3, 3]) {
+      const result = await taste(root, ["review", ...args], options);
+      assert.equal(result.code, expectedCode, result.err);
+      if (expectedCode === 3) {
+        for (const output of [result.out, (await taste(root, ["findings"])).out]) {
+          assert.match(output, /Review checkpoint/);
+          assert.match(output, /Apply agreed fixes and run the relevant checks/);
+          assert.match(
+            output,
+            /Ask the person only for unresolved disagreement or repeated findings without progress/,
+          );
+          assert.doesNotMatch(output, /Stop here|of 3/);
+        }
+      }
+      assert.ok(result.out.includes(`Then run: ${again}`), result.out);
+      const reply = await taste(root, ["reply", id, "fixed"]);
+      assert.equal(reply.code, 0, reply.err);
+    }
+
+    const approved = await taste(root, ["review", ...args], options);
+    assert.equal(approved.code, 0, approved.err);
+    assert.match(approved.out, /approved \(round 5\)/);
+    assert.doesNotMatch(approved.out, /Review checkpoint/);
+    const reset = await taste(root, ["review", ...args, "--json"], options);
+    assert.equal(reset.code, 0, reset.err);
+    assert.equal(JSON.parse(reset.out).round, 1);
+  });
+}
 
 test("answers go to the reviewer with the next round, and only that round", async () => {
   const root = tempRepo({ "store.go": STORE });
@@ -685,7 +730,7 @@ test("a change too big for one pass goes to a lead, and each part reviewer sees 
   assert.equal(code, 0);
   assert.match(
     out,
-    /^The change: approved \(round 1 of 3, a lead and 2 part reviewers\)\nBoth parts are fine\./,
+    /^The change: approved \(round 1, a lead and 2 part reviewers\)\nBoth parts are fine\./,
   );
   assert.deepEqual(partSaw.sort(), ["a", "b"]);
 });

@@ -35,7 +35,7 @@ export type Review = {
   also: Brief[];
 };
 
-export const MAX_ROUNDS = 3;
+export const REVIEW_CHECKPOINT = 3;
 
 const ctx = BACKGROUND_CONTEXT;
 
@@ -47,7 +47,7 @@ const Threads = defineDoc<{ byKey: Record<string, ConversationId> }>({
   initial: () => ({ byKey: {} }),
 });
 
-// `rounds` counts toward MAX_ROUNDS and resets on approval; `total` never resets,
+// `rounds` counts reviews since approval and resets on approval; `total` never resets,
 // so every review gets its own request id and a crashed one can be retried.
 export const Rounds = defineDoc<{ rounds: number; total: number }>({
   kind: "taste.rounds",

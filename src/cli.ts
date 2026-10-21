@@ -30,7 +30,14 @@ import {
 } from "./repo.ts";
 import { AUTH_FILE, formatReview, review, reviewJson } from "./review.ts";
 import { type ReviewStage, brokenReferences, loadRules, problems, route } from "./rules.ts";
-import { MAX_ROUNDS, type Thread, answer, numbered, readThreads, startSimplify } from "./state.ts";
+import {
+  REVIEW_CHECKPOINT,
+  type Thread,
+  answer,
+  numbered,
+  readThreads,
+  startSimplify,
+} from "./state.ts";
 
 // Where one run of the CLI reads and writes. Tests pass their own, and models to review with.
 export type Io = {
@@ -54,7 +61,7 @@ function status(repo: Repo, threads: Partial<Record<ReviewStage, Thread>>): stri
     if (thread.review.verdict === "approve") return "approved";
     const ids = numbered(thread.review, stage).map((n) => n.id);
     const answered = ids.filter((id) => thread.answers[id]).length;
-    return `changes requested in round ${thread.rounds} of ${MAX_ROUNDS}: ${count(ids.length, "finding")}, ${answered} answered`;
+    return `changes requested in round ${thread.rounds}: ${count(ids.length, "finding")}, ${answered} answered`;
   };
   const pass = threads.diff?.simplify;
   return [
@@ -72,9 +79,17 @@ function status(repo: Repo, threads: Partial<Record<ReviewStage, Thread>>): stri
 }
 
 // After a review that asks for changes: how to answer it, and what to run next.
-function nextSteps(stage: ReviewStage, again: string): string {
+function nextSteps(stage: ReviewStage, again: string, round: number): string {
   const id = stage === "plan" ? "P" : "F";
   return [
+    ...(round >= REVIEW_CHECKPOINT
+      ? [
+          "Review checkpoint: approval is still required; the round count alone is no reason to stop.",
+          "Apply agreed fixes and run the relevant checks, then reply and review again.",
+          "Ask the person only for unresolved disagreement or repeated findings without progress; finish independent agreed fixes first.",
+          "",
+        ]
+      : []),
     `${stage === "plan" ? "Change the plan" : "Fix each finding"}, or answer it with the reason it's wrong:`,
     `  taste reply ${id}1 fixed`,
     `  taste reply ${id}1 "disagree: NewStore always sets items, so the check can't fail"`,
@@ -88,17 +103,11 @@ function reviewed(
   again: string,
   data: object,
 ): Output {
-  const code = r.verdict === "approve" ? 0 : round >= MAX_ROUNDS ? 3 : 2;
+  const code = r.verdict === "approve" ? 0 : round >= REVIEW_CHECKPOINT ? 3 : 2;
   const lines = [formatReview(r, stage, { round, parts })];
   if (code === 0 && stage === "plan")
     lines.push("", "Next: write the code, then run: taste review");
-  if (code === 2) lines.push("", nextSteps(stage, again));
-  if (code === 3) {
-    lines.push(
-      "",
-      `${MAX_ROUNDS} rounds without agreement. Stop here and show these findings to the person.`,
-    );
-  }
+  if (code !== 0) lines.push("", nextSteps(stage, again, round));
   return { text: lines.join("\n"), data: { ...data, round, ...reviewJson(r, stage) }, code };
 }
 
@@ -132,18 +141,24 @@ async function findings(repo: Repo): Promise<Output> {
   const threads = await readThreads(repo);
   const blocks: string[] = [];
   const data: Record<ReviewStage, object | null> = { plan: null, diff: null };
-  let open: ReviewStage | undefined;
+  let open: { stage: ReviewStage; rounds: number } | undefined;
   for (const stage of ["plan", "diff"] as const) {
     const thread = threads[stage];
     if (!thread?.review) continue;
     const { review: r, rounds, answers } = thread;
     blocks.push(formatReview(r, stage, { round: rounds, answers }));
     data[stage] = { round: rounds, ...reviewJson(r, stage, answers) };
-    if (r.verdict !== "approve") open = stage;
+    if (r.verdict !== "approve") open = { stage, rounds };
   }
   if (blocks.length === 0) return { text: `No reviews on ${branchLabel(repo)} yet.`, data };
   if (open) {
-    blocks.push(nextSteps(open, open === "plan" ? "taste review --plan <file>" : "taste review"));
+    blocks.push(
+      nextSteps(
+        open.stage,
+        open.stage === "plan" ? "taste review --plan <file>" : "taste review",
+        open.rounds,
+      ),
+    );
   }
   return { text: blocks.join("\n\n"), data };
 }
@@ -210,7 +225,7 @@ export async function main(
     .option("--json", "print JSON: for review, findings and budget")
     .addHelpText(
       "after",
-      "\nExit codes: 0 fine, 1 error, 2 changes requested or over budget, 3 stop and ask the person.",
+      "\nExit codes: 0 fine, 1 error, 2 changes requested or over budget, 3 review checkpoint: continue agreed fixes; ask only for unresolved disagreement or no progress.",
     )
     .exitOverride()
     .configureOutput({

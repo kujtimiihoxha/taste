@@ -61,7 +61,7 @@ While you code, stay inside the plan. If you need files the plan didn't name, or
 
 1. Run the tests and linters.
 2. Run `taste review`. Its first line says what it reviews. For each finding, fix it, or answer it with the guarantee or reason that makes it wrong: `taste reply F2 "disagree: NewStore always sets items"`. Only answer ids from the latest review; `taste findings` lists them. Then run `taste review` again.
-3. Done means `taste review` approved. If it stops after 3 rounds (exit code 3), show the open findings to the person instead of saying you're done.
+3. Done means `taste review` approved. From round three onward, exit code 3 is a checkpoint, not a stop. Apply agreed fixes, run the relevant checks, reply and review again until approved. Ask the person only for unresolved disagreement or repeated findings without progress; finish independent agreed fixes first and show the remaining findings with the decision needed. The round count alone is no reason to stop or to skip verification.
 
 ## Simplify, cleanup and refactor tasks
 
@@ -73,4 +73,4 @@ Check its premise first when that's cheap: measure it, or read the code it touch
 
 ## When to ask the person
 
-Only when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), you and the reviewer still disagree when the rounds run out, or the code you're changing had recent incidents. Otherwise keep going.
+Only when the task is unclear in a way that changes the plan, the change is hard to undo (public API, data format, migration, security), the review checkpoint leaves unresolved disagreement or repeated findings without progress, or the code you're changing had recent incidents. Finish independent agreed fixes before asking about review findings. Otherwise keep going.

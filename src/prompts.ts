@@ -37,9 +37,10 @@ reader gets the explanation first and the reviewer still has the complete file s
 export const WHEN_TO_ASK = `Ask the person only when:
 - the task is unclear in a way that changes the plan
 - the change is hard to undo (public API, data format, migration, security)
-- you and the reviewer still disagree after two rounds
+- at the review checkpoint (round three onward), you and the reviewer still disagree or repeated findings show no progress; finish independent agreed fixes first
 - the code you will touch had recent incidents or many fix commits
-Otherwise keep going.`;
+Otherwise keep going. The round count alone is no reason to stop: apply agreed fixes,
+run the relevant checks, reply and review again until approved.`;
 
 export const SIMPLIFY = `Simplify pass: less code that does the same thing.
 1. Delete first: dead code, unused parameters, flags that are always on, checks for states
