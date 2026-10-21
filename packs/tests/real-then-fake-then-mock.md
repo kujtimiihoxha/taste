@@ -4,7 +4,7 @@ title: Use the real code, then a fake, and a mock last
 applies: tests
 severity: should-fix
 stage: both
-source: https://abseil.io/resources/swe-book/html/ch13.html#how_to_decide_when_to_use_a_real_implem, Software Engineering at Google (2020), ch. 13 "Test Doubles", "How to Decide When to Use a Real Implementation"
+source: https://abseil.io/resources/swe-book/html/ch13.html#how_to_decide_when_to_use_a_real_implem, Software Engineering at Google (2020), ch. 13 "Test Doubles", "How to Decide When to Use a Real Implementation" and "The Fidelity of Fakes"
 quote: "A real implementation is preferred if it is fast, deterministic, and has simple dependencies."
 added: 2026-10-19
 ---
@@ -15,6 +15,10 @@ relevant contract. A focused stub or mock is appropriate for a valid outcome
 that is hard to trigger or when a faithful fake would be impractical. Don't
 mock your own fast code just to test a unit alone.
 
+Keep the behavior this test claims to verify real. A stub returning rows
+cannot verify how a SQL query executes. Exercise that boundary with the
+smallest real setup needed; this does not require starting the whole app.
+
 **Why:** Excessive mocking can miss integration mistakes and tie a test to
 implementation details, so a correct refactor breaks the test.
 
@@ -22,14 +26,17 @@ implementation details, so a correct refactor breaks the test.
 functions; generated mocks (gomock, mockery) of the repo's own interfaces when
 the real type is cheap to build; mocks of value types such as enums, dates and
 simple structs; interfaces around otherwise easy-to-test code added only to
-configure expectations on its implementation details.
+configure expectations on its implementation details; a double that replaces
+the behavior the test claims to verify. Name the defect that the double
+would hide, not just the mocked dependency.
 
 **Don't flag:** doubles for things that are slow or outside the process
 (network, disk, clock, randomness, third-party services), a fake the owner of a
 dependency provides, or a shared fake of a slow real dependency such as a
 database; a focused double for a valid outcome that is hard to trigger, or
 when a maintained fake is unavailable or unsuitable; deliberate integration
-or end-to-end tests of real first-party components.
+or end-to-end tests of real first-party components. A fake database is fine
+for business logic, but it does not show that production SQL works.
 
 **Bad:**
 
