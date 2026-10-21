@@ -4,7 +4,6 @@ title: Copy slices and maps when ownership must be separate
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://github.com/uber-go/guide/blob/master/style.md#copy-slices-and-maps-at-boundaries; Uber Go Style Guide, "Copy Slices and Maps at Boundaries"
 quote: "users can modify a map or slice you received as an argument if you store a reference to it."
 added: 2026-10-21

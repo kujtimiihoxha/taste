@@ -4,7 +4,6 @@ title: Retry only when repeating the operation is safe
 applies: ["**/*"]
 severity: should-fix
 stage: both
-status: draft
 source: https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/; Amazon Builders' Library, "Timeouts, retries, and backoff with jitter"
 quote: "In general, our view is that APIs with side effects aren't safe to retry unless they provide idempotency."
 added: 2026-10-21

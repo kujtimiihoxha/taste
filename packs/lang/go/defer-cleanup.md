@@ -4,7 +4,6 @@ title: Keep cleanup beside acquisition, at the right scope
 applies: ["**/*.go"]
 severity: should-fix
 stage: diff
-status: draft
 source: https://github.com/uber-go/guide/blob/master/style.md#defer-to-clean-up; Uber Go Style Guide, "Defer to Clean Up"; https://go.dev/doc/effective_go#defer, Effective Go, "Defer"
 quote: "Use defer to clean up resources such as files and locks."
 added: 2026-10-21
