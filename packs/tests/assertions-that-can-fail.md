@@ -11,7 +11,9 @@ added: 2026-10-19
 
 A test should fail for the incorrect behavior it is meant to catch. Check the
 part of the result that distinguishes that behavior from a plausible mistake,
-and make sure the check runs.
+and make sure the check runs. Choose inputs that expose that mistake: a
+sorting test needs unordered values to catch an implementation that returns
+its input unchanged.
 
 **Why:** A test that can't fail is worse than no test. It looks like coverage, so
 nobody writes the real one.
@@ -20,28 +22,30 @@ nobody writes the real one.
 it); a test with no effective check; asserting that a mock returned what it was
 told to return; checks skipped by the test's control flow or a callback it
 doesn't wait for, where tools don't already report the problem; "not in the log"
-checks that a typo in the message would also pass.
+checks that a typo in the message would also pass; inputs that cannot expose
+the mistake the test claims to catch, such as a filtering test containing
+only matching records. Name the broken implementation that would pass.
 
 **Don't flag:** existence, a boolean, success or lack of an exception when that
 is the behavior under test; a check made by a helper or framework, including
-an expected-failure check; a required side-effect call. Leave missing-expect
+an expected-failure check; a required side-effect call; a case that checks
+already-valid input is preserved, or one case in a suite that covers the
+distinguishing inputs elsewhere. Leave missing-expect
 and syntactically unreachable-code diagnostics to the configured tools that
 already report them.
 
 **Bad:**
 
 ```ts
-test("formats a disabled rule as off", () => {
-  const label = formatRule({ name: "cpu", enabled: false });
-  expect(label).toBeDefined();
+test("sorts rule names", () => {
+  expect(sortRuleNames(["cpu", "memory"])).toEqual(["cpu", "memory"]);
 });
 ```
 
 **Good:**
 
 ```ts
-test("formats a disabled rule as off", () => {
-  const label = formatRule({ name: "cpu", enabled: false });
-  expect(label).toBe("cpu (off)");
+test("sorts rule names", () => {
+  expect(sortRuleNames(["memory", "cpu"])).toEqual(["cpu", "memory"]);
 });
 ```
